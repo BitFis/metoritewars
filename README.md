@@ -12,4 +12,4 @@ This should become a meteorite game. This is just for fun and we do this to get 
 ## License
 
 Apache License, Version 2.0<br />
-see [LICENSE](http://github.com/bigz94/meteoritewars/LICENSE)
+see [LICENSE](https://github.com/bigz94/metoritewars/blob/master/LICENSE)
