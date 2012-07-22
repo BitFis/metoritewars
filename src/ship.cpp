@@ -1,18 +1,18 @@
 /* 
- * File:   ship.cpp
+ * File:   Ship.cpp
  * Author: lzuercher
  * 
  * Created on 22 July 2012, 23:56
  */
 
-#include "ship.h"
+#include "Ship.h"
 
-ship::ship() {
+Ship::Ship() {
 }
 
-ship::ship(const ship& orig) {
+Ship::Ship(const Ship& orig) {
 }
 
-ship::~ship() {
+Ship::~Ship() {
 }
 

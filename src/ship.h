@@ -1,21 +1,24 @@
 /* 
- * File:   ship.h
+ * File:   Ship.h
  * Author: lzuercher
  *
  * Created on 22 July 2012, 23:56
  */
 
-#ifndef SHIP_H
-#define	SHIP_H
+#ifndef Ship_H
+#define	Ship_H
 
-class ship {
+#include "Object.h"
+
+
+class Ship : Object{
 public:
-    ship();
-    ship(const ship& orig);
-    virtual ~ship();
+    Ship();
+    Ship(const Ship& orig);
+    virtual ~Ship();
 private:
 
 };
 
-#endif	/* SHIP_H */
+#endif	/* Ship_H */
 
