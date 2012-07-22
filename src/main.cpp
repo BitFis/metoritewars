@@ -10,11 +10,18 @@
  *
  */
 
-#include <stdio.h>
-#include <windows.h>	   // Standard header for MS Windows applications
-#include <GL/gl.h>		   // Open Graphics Library (OpenGL) header
-#include <include/GL/freeglut.h>	   // The GL Utility Toolkit (GLUT) Header
+#include <iostream>
+#include <cstdio>
+#include <cstdlib>
 
+#ifdef __WIN32
+#include <windows.h>
+#endif
+#include <GL/freeglut.h>	   // The GL Utility Toolkit (GLUT) Header
+
+#include <GL/gl.h>		   // Open Graphics Library (OpenGL) header
+#include <GL/glx.h>
+#include <GL/glu.h>
 #define KEY_ESCAPE 27
 
 
