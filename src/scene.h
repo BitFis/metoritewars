@@ -24,11 +24,11 @@ class Scene {
     string name;
 
   public:
-    Scene(string &name);
-    void set_world(World *world);
+    Scene(string &name, World *world);
+    string &get_name();
 
     virtual void on_load() = 0;
     virtual void on_unload() = 0;
-}
+};
 
 #endif /* _SCENE_H */

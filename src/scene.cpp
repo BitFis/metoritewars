@@ -1,9 +1,11 @@
 #include "scene.h"
+using namespace std;
 
-Scene::Scene(string &name) {
+Scene::Scene(string &name, World *world) {
   this->name.assign(name);
+  this->world = world;
 }
 
-Scene::setWorld(World *world) {
-  this->world = world;
+string &Scene::get_name() {
+  return this->name;
 }
