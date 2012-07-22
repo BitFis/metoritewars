@@ -2,8 +2,11 @@
 build/
 CMakeFiles/
 dist/
-nbproject/
 cmake_install.cmake
+
 CMakeCache.txt
 Makefile
 bin/
+
+.dep.inc
+nbproject
