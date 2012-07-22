@@ -12,6 +12,10 @@
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
+      <logicalFolder name="f1" displayName="src" projectFiles="true">
+      </logicalFolder>
+      <itemPath>Object.cpp</itemPath>
+      <itemPath>Object.h</itemPath>
       <itemPath>main.cpp</itemPath>
       <itemPath>time-helper.cpp</itemPath>
       <itemPath>time-helper.h</itemPath>
@@ -38,6 +42,13 @@
       </toolsSet>
       <compileType>
       </compileType>
+      <folder path="SourceFiles">
+        <cTool>
+          <incDir>
+            <pElem>src</pElem>
+          </incDir>
+        </cTool>
+      </folder>
     </conf>
     <conf name="Release" type="1">
       <toolsSet>
@@ -58,6 +69,13 @@
           <developmentMode>5</developmentMode>
         </asmTool>
       </compileType>
+      <folder path="SourceFiles">
+        <cTool>
+          <incDir>
+            <pElem>src</pElem>
+          </incDir>
+        </cTool>
+      </folder>
     </conf>
   </confs>
 </configurationDescriptor>
