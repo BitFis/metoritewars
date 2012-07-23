@@ -34,17 +34,20 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
-	${OBJECTDIR}/time-helper.o \
-	${OBJECTDIR}/main.o \
-	${OBJECTDIR}/Object.o
+	${OBJECTDIR}/src/main.o \
+	${OBJECTDIR}/src/scene.o \
+	${OBJECTDIR}/src/ship.o \
+	${OBJECTDIR}/src/time-helper.o \
+	${OBJECTDIR}/src/world.o \
+	${OBJECTDIR}/src/Object.o
 
 
 # C Compiler Flags
 CFLAGS=
 
 # CC Compiler Flags
-CCFLAGS=
-CXXFLAGS=
+CCFLAGS=-I"C:/MinGW/freeglut/include"
+CXXFLAGS=-I"C:/MinGW/freeglut/include"
 
 # Fortran Compiler Flags
 FFLAGS=
@@ -53,7 +56,7 @@ FFLAGS=
 ASFLAGS=
 
 # Link Libraries and Options
-LDLIBSOPTIONS=
+LDLIBSOPTIONS=-lopengl32 -lfreeglut -lglu32
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
@@ -61,22 +64,37 @@ LDLIBSOPTIONS=
 
 ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/meteoritewars.exe: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
-	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/meteoritewars ${OBJECTFILES} ${LDLIBSOPTIONS} 
+	${LINK.cc} -L"C:/MinGW/freeglut/lib" -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/meteoritewars ${OBJECTFILES} ${LDLIBSOPTIONS} 
 
-${OBJECTDIR}/time-helper.o: time-helper.cpp 
-	${MKDIR} -p ${OBJECTDIR}
+${OBJECTDIR}/src/main.o: src/main.cpp 
+	${MKDIR} -p ${OBJECTDIR}/src
 	${RM} $@.d
-	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/time-helper.o time-helper.cpp
+	$(COMPILE.cc) -g -Isrc -I/C/MinGW/freeglut -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/main.o src/main.cpp
 
-${OBJECTDIR}/main.o: main.cpp 
-	${MKDIR} -p ${OBJECTDIR}
+${OBJECTDIR}/src/scene.o: src/scene.cpp 
+	${MKDIR} -p ${OBJECTDIR}/src
 	${RM} $@.d
-	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/main.o main.cpp
+	$(COMPILE.cc) -g -Isrc -I/C/MinGW/freeglut -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/scene.o src/scene.cpp
 
-${OBJECTDIR}/Object.o: Object.cpp 
-	${MKDIR} -p ${OBJECTDIR}
+${OBJECTDIR}/src/ship.o: src/ship.cpp 
+	${MKDIR} -p ${OBJECTDIR}/src
 	${RM} $@.d
-	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/Object.o Object.cpp
+	$(COMPILE.cc) -g -Isrc -I/C/MinGW/freeglut -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/ship.o src/ship.cpp
+
+${OBJECTDIR}/src/time-helper.o: src/time-helper.cpp 
+	${MKDIR} -p ${OBJECTDIR}/src
+	${RM} $@.d
+	$(COMPILE.cc) -g -Isrc -I/C/MinGW/freeglut -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/time-helper.o src/time-helper.cpp
+
+${OBJECTDIR}/src/world.o: src/world.cpp 
+	${MKDIR} -p ${OBJECTDIR}/src
+	${RM} $@.d
+	$(COMPILE.cc) -g -Isrc -I/C/MinGW/freeglut -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/world.o src/world.cpp
+
+${OBJECTDIR}/src/Object.o: src/Object.cpp 
+	${MKDIR} -p ${OBJECTDIR}/src
+	${RM} $@.d
+	$(COMPILE.cc) -g -Isrc -I/C/MinGW/freeglut -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/Object.o src/Object.cpp
 
 # Subprojects
 .build-subprojects:
