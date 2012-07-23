@@ -2,10 +2,13 @@
 #ifndef _SCENE_H
 #define _SCENE_H 1
 
+class World;
+
 #include "world.h"
 #include <string>
 
 using namespace std;
+
 
 /* base class for each level or menu or stuff like that
  
@@ -19,6 +22,8 @@ using namespace std;
       and the rest of the virtual methods too. */
 
 class Scene {
+  friend class World;
+
   private:
     World *world;
     string name;
@@ -29,6 +34,7 @@ class Scene {
 
     virtual void on_load() = 0;
     virtual void on_unload() = 0;
+
 };
 
 #endif /* _SCENE_H */

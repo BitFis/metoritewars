@@ -3,7 +3,7 @@
 World::World()  {
   this->num_scenes = 0;
   this->current_scene = -1;
-  this->scenes = new Scenes[this->num_scenes];
+  this->scenes = new Scene*[this->num_scenes];
 }
 
 World::~World() {
@@ -13,17 +13,18 @@ World::~World() {
   delete [] this->scenes;
 }
 
-unsigned int get_scene_id(string &name) {
-  unsigned int selected = -1;
+int World::get_scene_id(string &name) {
+  int selected = -1;
   /* iterate the scenes and search for the given name */
-  for(int i; selected == NULL && i < this->num_scenes; i++) {
-    this->scenes[i]->get_name().compare(name) == 0
-      && selected = i;
+  for(int i; selected && i < this->num_scenes; i++) {
+    if(this->scenes[i]->get_name().compare(name) == 0) {
+      selected = i;
+    }
   }
   return selected;
 }
 
-Scene *get_scene_by_id(unsigned int id) {
+Scene *World::get_scene_by_id(int id) {
   Scene *selected = NULL;
   /* check if valid index */
   if(id >= 0 && id < this->num_scenes) {
@@ -44,7 +45,7 @@ void World::add_scene(Scene *scene) {
   /* we need an array to temporary store the pointers
      to the scene objects, because we need to
      resize this->scenes */
-  Scenes **tmp = new Scenes[this->num_scenes];
+  Scene **tmp = new Scene*[this->num_scenes];
   
   /* move the scenes over */
   for(int i = 0; this->num_scenes; i++) {
@@ -54,7 +55,7 @@ void World::add_scene(Scene *scene) {
   delete [] this->scenes;
   
   /* reallocate memory */
-  this->scenes = new Scenes[this->num_scenes + 1];
+  this->scenes = new Scene*[this->num_scenes + 1];
 
   /* copy the values back  */
   for(int i = 0; this->num_scenes; i++) {
@@ -69,8 +70,8 @@ void World::add_scene(Scene *scene) {
   this->scenes[++this->num_scenes] = scene;
 }
 
-World::load_scene(string &name) {
-  unsigned int id;
+void World::load_scene(string &name) {
+  int id;
   Scene *current;
 
   /* unload the old scene */
@@ -83,13 +84,15 @@ World::load_scene(string &name) {
   current = get_scene_by_id(id); /* @TODO: this may be NULL, this needs some error handling */
 
   current->on_load();
-
 }
 
-World::unload_scene(string &name) {
+void World::unload_scene() {
   /* unload the old scene */
   Scene *current = get_current_scene();
-  current != NULL &&  current->on_unload();
+  if(current) {
+    current->on_unload();
+  }
+
   /* reset the current scene */
   this->current_scene = -1;
 }
