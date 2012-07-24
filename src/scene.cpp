@@ -1,7 +1,7 @@
 #include "scene.h"
 using namespace std;
 
-Scene::Scene(string &name, World *world) {
+Scene::Scene(const char *name, World *world) {
   this->name.assign(name);
   this->world = world;
 }

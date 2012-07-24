@@ -29,10 +29,11 @@ class Scene {
     string name;
 
   public:
-    Scene(string &name, World *world);
+    Scene(const char *name, World *world);
     string &get_name();
 
     virtual void on_load() = 0;
+    virtual void on_draw() = 0;
     virtual void on_unload() = 0;
 
 };
