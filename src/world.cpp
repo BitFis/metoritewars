@@ -33,7 +33,7 @@ Scene *World::get_scene(string &name) {
 /* get the currently loaded scene */
 Scene *World::get_current_scene() {
   /* @TODO: what if there is no current scene  */
-  return get_scene_by_iterator(this->current_scene);
+  return *this->current_scene;
 }
 
 /* add a scene object to the array of
@@ -73,7 +73,7 @@ void World::load_scene(string &name) {
    
   /* @TODO: what if there is no Scene which has the given name? */
   this->current_scene = get_scene_iterator(name);
-  current = get_scene_by_iterator(this->current_scene);
+  current = *this->current_scene;
 
   /* execute the on_load event in the scene */
   current->on_load();

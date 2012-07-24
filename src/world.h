@@ -19,8 +19,6 @@ class World {
     vector<Scene*>::iterator current_scene;
 
     vector<Scene*>::iterator get_scene_iterator(string &name);
-    Scene *get_scene_by_iterator(vector<Scene*>::iterator &iterator);
-
 
   public:
     World();
