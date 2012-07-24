@@ -51,7 +51,7 @@
         <ccTool>
           <incDir>
             <pElem>C:/MinGW/freeglut</pElem>
-            <pElem>C:/MinGW/SDL-1.2.15/include</pElem>
+            <pElem>C:/MinGW/SDL/include</pElem>
           </incDir>
         </ccTool>
         <linkerTool>
@@ -60,8 +60,10 @@
             <linkerOptionItem>-lopengl32 </linkerOptionItem>
             <linkerOptionItem>-lfreeglut</linkerOptionItem>
             <linkerOptionItem>-lglu32</linkerOptionItem>
+            <linkerOptionItem>-lmingw32</linkerOptionItem>
+            <linkerOptionItem>-lSDL</linkerOptionItem>
           </linkerLibItems>
-          <commandLine>-L"C:/MinGW/freeglut/lib" -L"C:/MinGW/SDL-1.2.15/lib/x64"</commandLine>
+          <commandLine>-L"C:/MinGW/freeglut/lib" -L"C:/MinGW/SDL/lib/x86"</commandLine>
         </linkerTool>
       </compileType>
       <folder path="SourceFiles">
@@ -90,7 +92,7 @@
           <developmentMode>5</developmentMode>
           <incDir>
             <pElem>C:/MinGW/freeglut</pElem>
-            <pElem>C:/MinGW/SDL-1.2.15/include</pElem>
+            <pElem>C:/MinGW/SDL/include</pElem>
           </incDir>
         </ccTool>
         <fortranCompilerTool>
@@ -104,8 +106,9 @@
             <linkerOptionItem>-lopengl32 </linkerOptionItem>
             <linkerOptionItem>-lfreeglut</linkerOptionItem>
             <linkerOptionItem>-lglu32</linkerOptionItem>
+            <linkerOptionItem>-lmingw32</linkerOptionItem>
           </linkerLibItems>
-          <commandLine>-L"C:/MinGW/freeglut/lib" -L"C:/MinGW/SDL-1.2.15/lib/64x"</commandLine>
+          <commandLine>-L"C:/MinGW/freeglut/lib" -L"C:/MinGW/SDL/lib/x86"</commandLine>
         </linkerTool>
       </compileType>
       <folder path="SourceFiles">

@@ -1,11 +1,9 @@
-//This example program is created by thecplusplusuy for demonstration purposes. It's a simple 3D model loader (wavefront (.obj)), which is capable to load materials and UV textures:
-//http://www.youtube.com/user/thecplusplusguy
-//Free source, modify if you want, LGPL licence (I guess), I would be happy, if you would not delete the link
-//so other people can see the tutorial
-//this file is the Object.cpp
+/*
+ * 
+ */
 #include "Object.h"
 #include <cstring>
-#include <SDL.h>
+#include <SDL/SDL.h>
 
     //nothing to explain here
     coordinate::coordinate(float a,float b,float c)
@@ -158,7 +156,7 @@ int Object::load(const char* filename)
             std::ifstream mtlin(filen);	//open the file
             if(!mtlin.is_open())	//if not opened error message, clean all memory, return with -1
             {
-                    std::cout << "connot open the material file" << std::endl;
+                    std::cout << "can not open the material file" << std::endl;
                     clean();
                     return -1;
             }
