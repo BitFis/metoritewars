@@ -51,16 +51,17 @@
         <ccTool>
           <incDir>
             <pElem>C:/MinGW/freeglut</pElem>
+            <pElem>C:/MinGW/SDL-1.2.15/include</pElem>
           </incDir>
-          <commandLine>-I"C:/MinGW/freeglut/include"</commandLine>
         </ccTool>
         <linkerTool>
+          <output>${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/meteoritewars</output>
           <linkerLibItems>
             <linkerOptionItem>-lopengl32 </linkerOptionItem>
             <linkerOptionItem>-lfreeglut</linkerOptionItem>
             <linkerOptionItem>-lglu32</linkerOptionItem>
           </linkerLibItems>
-          <commandLine>-L"C:/MinGW/freeglut/lib"</commandLine>
+          <commandLine>-L"C:/MinGW/freeglut/lib" -L"C:/MinGW/SDL-1.2.15/lib/x64"</commandLine>
         </linkerTool>
       </compileType>
       <folder path="SourceFiles">
@@ -89,8 +90,8 @@
           <developmentMode>5</developmentMode>
           <incDir>
             <pElem>C:/MinGW/freeglut</pElem>
+            <pElem>C:/MinGW/SDL-1.2.15/include</pElem>
           </incDir>
-          <commandLine>-I"C:/MinGW/freeglut/include"</commandLine>
         </ccTool>
         <fortranCompilerTool>
           <developmentMode>5</developmentMode>
@@ -104,7 +105,7 @@
             <linkerOptionItem>-lfreeglut</linkerOptionItem>
             <linkerOptionItem>-lglu32</linkerOptionItem>
           </linkerLibItems>
-          <commandLine>-L"C:/MinGW/freeglut/lib"</commandLine>
+          <commandLine>-L"C:/MinGW/freeglut/lib" -L"C:/MinGW/SDL-1.2.15/lib/64x"</commandLine>
         </linkerTool>
       </compileType>
       <folder path="SourceFiles">

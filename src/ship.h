@@ -17,7 +17,6 @@ public:
     Ship(const Ship& orig);
     virtual ~Ship();
 private:
-
 };
 
 #endif	/* Ship_H */

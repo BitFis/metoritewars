@@ -5,7 +5,7 @@
  * Created on 22 July 2012, 23:56
  */
 
-#include "Ship.h"
+#include "ship.h"
 
 Ship::Ship() {
 }

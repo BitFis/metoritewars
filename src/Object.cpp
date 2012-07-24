@@ -4,6 +4,9 @@
 //so other people can see the tutorial
 //this file is the Object.cpp
 #include "Object.h"
+#include <cstring>
+#include <SDL.h>
+
     //nothing to explain here
     coordinate::coordinate(float a,float b,float c)
     {
@@ -73,7 +76,7 @@ int Object::load(const char* filename)
     std::ifstream in(filename);	//open the model file
     if(!in.is_open())
     {
-            std::cout << "Nor oepened" << std::endl; //if it's not opened then error message, and return with -1
+            std::cout << "Could not open File" << std::endl; //if it's not opened then error message, and return with -1
             return -1;
     }
     char buf[256];	//temp buffer
@@ -378,7 +381,7 @@ unsigned int Object::loadTexture(const char* filename)
     glBindTexture(GL_TEXTURE_2D,num);
     glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
-    glTexImage2D(GL_TEXTURE_2D,0,GL_RGB,img->w,img->h,0,GL_RGB,GL_UNSIGNED_SHORT_5_6_5,img->pixels);
+    glTexImage2D(GL_TEXTURE_2D,0,GL_RGB,img->w,img->h,0,GL_RGB,GL_UNSIGNED_SHORT,img->pixels);
     glTexEnvi(GL_TEXTURE_2D,GL_TEXTURE_ENV_MODE,GL_MODULATE);	//maybe just this
     SDL_FreeSurface(img);
     texture.push_back(num);
