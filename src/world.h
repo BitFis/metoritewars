@@ -5,6 +5,8 @@ class Scene;
 
 #include "scene.h"
 #include <string>
+#include <vector>
+#include "macros.h"
 
 using namespace std;
 
@@ -13,12 +15,11 @@ using namespace std;
 class World {
 
   private:
-    Scene **scenes;
-    int num_scenes;
-    int current_scene;
+    vector<Scene*> *scenes;
+    vector<Scene*>::iterator current_scene;
 
-    int get_scene_id(string &name);
-    Scene *get_scene_by_id(int id);
+    vector<Scene*>::iterator get_scene_iterator(string &name);
+    Scene *get_scene_by_iterator(vector<Scene*>::iterator &iterator);
 
 
   public:
@@ -29,7 +30,8 @@ class World {
     Scene *get_current_scene();
 
     void add_scene(Scene *scene);
-    /* void remove_scene(string &name); @TODO: implement this method */
+    void remove_scene(Scene *scene);
+    void remove_scene(string &name);
     void load_scene(string &name);
     void unload_scene();
      
