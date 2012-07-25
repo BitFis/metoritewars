@@ -1,4 +1,5 @@
 #include "world.h"
+#include <iostream>
 
 World::World() {
   this->scenes = new vector<Scene*>(0);
@@ -16,10 +17,10 @@ World::~World() {
 vector<Scene*>::iterator World::get_scene_iterator(const char *name) {
   /* search for the scene */
   string nameobj(name);
-  vector<Scene*>::iterator search;
+  vector<Scene*>::iterator search = this->scenes->end();
   foreach(iterator, (*this->scenes)) {
     /* compare names */
-    if((*iterator)->get_name().compare(nameobj)) {
+    if((*iterator)->get_name().compare(nameobj) == 0) {
       search = iterator;
       break;
     }
@@ -27,9 +28,7 @@ vector<Scene*>::iterator World::get_scene_iterator(const char *name) {
 
   /* throw an exception if the scene doesn't exist */
   if(search == this->scenes->end()) {
-    string msg("no scene with name '?'");
-    size_t pos = msg.find('?');
-    throw invalid_argument(msg.replace(pos, pos + 1, name));
+    throw invalid_argument("no scene with name '" + string(name) + "'");
   }
   return search;
 }
@@ -63,9 +62,7 @@ void World::add_scene(Scene *scene) {
 
   if(exists) {
     /* there is already a scene with the same name, so throw an exception */
-    string msg("scene '?' has been added before");
-    size_t pos = msg.find('?');
-    throw invalid_argument(msg.replace(pos, pos + 1, scene->get_name()));
+    throw invalid_argument("scene '" + scene->get_name() + "' has been added before");
   }
 }
 
