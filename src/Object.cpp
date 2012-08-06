@@ -9,8 +9,7 @@
 // http://openglsamples.sourceforge.net/files/glut_obj.cpp
 
 #include "Object.h"
-#include <iostream>
-#include <fstream>
+
 
 using namespace std;
 
@@ -44,14 +43,17 @@ GLint Object::loadObject(const char* filename){
         sscanf(line, "o %s", this->_name);
         break;
       
-      
+      case 'v':
+        sscanf(line, "o %s", this->_name);
+        
+        break;
         
       default:
         break;
     }
+    
+    cout << line << endl;
   }
-  
-  cout << this->_name << endl;
   
   return NOERROR;
 }

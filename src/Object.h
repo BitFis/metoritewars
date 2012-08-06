@@ -10,6 +10,11 @@
 
 #include <iostream> //get helpful function and classes
 #include <GL/freeglut.h>
+#include <fstream>
+#include <string>
+
+#define POINTS_PER_VERTEX 3
+#define TOTAL_FLOATS_IN_TRIANGLE 9
 
 using namespace std;
 
