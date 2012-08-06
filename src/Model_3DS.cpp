@@ -80,6 +80,8 @@
 
 #include "Model_3DS.h"
 
+#include <iostream>
+
 #include <math.h>			// Header file for the math library
 #include <gl\gl.h>			// Header file for the OpenGL32 library
 
@@ -169,7 +171,20 @@ Model_3DS::Model_3DS()
 
 Model_3DS::~Model_3DS()
 {
-
+  //prevents memory leaks
+  SAFE_DELETE_ARRAY( path );
+  SAFE_DELETE_ARRAY( Materials );
+  for (int k = 0; k < numObjects; k++) {
+    SAFE_DELETE_ARRAY( Objects[k].TexCoords );
+    SAFE_DELETE_ARRAY( Objects[k].TexCoords );
+    SAFE_DELETE_ARRAY( Objects[k].Vertexes );
+    SAFE_DELETE_ARRAY( Objects[k].Normals );
+    SAFE_DELETE_ARRAY( Objects[k].Faces );
+    for( int l=0; l < Objects[k].numMatFaces; l++ )
+      SAFE_DELETE_ARRAY( Objects[k].MatFaces[l].subFaces );
+    SAFE_DELETE_ARRAY( Objects[k].MatFaces );
+  }
+  SAFE_DELETE_ARRAY( Objects );
 }
 
 void Model_3DS::Load(char *name)
@@ -305,6 +320,7 @@ void Model_3DS::Draw()
 				glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 			if (lit)
 				glEnableClientState(GL_NORMAL_ARRAY);
+      
 			glEnableClientState(GL_VERTEX_ARRAY);
 
 			// Point them to the objects arrays
@@ -772,6 +788,7 @@ void Model_3DS::MapNameChunkProcessor(long length, long findex, int matindex)
 	char fullname[80];
 	sprintf(fullname, "%s%s", path, name);
 	Materials[matindex].tex.Load(fullname);
+  std::cout << fullname << std::endl;
 	Materials[matindex].textured = true;
 
 	// move the file pointer back to where we got it so

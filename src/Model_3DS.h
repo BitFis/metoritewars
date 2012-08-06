@@ -71,6 +71,10 @@
 #ifndef MODEL_3DS_H
 #define MODEL_3DS_H
 
+//Modules for safe deleting memory and preventing leaks
+#define SAFE_DELETE(p) { if(p) { delete (p); (p)=NULL; } }
+#define SAFE_DELETE_ARRAY(p) { if(p) { delete[] (p); (p)=NULL; } }
+
 // I decided to use my GLTexture class b/c adding all of its functions
 // Would have greatly bloated the model class's code
 // Just replace this with your favorite texture class
