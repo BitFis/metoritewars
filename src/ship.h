@@ -11,7 +11,7 @@
 #include "Object.h"
 
 
-class Ship : Object{
+class Ship {
 public:
     Ship();
     Ship(const Ship& orig);

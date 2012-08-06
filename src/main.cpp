@@ -1,69 +1,70 @@
-//This example program is created by thecplusplusuy for demonstration purposes. It's a simple 3D model loader (wavefront (.obj)), which is capable to load materials and UV textures:
-//http://www.youtube.com/user/thecplusplusguy
-//Free source, modify if you want, LGPL licence (I guess), I would be happy, if you would not delete the link
-//so other people can see the tutorial
-//this file is third.cpp an example, how to use the class
-#include "Object.h"
-#include <SDL/SDL.h>
+#include <GL/glew.h> // Include the GLEW header file  
+#include <GL/glut.h> // Include the GLUT header file  
+#include "Model_3DS.h"
+#include <iostream>
 
-float angle=0.0;
+int turn = 0;
 
-int cube;
-Object obj;	//create an instance of the objloader
-void init()
-{
-	glClearColor(0.5,0.5,0.5,1.0);
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	gluPerspective(45,640.0/480.0,1.0,500.0);
-	glMatrixMode(GL_MODELVIEW);
-	glEnable(GL_DEPTH_TEST);
-	cube=obj.load("test.obj");	//load it
-	glEnable(GL_LIGHTING);
-	glEnable(GL_LIGHT0);
-	float col[]={1.0,1.0,1.0,1.0};
-	glLightfv(GL_LIGHT0,GL_DIFFUSE,col);
+void display (void) {  
+    glClearColor(1.0f, 0.0f, 0.0f, 1.0f); // Clear the background of our window to red  
+    glClear(GL_COLOR_BUFFER_BIT); //Clear the colour buffer (more buffers later on)  
+    glLoadIdentity(); // Load the Identity Matrix to reset our drawing locations  
+    
+    Model_3DS m;
+
+    m.Load("C:\\c\\metoritewars\\objects\\player\\test.3ds");	// Load the model
+    
+    //glTranslatef(0.0,-5.0,-20.0);
+
+    // If you want to show the model's normals
+    m.shownormals = true;
+
+    // If the model is not going to be lit then set the lit
+    // variable to false. It defaults to true.
+    m.lit = false;
+
+    // You can disable the rendering of the model
+    m.visible = true;
+
+    // You can move and rotate the model like this:
+    m.rot.x = 90.0f;
+    m.rot.y = 30.0f;
+    m.rot.z = 0.0f;
+
+    m.pos.x = -1.0f;
+    m.pos.y = -1.0f;
+    m.pos.z = -20.0f;
+    
+    std::cout << "a" << std::endl;
+    
+    //m.Draw();	 // Renders the model to the screen
+    
+    glFlush(); // Flush the OpenGL buffers to the window  
+}  
+  
+void reshape (int width, int height) {  
+    glViewport(0, 0, (GLsizei)width, (GLsizei)height); // Set our viewport to the size of our window  
+    glMatrixMode(GL_PROJECTION); // Switch to the projection matrix so that we can manipulate how our scene is viewed  
+    glLoadIdentity(); // Reset the projection matrix to the identity matrix so that we don't get any artifacts (cleaning up)  
+    gluPerspective(60, (GLfloat)width / (GLfloat)height, 1.0, 100.0); // Set the Field of view angle (in degrees), the aspect ratio of our window, and the new and far planes  
+    glMatrixMode(GL_MODELVIEW); // Switch back to the model view matrix, so that we can start drawing shapes correctly  
+}  
+  
+void keydown (int key){
+    
 }
 
-void display()
-{
-	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
-	glLoadIdentity();
-	float pos[]={-1.0,1.0,-2.0,1.0};
-	glLightfv(GL_LIGHT0,GL_POSITION,pos);
-	glTranslatef(0.0,-30.0,-100.0);
-	glCallList(cube);	//and display it
-}
-
-
-int main(int argc,char** argv)
-{
-	SDL_Init(SDL_INIT_EVERYTHING);
-	SDL_Surface* screen=SDL_SetVideoMode(640,480,32,SDL_SWSURFACE|SDL_OPENGL);
-	bool running=true;
-	Uint32 start;
-	SDL_Event event;
-	init();
-	while(running)
-	{
-		start=SDL_GetTicks();
-		while(SDL_PollEvent(&event))
-		{
-			switch(event.type)
-			{
-				case SDL_QUIT:
-					running=false;
-					break;
-			}
-		}
-		display();
-		SDL_GL_SwapBuffers();
-		angle+=0.5;
-		if(angle>360)
-			angle-=360;
-		if(1000/30>(SDL_GetTicks()-start))
-			SDL_Delay(1000/30-(SDL_GetTicks()-start));
-	}
-	SDL_Quit();
-	return 0;	
-}
+int main (int argc, char **argv) {  
+    glutInit(&argc, argv); // Initialize GLUT  
+    glutInitDisplayMode (GLUT_SINGLE); // Set up a basic display buffer (only single buffered for now)  
+    glutInitWindowSize (500, 500); // Set the width and height of the window  
+    glutInitWindowPosition (100, 100); // Set the position of the window  
+    
+    glutCreateWindow ("You're first OpenGL Window"); // Set the title for the window  
+    
+    glutDisplayFunc(display); // Tell GLUT to use the method "display" for rendering  
+    glutReshapeFunc(reshape); // Tell GLUT to use the method "reshape" for rendering  
+    //glutKeyboardFunc(keydown);
+    
+    glutMainLoop(); // Enter GLUT's main loop  
+} 
