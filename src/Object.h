@@ -14,6 +14,8 @@
 #include <string>
 #include <math.h>
 
+#include "utility/GLTexture.h"
+
 #define OBJECT_MAX_POINTS_PER_VERTEX 4
 #define OBJECT_TOTAL_FLOATS_IN_TRIANGLE 9
 #define OBJECT_TOTAL_FLOATS_IN_RECTANGLE 12
@@ -29,6 +31,8 @@ public:
   GLint loadBmpTexture(char* filename);
   void Draw();
   virtual ~Object();
+  
+  GLTexture *tex;
   
   float* normals; // Stores the normals
   float* Faces_Triangles; // Stores the triangles

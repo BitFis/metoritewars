@@ -19,6 +19,8 @@ Object::Object() {
 
 Object::Object(const char* filename) {
   _texture = loadObject(filename);
+  tex = new GLTexture();
+  //tex->Load("C:\\c\\metoritewars\\objects\\player\\road.bmp");
 }
 
 int Object::calculateNormal( float *coord1, float *coord2, float *coord3, float* norm )
