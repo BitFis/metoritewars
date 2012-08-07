@@ -235,27 +235,25 @@ void Object::Draw()
 	
   glColor3f(1.0,0.5,0.2);
   
-  //glEnable(GL_TEXTURE_2D);
-  //glBindTexture(GL_TEXTURE_2D, _texture);
-  //cout << _texture << endl;
+  glEnable(GL_TEXTURE_2D);
+  glBindTexture(GL_TEXTURE_2D, _texture);
+  cout << _texture << endl;
   
   /*glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
   glColor3f(1.0f, 1.0f, 1.0f);*/
-
+  
+  
   glColor3f(0.5,0.5,0.5);
   
   glBegin(GL_QUADS);
     
-  glNormal3f(0.0, 1.0f, 0.0f);
-  glTexCoord2f(0.0f, 0.0f);
-  glVertex3f(-2.5f, -2.5f, 2.5f);
-  glTexCoord2f(1.0f, 0.0f);
-  glVertex3f(2.5f, -2.5f, 2.5f);
-  glTexCoord2f(1.0f, 1.0f);
-  glVertex3f(2.5f, -2.5f, -2.5f);
-  glTexCoord2f(0.0f, 1.0f);
-  glVertex3f(-2.5f, -2.5f, -2.5f);
+    glBegin (GL_QUADS);
+    glTexCoord2d(0.0,0.0); glVertex2d(-1.0,-1.0); //with our vertices we have to assign a texcoord
+    glTexCoord2d(1.0,0.0); glVertex2d(+1.0,-1.0); //so that our texture has some points to draw to
+    glTexCoord2d(1.0,1.0); glVertex2d(+1.0,+1.0);
+    glTexCoord2d(0.0,1.0); glVertex2d(-1.0,+1.0);
+    glEnd();
 
   glEnd();
   /*
@@ -337,6 +335,8 @@ GLint Object::loadBmpTexture(char* filename){
   glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
     
   cout << textureID << endl;
+  
+  _texture = textureID;
   
   return textureID;
 }
