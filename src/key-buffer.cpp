@@ -9,6 +9,9 @@
 
 KeyBuffer::KeyBuffer() {
   keys = new unsigned char[KEYBUFFER_ARRAY_SIZE];
+  for(int i = 0; i < KEYBUFFER_ARRAY_SIZE; i++) {
+    keys[i] = 0;
+  }
 }
 
 KeyBuffer::~KeyBuffer() {
