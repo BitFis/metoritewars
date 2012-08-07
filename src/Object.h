@@ -24,13 +24,16 @@ class Object {
 public:
   Object();
   Object(const char* filename);
-  GLint loadObject(const char* filename);
-  float* calculateNormal( float *coord1, float *coord2, float *coord3 );
+  int loadObject(const char* filename);
+  int calculateNormal( float *coord1, float *coord2, float *coord3, float* norm  );
+  GLint loadBmpTexture(char* filename);
+  void Draw();
   virtual ~Object();
   
   float* normals; // Stores the normals
   float* Faces_Triangles; // Stores the triangles
   float* vertexBuffer; // Stores the points which make the object
+  float* textureBuffer; // Stores the texturecoordinates
   long TotalConnectedPoints; // Stores the total number of connected verteces
   long TotalConnectedTriangles; // Stores the total number of connected triangles
 private:

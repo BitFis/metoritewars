@@ -14,17 +14,17 @@
 using namespace std;
 
 Object::Object() {
+  Faces_Triangles = normals = vertexBuffer = textureBuffer = NULL;
 }
 
 Object::Object(const char* filename) {
   _texture = loadObject(filename);
 }
 
-float* Object::calculateNormal( float *coord1, float *coord2, float *coord3 )
+int Object::calculateNormal( float *coord1, float *coord2, float *coord3, float* norm )
 {
   /* calculate Vector1 and Vector2 */
   float va[3], vb[3], vr[3], val;
-  float norm[3]; //save normals
   
   va[0] = coord1[0] - coord2[0];
   va[1] = coord1[1] - coord2[1];
@@ -46,8 +46,7 @@ float* Object::calculateNormal( float *coord1, float *coord2, float *coord3 )
   norm[1] = vr[1]/val;
   norm[2] = vr[2]/val;
 
-
-  return norm;
+  return 0;
 }
 
 GLint Object::loadObject(const char* filename){
@@ -67,9 +66,16 @@ GLint Object::loadObject(const char* filename){
   long fileSize = obj.tellg(); // get file size
   obj.seekg (0, ios::beg); // we'll use this to register memory for our 3d model
   
+  //free memory bevor use
+  free(Faces_Triangles);
+  free(normals);
+  free(vertexBuffer);
+  free(textureBuffer);
+  
   vertexBuffer = (float*) malloc (fileSize); // Allocate memory for the verteces
   Faces_Triangles = (float*) malloc(fileSize*sizeof(float)); // Allocate memory for the triangles
   normals  = (float*) malloc(fileSize*sizeof(float)); // Allocate memory for the normals
+  textureBuffer = (float*) malloc(fileSize*sizeof(float));
   
   //check if it is open
   if(obj.is_open() == false){    
@@ -136,7 +142,7 @@ GLint Object::loadObject(const char* filename){
           }
         }
       }
-        
+      
       //.obj counter starts from 1, but must start from 0
       vertexnumber[0] -= 1;
       vertexnumber[1] -= 1;
@@ -162,24 +168,69 @@ GLint Object::loadObject(const char* filename){
         tCounter += 3;
       }
       
+      //initialice normal variable
+      float norm[3] = {0};
+      
       //calculate normals if not set
       if(vertexnormals[0] != 0){
-        
+        /*********************************************************************
+				 * Calculate all normals, used for lighting
+				 */ 
+				float coord1[3] = { Faces_Triangles[triangle_index], Faces_Triangles[triangle_index+1],Faces_Triangles[triangle_index+2]};
+				float coord2[3] = {Faces_Triangles[triangle_index+3],Faces_Triangles[triangle_index+4],Faces_Triangles[triangle_index+5]};
+				float coord3[3] = {Faces_Triangles[triangle_index+6],Faces_Triangles[triangle_index+7],Faces_Triangles[triangle_index+8]};
+				calculateNormal( coord1, coord2, coord3, norm );
+
       }else{
         //.obj counter starts from 1, but must start from 0
-        vertexnormals[0] -= 1;
-        vertexnormals[1] -= 1;
-        vertexnormals[2] -= 1;
+        norm[0] = vertexnormals[0] - 1;
+        norm[1] = vertexnormals[1] - 1;
+        norm[2] = vertexnormals[2] - 1;
         vertexnormals[3] -= 1;
       }
+      
+      //set normals
+      tCounter = 0;
+      for (int i = 0; i < 3; i++)
+      {
+        normals[normal_index + tCounter ] = norm[0];
+        normals[normal_index + tCounter +1] = norm[1];
+        normals[normal_index + tCounter +2] = norm[2];
+        tCounter += 3;
+      }
+
+      //set triangle_index
+      triangle_index += OBJECT_TOTAL_FLOATS_IN_TRIANGLE;
+      //set normal index only for triangle
+      normal_index += OBJECT_TOTAL_FLOATS_IN_TRIANGLE;
+      TotalConnectedTriangles += OBJECT_TOTAL_FLOATS_IN_TRIANGLE;
     }
     
     cout << line << endl;
   }
   
+  //close file
   obj.close();
   
   return NOERROR;
+}
+
+void Object::Draw()
+{
+ 	glEnableClientState(GL_VERTEX_ARRAY);						// Enable vertex arrays
+ 	glEnableClientState(GL_NORMAL_ARRAY);						// Enable normal arrays
+	glVertexPointer(3,GL_FLOAT,	0,Faces_Triangles);				// Vertex Pointer to triangle array
+	glNormalPointer(GL_FLOAT, 0, normals);						// Normal pointer to normal array
+	glDrawArrays(GL_TRIANGLES, 0, TotalConnectedTriangles);		// Draw the triangles
+	glDisableClientState(GL_VERTEX_ARRAY);						// Disable vertex arrays
+	glDisableClientState(GL_NORMAL_ARRAY);						// Disable normal arrays
+}
+
+GLint Object::loadBmpTexture(char* filename){
+  
+  
+  
+  return 0;
 }
 
 Object::~Object() {

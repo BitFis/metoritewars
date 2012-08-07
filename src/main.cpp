@@ -3,8 +3,11 @@
 #include <GL/freeglut_ext.h> // Include the GLUT header file  
 
 #include "Object.h"
+#include "utility/GLTexture.h"
 
 bool* keyStates = new bool[256]; // Create an array of boolean values of length 256 (0-255)  
+
+float angle = 0;
 
 Object obj ("C:\\metoritewars\\objects\\player\\test.obj");
   
@@ -13,21 +16,19 @@ void keyOperations (void) {
 }
   
 void display (void) {  
-  keyOperations();  
+  glClearColor (0.0,0.0,0.0,1.0);
+  glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+  glLoadIdentity();  
+  gluLookAt (0.0, 0.0, 5.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0); 
 
-  glClearColor(1.0f, 0.0f, 0.0f, 1.0f); // Clear the background of our window to red  
-  glClear(GL_COLOR_BUFFER_BIT); //Clear the colour buffer (more buffers later on)  
-  glLoadIdentity(); // Load the Identity Matrix to reset our drawing locations  
+  glRotatef(angle, 0.0f, 1.0f, 0.0f); // Rotate our object around the y axis  
 
-  glTranslatef(0.0f, 0.0f, -5.0f); // Push eveything 5 units back into the scene, otherwise we won't see the primitive  
-
-  glTranslatef(0.0f, 0.0, 0.0f); // Translate our object along the y axis  
-
-  glRotatef(45, 0.0f, 1.0f, 0.0f); // Rotate our object around the y axis  
-
-  glutWireCube(2.0f); // Render the primitive  
+  obj.Draw();
+  //glutWireCube(2.0f); // Render the primitive  
   
-  glFlush();
+  angle += 0.2;
+  
+  glutSwapBuffers();
 }  
   
 void reshape (int width, int height) {  
@@ -53,19 +54,25 @@ void keyUp (unsigned char key, int x, int y) {
   keyStates[key] = false; // Set the state of the current key to not pressed  
 }  
   
+void init (void) {
+    glEnable (GL_DEPTH_TEST);
+    glEnable (GL_LIGHTING);
+    glEnable (GL_LIGHT0);
+}
+
 int main (int argc, char **argv) {  
-  glutInit(&argc, argv); // Initialize GLUT  
-  glutInitDisplayMode (GLUT_SINGLE); // Set up a basic display buffer (only single buffered for now)  
-  glutInitWindowSize (500, 500); // Set the width and height of the window  
-  glutInitWindowPosition (100, 100); // Set the position of the window  
-  glutCreateWindow ("You're first OpenGL Window"); // Set the title for the window  
-
-  glutDisplayFunc(display); // Tell GLUT to use the method "display" for rendering  
-
-  glutReshapeFunc(reshape); // Tell GLUT to use the method "reshape" for reshaping  
-
-  glutKeyboardFunc(keyPressed); // Tell GLUT to use the method "keyPressed" for key presses  
-  glutKeyboardUpFunc(keyUp); // Tell GLUT to use the method "keyUp" for key up events 
-
-  glutMainLoop(); // Enter GLUT's main loop  
+    glutInit (&argc, argv);
+    glutInitDisplayMode (GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);
+    glutInitWindowSize (500, 500);
+    glutInitWindowPosition (100, 100);
+    glutCreateWindow ("A basic OpenGL Window");
+    init ();
+    glutDisplayFunc (display);
+    glutIdleFunc (display);
+    glutReshapeFunc (reshape);
+    glutKeyboardFunc(keyPressed);
+    glutKeyboardUpFunc(keyUp);
+    
+    glutMainLoop ();
+    return 0; 
 }  

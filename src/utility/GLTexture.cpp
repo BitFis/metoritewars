@@ -47,12 +47,12 @@
 
 GLTexture::GLTexture()
 {
-
+  return;
 }
 
 GLTexture::~GLTexture()
 {
-
+  return;
 }
 
 void GLTexture::Load(char *name)
