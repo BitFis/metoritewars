@@ -12,9 +12,11 @@
 #include <GL/freeglut.h>
 #include <fstream>
 #include <string>
+#include <math.h>
 
-#define POINTS_PER_VERTEX 3
-#define TOTAL_FLOATS_IN_TRIANGLE 9
+#define OBJECT_MAX_POINTS_PER_VERTEX 4
+#define OBJECT_TOTAL_FLOATS_IN_TRIANGLE 9
+#define OBJECT_TOTAL_FLOATS_IN_RECTANGLE 12
 
 using namespace std;
 
@@ -23,6 +25,7 @@ public:
   Object();
   Object(const char* filename);
   GLint loadObject(const char* filename);
+  float* calculateNormal( float *coord1, float *coord2, float *coord3 );
   virtual ~Object();
   
   float* normals; // Stores the normals
@@ -32,7 +35,8 @@ public:
   long TotalConnectedTriangles; // Stores the total number of connected triangles
 private:
   GLint _texture;
-  char _name[64];
+  string _name;
+  string _materialfile;
 };
 
 #endif	/* OBJECT_H */

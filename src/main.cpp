@@ -6,7 +6,7 @@
 
 bool* keyStates = new bool[256]; // Create an array of boolean values of length 256 (0-255)  
 
-Object obj ("C:\\cproject\\metoritewars\\objects\\player\\test.obj");
+Object obj ("C:\\metoritewars\\objects\\player\\test.obj");
   
 void keyOperations (void) {  
   
