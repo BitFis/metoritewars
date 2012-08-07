@@ -1,4 +1,4 @@
-#include "world.h"
+#include "World.h"
 #include <iostream>
 
 World::World() {
@@ -8,19 +8,19 @@ World::World() {
 
 World::~World() {
   /* free the pointer array */
-  unload_scene();
+  unloadScene();
   delete this->scenes;
 }
 
 /*  get the iterator of the scene which
     has the given name */
-vector<Scene*>::iterator World::get_scene_iterator(const char *name) {
+vector<Scene*>::iterator World::getSceneIterator(const char *name) {
   /* search for the scene */
   string nameobj(name);
   vector<Scene*>::iterator search = this->scenes->end();
   foreach(iterator, (*this->scenes)) {
     /* compare names */
-    if((*iterator)->get_name().compare(nameobj) == 0) {
+    if((*iterator)->getName().compare(nameobj) == 0) {
       search = iterator;
       break;
     }
@@ -35,12 +35,12 @@ vector<Scene*>::iterator World::get_scene_iterator(const char *name) {
 
 /* get the pointer to the scene object
    which has the given name*/
-Scene *World::get_scene(const char *name) {
-  return *get_scene_iterator(name);
+Scene *World::getScene(const char *name) {
+  return *getSceneIterator(name);
 }
 
 /* get the currently loaded scene */
-Scene *World::get_current_scene() {
+Scene *World::getCurrentScene() {
   if(this->current_scene == this->scenes->end()) {
     throw out_of_range("no current scene");
   }
@@ -49,11 +49,11 @@ Scene *World::get_current_scene() {
 
 /* add a scene object to the array of
    scenes in this world */
-void World::add_scene(Scene *scene) {
+void World::addScene(Scene *scene) {
   /* check if there already is a scene with the same name  */
   bool exists = false;
   try {
-    get_scene_iterator(scene->get_name().c_str());
+    getSceneIterator(scene->getName().c_str());
     exists = true;
   } catch(invalid_argument &e) {
     /* nope there is none, so add the scene to the array */
@@ -62,12 +62,12 @@ void World::add_scene(Scene *scene) {
 
   if(exists) {
     /* there is already a scene with the same name, so throw an exception */
-    throw invalid_argument("scene '" + scene->get_name() + "' has been added before");
+    throw invalid_argument("scene '" + scene->getName() + "' has been added before");
   }
 }
 
 /* remove a scene by pointer  */
-void World::remove_scene(Scene *scene) {
+void World::removeScene(Scene *scene) {
   foreach(iterator, (*this->scenes)) {
     if(*iterator == scene) {
       this->scenes->erase(iterator);
@@ -77,25 +77,25 @@ void World::remove_scene(Scene *scene) {
 }
 
 /* remove a scene by name */
-void World::remove_scene(const char *name) {
-  this->scenes->erase(get_scene_iterator(name));
+void World::removeScene(const char *name) {
+  this->scenes->erase(getSceneIterator(name));
 }
 /* load the scene which has the given name
 
    the on_load() method in the Scene object gets called
    if an other scene was loaded before, the
    on_unload()-method gets called too */
-void World::load_scene(const char *name) {
+void World::loadScene(const char *name) {
   Scene *current;
 
   /* unload the old scene (if there is one) */
-  unload_scene();
+  unloadScene();
 
-  this->current_scene = get_scene_iterator(name);
+  this->current_scene = getSceneIterator(name);
   current = *this->current_scene;
 
   /* execute the on_load event in the scene */
-  current->on_load();
+  current->onLoad();
 }
 
 /* this unloads the current loaded scene
@@ -103,10 +103,10 @@ void World::load_scene(const char *name) {
    
    this also calls the unload_scene()-method
    on the scene object */
-void World::unload_scene() {
+void World::unloadScene() {
   /* unload the old scene */
   try {
-    get_current_scene()->on_unload();
+    getCurrentScene()->onUnload();
   } catch (out_of_range &e) {}
 
   /* reset the current scene */

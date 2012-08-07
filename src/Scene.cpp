@@ -1,4 +1,4 @@
-#include "scene.h"
+#include "Scene.h"
 using namespace std;
 
 Scene::Scene(const char *name, World *world) {
@@ -6,6 +6,6 @@ Scene::Scene(const char *name, World *world) {
   this->world = world;
 }
 
-string &Scene::get_name() {
+string &Scene::getName() {
   return this->name;
 }

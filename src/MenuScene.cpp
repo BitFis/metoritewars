@@ -1,17 +1,17 @@
-#include "menu-scene.h"
+#include "MenuScene.h"
 
 MenuScene::MenuScene(World *world) : Scene("menu", world) {
 
 }
 
-void MenuScene::on_load() {
+void MenuScene::onLoad() {
   std::cout << "menu scene load" << std::endl;
 }
 
-void MenuScene::on_draw() {
+void MenuScene::onDraw() {
   std::cout << "menu scene draw" << std::endl;
 }
 
-void MenuScene::on_unload() {
+void MenuScene::onUnload() {
   std::cout << "menu scene unload" << std::endl;
 }

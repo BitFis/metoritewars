@@ -4,7 +4,7 @@
 
 class World;
 
-#include "world.h"
+#include "World.h"
 #include <string>
 
 using namespace std;
@@ -30,11 +30,11 @@ class Scene {
 
   public:
     Scene(const char *name, World *world);
-    string &get_name();
+    string &getName();
 
-    virtual void on_load() = 0;
-    virtual void on_draw() = 0;
-    virtual void on_unload() = 0;
+    virtual void onLoad() = 0;
+    virtual void onDraw() = 0;
+    virtual void onUnload() = 0;
 
 };
 

@@ -16,9 +16,9 @@ void ObjectTest::tearDown() {
 }
 
 
-ObjectTest::testLoadObject() {
+void ObjectTest::testLoadObject() {
 }
 
-ObjectTest::testCalculateNormals() {
+void ObjectTest::testCalculateNormals() {
 }
 

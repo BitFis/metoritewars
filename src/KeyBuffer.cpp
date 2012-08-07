@@ -5,11 +5,11 @@
  * Created on 6. August 2012, 13:45
  */
 
-#include "key-buffer.h"
+#include "KeyBuffer.h"
 
 KeyBuffer::KeyBuffer() {
   keys = new unsigned char[KEYBUFFER_ARRAY_SIZE];
-  for(int i = 0; i < KEYBUFFER_ARRAY_SIZE; i++) {
+  for(int i = 0; i < (int)KEYBUFFER_ARRAY_SIZE; i++) {
     keys[i] = 0;
   }
 }

@@ -1,17 +1,17 @@
-#include "game-scene.h"
+#include "GameScene.h"
 
 GameScene::GameScene(World *world) : Scene("game", world) {
 
 }
 
-void GameScene::on_load() {
+void GameScene::onLoad() {
   cout << "game scene load" << endl;
 }
 
-void GameScene::on_draw() {
+void GameScene::onDraw() {
   cout << "game scene draw" << endl;
 }
 
-void GameScene::on_unload() {
+void GameScene::onUnload() {
   cout << "game scene unload" << endl;
 }

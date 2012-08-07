@@ -1,5 +1,5 @@
 
-#include "key-buffer-test.h"
+#include "KeyBufferTest.h"
 
 #include <cstdlib>
 #include <iostream>
@@ -14,14 +14,14 @@ void KeyBufferTest::tearDown() {
   delete keybuffer;
 }
 
-void KeyBufferTest::test_get() {
+void KeyBufferTest::testGet() {
   // check if the keys array got properly initialized
   for(int i = 0; i < KEYBUFFER_NUM_KEYS; i++) {
     CPPUNIT_ASSERT(keybuffer->get(i) == false);
   }
 }
 
-void KeyBufferTest::test_set() {
+void KeyBufferTest::testSet() {
   
   bool *map = new bool[KEYBUFFER_NUM_KEYS];
   

@@ -1,12 +1,8 @@
-/* 
- * File:   ObjectTest.h
- * Author: zurcherl
- *
- * Created on 7. August 2012, 11:23
- */
-
 #ifndef OBJECTTEST_H
 #define	OBJECTTEST_H
+
+#include "../src/Object.h"
+#include <cppunit/extensions/HelperMacros.h>
 
 class ObjectTest : public CppUnit::TestFixture {
   private:
