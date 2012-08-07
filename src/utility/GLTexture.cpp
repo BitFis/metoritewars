@@ -120,10 +120,10 @@ void GLTexture::LoadBMP(char *name)
 	// Cleanup
 	if (TextureImage[0])
 	{
-		if (TextureImage[0]->data)
-			free(TextureImage[0]->data);
+		//if (TextureImage[0]->data)
+			//free(TextureImage[0]->data);
 
-		free(TextureImage[0]);
+		//free(TextureImage[0]);
 	}
 }
 

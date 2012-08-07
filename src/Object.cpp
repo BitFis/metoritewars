@@ -8,6 +8,8 @@
 // http://www.allegro.cc/forums/thread/605528
 // http://openglsamples.sourceforge.net/files/glut_obj.cpp
 
+#include <GL/glew.h>
+
 #include "Object.h"
 
 
@@ -18,9 +20,8 @@ Object::Object() {
 }
 
 Object::Object(const char* filename) {
-  _texture = loadObject(filename);
-  tex = new GLTexture();
-  //tex->Load("C:\\c\\metoritewars\\objects\\player\\road.bmp");
+  loadObject(filename);
+  _texture = loadBmpTexture("C:\\metoritewars\\objects\\player\\road.bmp");
 }
 
 int Object::calculateNormal( float *coord1, float *coord2, float *coord3, float* norm )
@@ -78,6 +79,16 @@ GLint Object::loadObject(const char* filename){
   Faces_Triangles = (float*) malloc(fileSize*sizeof(float)); // Allocate memory for the triangles
   normals  = (float*) malloc(fileSize*sizeof(float)); // Allocate memory for the normals
   textureBuffer = (float*) malloc(fileSize*sizeof(float));
+  
+  textureBuffer[0] = 1;
+  textureBuffer[1] = 0;
+  textureBuffer[2] = 1;
+  textureBuffer[3] = 0;
+  textureBuffer[4] = 1;
+  textureBuffer[5] = 1;
+  textureBuffer[6] = 0;
+  textureBuffer[7] = 0;
+  textureBuffer[8] = 1;
   
   //check if it is open
   if(obj.is_open() == false){    
@@ -208,7 +219,7 @@ GLint Object::loadObject(const char* filename){
       TotalConnectedTriangles += OBJECT_TOTAL_FLOATS_IN_TRIANGLE;
     }
     
-    cout << line << endl;
+    //cout << line << endl;
   }
   
   //close file
@@ -219,20 +230,115 @@ GLint Object::loadObject(const char* filename){
 
 void Object::Draw()
 {
- 	glEnableClientState(GL_VERTEX_ARRAY);						// Enable vertex arrays
- 	glEnableClientState(GL_NORMAL_ARRAY);						// Enable normal arrays
-	glVertexPointer(3,GL_FLOAT,	0,Faces_Triangles);				// Vertex Pointer to triangle array
+ 	//glEnableClientState(GL_VERTEX_ARRAY);						// Enable vertex arrays
+ 	//glEnableClientState(GL_NORMAL_ARRAY);						// Enable normal arrays
+	
+  glColor3f(1.0,0.5,0.2);
+  
+  //glEnable(GL_TEXTURE_2D);
+  //glBindTexture(GL_TEXTURE_2D, _texture);
+  //cout << _texture << endl;
+  
+  /*glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+  glColor3f(1.0f, 1.0f, 1.0f);*/
+
+  glColor3f(0.5,0.5,0.5);
+  
+  glBegin(GL_QUADS);
+    
+  glNormal3f(0.0, 1.0f, 0.0f);
+  glTexCoord2f(0.0f, 0.0f);
+  glVertex3f(-2.5f, -2.5f, 2.5f);
+  glTexCoord2f(1.0f, 0.0f);
+  glVertex3f(2.5f, -2.5f, 2.5f);
+  glTexCoord2f(1.0f, 1.0f);
+  glVertex3f(2.5f, -2.5f, -2.5f);
+  glTexCoord2f(0.0f, 1.0f);
+  glVertex3f(-2.5f, -2.5f, -2.5f);
+
+  glEnd();
+  /*
+  glVertexPointer(3,GL_FLOAT,	0,Faces_Triangles);				// Vertex Pointer to triangle array
 	glNormalPointer(GL_FLOAT, 0, normals);						// Normal pointer to normal array
 	glDrawArrays(GL_TRIANGLES, 0, TotalConnectedTriangles);		// Draw the triangles
 	glDisableClientState(GL_VERTEX_ARRAY);						// Disable vertex arrays
-	glDisableClientState(GL_NORMAL_ARRAY);						// Disable normal arrays
+	glDisableClientState(GL_NORMAL_ARRAY);						// Disable normal arrays**/
 }
 
 GLint Object::loadBmpTexture(char* filename){
   
   
+  // Data read from the header of the BMP file
+  unsigned char header[54]; // Each BMP file begins by a 54-bytes header
+  unsigned int dataPos;     // Position in the file where the actual data begins
+  unsigned int width, height;
+  unsigned int imageSize;   // = width*height*3
+  // Actual RGB data
+  unsigned char * data;
+  GLuint textureID;
+    
+  // Open the file
+  FILE * file = fopen(filename,"rb");
+  if (!file) {
+    printf("file not found\n");
+    return ERROR_FILE_INVALID;
+  }
   
-  return 0;
+  if ( fread(header, 1, 54, file)!=54 ){ // If not 54 bytes read : problem
+    printf("Not a correct BMP file\n");
+    fclose(file);
+    return ERROR_FILE_CORRUPT;
+  }
+  
+  dataPos    = *(int*)&(header[0x0A]);
+  imageSize  = *(int*)&(header[0x22]);
+  width      = *(int*)&(header[0x12]);
+  height     = *(int*)&(header[0x16]);
+  
+  // Some BMP files are misformatted, guess missing information
+  if (imageSize==0)    imageSize=width*height*3; // 3 : one byte for each Red, Green and Blue component
+  if (dataPos==0)      dataPos=54; // The BMP header is done that way
+  
+  // Create a buffer
+  data = new unsigned char [imageSize];
+
+  // Read the actual data from the file into the buffer
+  fread(data,1,imageSize,file);
+
+  //Everything is in memory now, the file can be closed
+  fclose(file);
+  
+  glGenTextures( 1, &textureID ); //generate the texture with the loaded data
+  glBindTexture( GL_TEXTURE_2D, textureID ); //bind the texture to it’s array
+  glTexEnvf( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE ); //set texture environment parameters
+
+  //here we are setting what textures to use and when. The MIN filter is which quality to show
+  //when the texture is near the view, and the MAG filter is which quality to show when the texture
+  //is far from the view.
+
+  //The qualities are (in order from worst to best)
+  //GL_NEAREST
+  //GL_LINEAR
+  //GL_LINEAR_MIPMAP_NEAREST
+  //GL_LINEAR_MIPMAP_LINEAR
+
+  //And if you go and use extensions, you can use Anisotropic filtering textures which are of an
+  //even better quality, but this will do for now.
+  glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
+  glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
+
+  //Here we are setting the parameter to repeat the texture instead of clamping the texture
+  //to the edge of our shape. 
+  glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT );
+  glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT );
+
+  //Generate the texture
+  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+    
+  cout << textureID << endl;
+  
+  return textureID;
 }
 
 Object::~Object() {

@@ -13,8 +13,9 @@
 #include <fstream>
 #include <string>
 #include <math.h>
+#include <GL/glext.h>
 
-#include "utility/GLTexture.h"
+#include "utility/Texture.h"
 
 #define OBJECT_MAX_POINTS_PER_VERTEX 4
 #define OBJECT_TOTAL_FLOATS_IN_TRIANGLE 9
@@ -32,8 +33,6 @@ public:
   void Draw();
   virtual ~Object();
   
-  GLTexture *tex;
-  
   float* normals; // Stores the normals
   float* Faces_Triangles; // Stores the triangles
   float* vertexBuffer; // Stores the points which make the object
@@ -41,9 +40,11 @@ public:
   long TotalConnectedPoints; // Stores the total number of connected verteces
   long TotalConnectedTriangles; // Stores the total number of connected triangles
 private:
-  GLint _texture;
+  GLint  _texture;
   string _name;
   string _materialfile;
+	int width;										// Texture's width
+	int height;										// Texture's height
 };
 
 #endif	/* OBJECT_H */

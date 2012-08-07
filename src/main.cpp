@@ -7,6 +7,9 @@
 
 bool* keyStates = new bool[256]; // Create an array of boolean values of length 256 (0-255)  
 
+//temp texture
+GLuint texture;
+
 float angle = 0;
 
 Object obj ("C:\\metoritewars\\objects\\player\\test.obj");
@@ -16,19 +19,50 @@ void keyOperations (void) {
 }
   
 void display (void) {  
-  glClearColor (0.0,0.0,0.0,1.0);
+    glClearColor (0.0,0.0,0.0,1.0);
+    glClear (GL_COLOR_BUFFER_BIT);
+    glLoadIdentity(); 
+    glEnable( GL_TEXTURE_2D );
+    gluLookAt (0.0, 0.0, 5.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+    
+    
+  glBindTexture( GL_TEXTURE_2D, texture ); //bind our texture to our shape
+  glRotatef( angle, 1.0f, 1.0f, 1.0f );
+  glBegin (GL_QUADS);
+  glTexCoord2d(0.0,0.0); glVertex2d(-1.0,-1.0); //with our vertices we have to assign a texcoord
+  glTexCoord2d(1.0,0.0); glVertex2d(+1.0,-1.0); //so that our texture has some points to draw to
+  glTexCoord2d(1.0,1.0); glVertex2d(+1.0,+1.0);
+  glTexCoord2d(0.0,1.0); glVertex2d(-1.0,+1.0);
+  glEnd();
+    
+  obj.Draw();
+  
+    glutSwapBuffers();
+    angle += 0.2;
+    
+  /**glClearColor (0.0,0.0,0.0,1.0);
   glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   glLoadIdentity();  
   gluLookAt (0.0, 0.0, 5.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0); 
 
-  glRotatef(angle, 0.0f, 1.0f, 0.0f); // Rotate our object around the y axis  
+  glRotatef(angle, 1.0f, 0.0f, 0.0f); // Rotate our object around the y axis  
 
-  obj.Draw();
+  
+    glBindTexture( GL_TEXTURE_2D, texture ); //bind our texture to our shape
+    glRotatef( angle, 1.0f, 1.0f, 1.0f );
+    glBegin (GL_QUADS);
+    glTexCoord2d(0.0,0.0); glVertex2d(-1.0,-1.0); //with our vertices we have to assign a texcoord
+    glTexCoord2d(1.0,0.0); glVertex2d(+1.0,-1.0); //so that our texture has some points to draw to
+    glTexCoord2d(1.0,1.0); glVertex2d(+1.0,+1.0);
+    glTexCoord2d(0.0,1.0); glVertex2d(-1.0,+1.0);
+    glEnd();
+  
+  //obj.Draw();
   //glutWireCube(2.0f); // Render the primitive  
   
   angle += 0.2;
   
-  glutSwapBuffers();
+  glutSwapBuffers();*/
 }  
   
 void reshape (int width, int height) {  
@@ -61,6 +95,30 @@ void init (void) {
 }
 
 int main (int argc, char **argv) {  
+  
+    glutInit (&argc, argv);
+    glutInitDisplayMode (GLUT_DOUBLE);
+    glutInitWindowSize (500, 500);
+    glutInitWindowPosition (100, 100);
+    glutCreateWindow ("A basic OpenGL Window");
+    glutDisplayFunc (display);
+    glutIdleFunc (display);
+    glutReshapeFunc (reshape);
+    
+    //Load our texture
+    texture = obj.loadBmpTexture("C:\\metoritewars\\objects\\player\\road.bmp");
+    
+    cout << texture << endl;
+    
+    glutMainLoop ();
+
+    //Free our texture
+    //FreeTexture( texture );
+
+    return 0;
+  /**
+  texture = obj.loadBmpTexture("C:\\metoritewars\\objects\\player\\road.bmp");
+  
     glutInit (&argc, argv);
     glutInitDisplayMode (GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);
     glutInitWindowSize (500, 500);
@@ -74,5 +132,5 @@ int main (int argc, char **argv) {
     glutKeyboardUpFunc(keyUp);
     
     glutMainLoop ();
-    return 0; 
+    return 0; */
 }  
