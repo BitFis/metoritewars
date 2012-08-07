@@ -6,3 +6,5 @@ CMakeCache.txt
 Makefile
 bin/
 nbproject/
+*.a
+*.o
