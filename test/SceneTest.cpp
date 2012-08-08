@@ -6,7 +6,7 @@ void SceneTest::setUp() {
   world = new World();
   game_scene = new GameScene(world);
   menu_scene = new MenuScene(world);
-  test_scene = new TestScene(world);
+  //test_scene = new TestScene(world);
   
 }
 
