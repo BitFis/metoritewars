@@ -1,6 +1,6 @@
 #include "GameScene.h"
 
-GameScene::GameScene()/* : Scene("game", world)*/ {
+GameScene::GameScene(World *world) : Scene("game", world) {
 }
 
 GameScene::~GameScene(){

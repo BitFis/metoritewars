@@ -3,9 +3,9 @@
 
 #include "../../src/Scene.h"
 
-class GameScene {
+class GameScene : public Scene{
   public: 
-    GameScene();
+    GameScene(World *world);
     ~GameScene();
     virtual void onLoad();
     virtual void onDraw();
