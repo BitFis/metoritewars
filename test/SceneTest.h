@@ -1,7 +1,7 @@
 #ifndef SCENETEST_H
 #define	SCENETEST_H
 
-#include "../src/Scene.h"
+#include "../src/engine/Scene.h"
 #include "scenes/GameScene.h"
 #include "scenes/MenuScene.h"
 #include "scenes/TestScene.h"

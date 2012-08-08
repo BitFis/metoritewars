@@ -2,9 +2,9 @@
 #include <GL/glut.h>
 #include <GL/freeglut_ext.h> // Include the GLUT header file  
 
-#include "Object.h"
-#include "utility/Model_3DS.h"
-#include "utility/GLTexture.h"
+#include "engine/Object.h"
+#include "engine/Model_3DS.h"
+#include "engine/GLTexture.h"
 
 bool* keyStates = new bool[256]; // Create an array of boolean values of length 256 (0-255)  
 

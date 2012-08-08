@@ -9,9 +9,9 @@
 #define	ANIMATION_H
 
 #include "utility/vector3.h"
-#include "utility/time-helper.h"
+#include "engine/time-helper.h"
 
-#include "utility/Model_3DS.h"
+#include "engine/Model_3DS.h"
 
 class Animation {
 public:

@@ -7,6 +7,9 @@ void WorldTest::setUp() {
   game_scene = new GameScene(world);
   menu_scene = new MenuScene(world);
   test_scene = new TestScene(world);
+  world->addScene(game_scene);
+  world->addScene(menu_scene);
+  world->addScene(test_scene);
 }
 
 void WorldTest::tearDown() {
