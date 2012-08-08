@@ -15,7 +15,7 @@
 #include <math.h>
 #include <GL/glext.h>
 
-#include "utility/Texture.h"
+#include "GLTexture.h"
 
 #define OBJECT_MAX_POINTS_PER_VERTEX 4
 #define OBJECT_TOTAL_FLOATS_IN_TRIANGLE 9

@@ -19,18 +19,18 @@ World::~World() {
 vector<Scene*>::iterator World::getSceneIterator(const char *name) {
   /* search for the scene */
   string nameobj(name);
-  vector<Scene*>::iterator search = this->no_current_scene;
+  
+  vector<Scene*>::iterator search;
   /* iterator through all Scene objects*/
-  foreach(iterator, (*this->scenes)) {
+  for(search = this->scenes->begin(); search != this->scenes->end(); search++) {
     /* compare names */
-    if((*iterator)->getName().compare(nameobj) == 0) {
-      search = iterator;
+    if((*search)->getName().compare(nameobj) == 0) {
       break;
     }
   }
 
   /* throw an exception if the scene doesn't exist */
-  if(search == this->no_current_scene) {
+  if(search == this->scenes->end()) {
     throw invalid_argument("no scene with name '" + string(name) + "'");
   }
   return search;
@@ -89,9 +89,9 @@ void World::removeScene(const char *name) {
 }
 /* load the scene which has the given name
 
-   the on_load() method in the Scene object gets called
+   the onLoad() method in the Scene object gets called
    if an other scene was loaded before, the
-   on_unload()-method gets called too */
+   onUnload()-method gets called too */
 void World::loadScene(const char *name) {
   /* unload the old scene (if there is one) */
   unloadScene();
@@ -99,14 +99,14 @@ void World::loadScene(const char *name) {
   /* set the new current scene */
   this->current_scene = getSceneIterator(name);
 
-  /* execute the on_load event in the scene */
+  /* execute the onLoad event in the scene */
   (*this->current_scene)->onLoad();
 }
 
 /* this unloads the current loaded scene
    (if there is one)
    
-   this also calls the unload_scene()-method
+   this also calls the UnloadScene()-method
    on the scene object */
 void World::unloadScene() {
   /* unload the old scene */

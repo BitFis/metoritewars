@@ -2,7 +2,7 @@
 #ifndef KEYBUFFERTEST_H
 #define	KEYBUFFERTEST_H
 
-#include "../src/KeyBuffer.h"
+#include "../src/engine/KeyBuffer.h"
 
 #include <cppunit/extensions/HelperMacros.h>
 

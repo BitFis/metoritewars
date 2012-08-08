@@ -1,7 +1,7 @@
 #ifndef MENUSCENE_H
 #define	MENUSCENE_H
 
-#include "../../src/Scene.h"
+#include "../../src/engine/Scene.h"
 
 class MenuScene : public Scene {
   public: 
@@ -9,7 +9,6 @@ class MenuScene : public Scene {
     virtual void onLoad();
     virtual void onDraw();
     virtual void onUnload();
-
 };
 
 #endif	/* MENUSCENE_H */

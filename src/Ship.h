@@ -8,7 +8,7 @@
 #ifndef Ship_H
 #define	Ship_H
 
-#include "Object.h"
+#include "engine/Object.h"
 
 
 class Ship {

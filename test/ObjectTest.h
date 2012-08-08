@@ -1,7 +1,7 @@
 #ifndef OBJECTTEST_H
 #define	OBJECTTEST_H
 
-#include "../src/Object.h"
+#include "../src/engine/Object.h"
 #include <cppunit/extensions/HelperMacros.h>
 
 class ObjectTest : public CppUnit::TestFixture {

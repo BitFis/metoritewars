@@ -1,7 +1,7 @@
 #ifndef WORLDTEST_H
 #define	WORLDTEST_H
 
-#include "../src/World.h"
+#include "../src/engine/World.h"
 #include "scenes/GameScene.h"
 #include "scenes/MenuScene.h"
 #include "scenes/TestScene.h"
