@@ -14,6 +14,7 @@ void SceneTest::tearDown() {
   delete game_scene;
   delete menu_scene;
   delete test_scene;
+  delete world;
 }
 
 void SceneTest::testGetName() {

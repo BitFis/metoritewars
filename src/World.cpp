@@ -1,7 +1,7 @@
 #include "World.h"
 #include <iostream>
-#include <cassert>
 #include <cstdio>
+
 World::World() {
   this->scenes = new vector<Scene*>(0);
   this->current_scene = this->no_current_scene = this->scenes->end();
@@ -20,6 +20,7 @@ vector<Scene*>::iterator World::getSceneIterator(const char *name) {
   /* search for the scene */
   string nameobj(name);
   vector<Scene*>::iterator search = this->no_current_scene;
+  /* iterator through all Scene objects*/
   foreach(iterator, (*this->scenes)) {
     /* compare names */
     if((*iterator)->getName().compare(nameobj) == 0) {
