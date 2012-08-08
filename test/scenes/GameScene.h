@@ -3,12 +3,14 @@
 
 #include "../../src/Scene.h"
 
-class GameScene : public Scene {
+class GameScene {
   public: 
-    GameScene(World *world);
+    GameScene();
+    ~GameScene();
     virtual void onLoad();
     virtual void onDraw();
     virtual void onUnload();
+  private:
 
 };
 
