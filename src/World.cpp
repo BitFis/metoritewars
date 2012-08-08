@@ -1,14 +1,16 @@
 #include "World.h"
 #include <iostream>
-
+#include <cassert>
+#include <cstdio>
 World::World() {
   this->scenes = new vector<Scene*>(0);
-  this->current_scene = this->scenes->end();
+  this->current_scene = this->no_current_scene = this->scenes->end();
 }
 
 World::~World() {
   /* free the pointer array */
   unloadScene();
+  this->scenes->clear();
   delete this->scenes;
 }
 
@@ -17,7 +19,7 @@ World::~World() {
 vector<Scene*>::iterator World::getSceneIterator(const char *name) {
   /* search for the scene */
   string nameobj(name);
-  vector<Scene*>::iterator search = this->scenes->end();
+  vector<Scene*>::iterator search = this->no_current_scene;
   foreach(iterator, (*this->scenes)) {
     /* compare names */
     if((*iterator)->getName().compare(nameobj) == 0) {
@@ -27,7 +29,7 @@ vector<Scene*>::iterator World::getSceneIterator(const char *name) {
   }
 
   /* throw an exception if the scene doesn't exist */
-  if(search == this->scenes->end()) {
+  if(search == this->no_current_scene) {
     throw invalid_argument("no scene with name '" + string(name) + "'");
   }
   return search;
@@ -41,7 +43,7 @@ Scene *World::getScene(const char *name) {
 
 /* get the currently loaded scene */
 Scene *World::getCurrentScene() {
-  if(this->current_scene == this->scenes->end()) {
+  if(this->current_scene == this->no_current_scene) {
     throw out_of_range("no current scene");
   }
   return *this->current_scene;
@@ -70,6 +72,10 @@ void World::addScene(Scene *scene) {
 void World::removeScene(Scene *scene) {
   foreach(iterator, (*this->scenes)) {
     if(*iterator == scene) {
+      // unload current scene if currently loaded
+      if(this->current_scene == iterator) {
+        unloadScene();
+      }
       this->scenes->erase(iterator);
       break;
     }
@@ -86,16 +92,14 @@ void World::removeScene(const char *name) {
    if an other scene was loaded before, the
    on_unload()-method gets called too */
 void World::loadScene(const char *name) {
-  Scene *current;
-
   /* unload the old scene (if there is one) */
   unloadScene();
 
+  /* set the new current scene */
   this->current_scene = getSceneIterator(name);
-  current = *this->current_scene;
 
   /* execute the on_load event in the scene */
-  current->onLoad();
+  (*this->current_scene)->onLoad();
 }
 
 /* this unloads the current loaded scene
@@ -105,10 +109,12 @@ void World::loadScene(const char *name) {
    on the scene object */
 void World::unloadScene() {
   /* unload the old scene */
+  Scene *scene;
   try {
-    getCurrentScene()->onUnload();
+    scene = getCurrentScene();
+    scene->onUnload();
   } catch (out_of_range &e) {}
 
   /* reset the current scene */
-  this->current_scene = this->scenes->end();
+  this->current_scene = this->no_current_scene;
 }

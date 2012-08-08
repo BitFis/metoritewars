@@ -3,6 +3,8 @@
 
 #include "../src/Scene.h"
 #include "scenes/GameScene.h"
+#include "scenes/MenuScene.h"
+#include "scenes/TestScene.h"
 #include <cppunit/extensions/HelperMacros.h>
 
 class SceneTest : public CppUnit::TestFixture {
@@ -11,7 +13,9 @@ class SceneTest : public CppUnit::TestFixture {
     CPPUNIT_TEST(testGetName);
     CPPUNIT_TEST_SUITE_END();
     
-    GameScene *scene;
+    GameScene *game_scene;
+    MenuScene *menu_scene;
+    TestScene *test_scene;
     World *world;
     
   public:

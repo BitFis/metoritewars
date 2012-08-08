@@ -1,18 +1,16 @@
-#ifndef GAMESCENE_H
-#define	GAMESCENE_H
+#ifndef MENUSCENE_H
+#define	MENUSCENE_H
 
 #include "../../src/Scene.h"
 
-class GameScene {
+class MenuScene : public Scene {
   public: 
-    GameScene();
-    ~GameScene();
+    MenuScene(World *world);
     virtual void onLoad();
     virtual void onDraw();
     virtual void onUnload();
-  private:
 
 };
 
-#endif	/* GAMESCENE_H */
+#endif	/* MENUSCENE_H */
 

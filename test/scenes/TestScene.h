@@ -1,18 +1,16 @@
-#ifndef GAMESCENE_H
-#define	GAMESCENE_H
+#ifndef TESTSCENE_H
+#define	TESTSCENE_H
 
 #include "../../src/Scene.h"
 
-class GameScene {
+class TestScene : public Scene {
   public: 
-    GameScene();
-    ~GameScene();
+    TestScene(World *world);
     virtual void onLoad();
     virtual void onDraw();
     virtual void onUnload();
-  private:
 
 };
 
-#endif	/* GAMESCENE_H */
+#endif	/* TESTSCENE_H */
 
