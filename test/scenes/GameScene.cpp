@@ -8,12 +8,13 @@ GameScene::GameScene(World *world) : Scene("game", world) {
 }
 
 void GameScene::onLoad() {
-  cout << "game scene on load" << endl;
+  return;
 }
 
 void GameScene::onDraw() {
+  return;
 }
 
 void GameScene::onUnload() {
-  cout << "void" << endl;
+  return;
 }

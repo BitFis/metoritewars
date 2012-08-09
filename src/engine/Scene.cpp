@@ -7,7 +7,6 @@ Scene::Scene(const char *name, World *world) {
 }
 
 Scene::~Scene() {
-  world->removeScene(this);
 }
 
 string &Scene::getName() {

@@ -9,7 +9,6 @@ World::World() {
 
 World::~World() {
   /* free the pointer array */
-  unloadScene();
   this->scenes->clear();
   delete this->scenes;
 }
@@ -69,16 +68,13 @@ void World::addScene(Scene *scene) {
 /* remove a scene by pointer  */
 void World::removeScene(Scene *scene) {
   Scene *current = NULL;
-  cout << "removing scene " << scene->getName() << "..." << endl;
   try {
     current = getCurrentScene();
   } catch(out_of_range &ex) { }
   
   foreach(iterator, (*this->scenes)) {
     if(*iterator == scene) {
-      // unload current scene if currently loaded
       if(current == *iterator) {
-        cout << "unloading scene while removing " << endl;
         unloadScene();
       }
       this->scenes->erase(iterator);
@@ -101,7 +97,6 @@ void World::loadScene(const char *name) {
   unloadScene();
 
   /* set the new current scene */
-  cout << "loading scene " << name << "..." << endl;
   this->current_scene = getSceneIterator(name);
 
   /* execute the onLoad event in the scene */
@@ -115,14 +110,8 @@ void World::loadScene(const char *name) {
    on the scene object */
 void World::unloadScene() {
   /* unload the old scene */
-  Scene *scene;
   try {
-    scene = getCurrentScene();
-    
-    //printf("this->current_scene: %p\n", this->current_scene);
-    cout << scene->getName() << endl;
-    scene->onLoad();
-    
+    getCurrentScene()->onUnload();
   } catch (out_of_range &e) {}
 
   /* reset the current scene */

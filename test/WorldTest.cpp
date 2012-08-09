@@ -13,10 +13,13 @@ void WorldTest::setUp() {
 }
 
 void WorldTest::tearDown() {
+  world->unloadScene();
+  world->removeScene(game_scene);
+  world->removeScene(menu_scene);
+  world->removeScene(test_scene);
   delete game_scene;
   delete menu_scene;
   delete test_scene;
-  cout << "D1337ing world" << endl;
   delete world;
 }
 
