@@ -30,8 +30,8 @@ class Scene {
 
   public:
     Scene(const char *name, World *world);
-    ~Scene();
-    virtual string &getName();
+    virtual ~Scene();
+    string &getName();
 
     virtual void onLoad() = 0;
     virtual void onDraw() = 0;

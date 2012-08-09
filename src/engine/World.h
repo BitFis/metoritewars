@@ -16,13 +16,14 @@ using namespace std;
 class World {
 
   private:
-    vector<Scene*> *scenes;
+    
     vector<Scene*>::iterator current_scene;
     vector<Scene*>::iterator no_current_scene;
 
     vector<Scene*>::iterator getSceneIterator(const char *name);
 
   public:
+    vector<Scene*> *scenes;
     World();
     ~World();
 

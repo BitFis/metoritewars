@@ -7,12 +7,16 @@ void WorldTest::setUp() {
   game_scene = new GameScene(world);
   menu_scene = new MenuScene(world);
   test_scene = new TestScene(world);
+  world->addScene(game_scene);
+  world->addScene(menu_scene);
+  world->addScene(test_scene);
 }
 
 void WorldTest::tearDown() {
   delete game_scene;
   delete menu_scene;
   delete test_scene;
+  cout << "D1337ing world" << endl;
   delete world;
 }
 
@@ -38,14 +42,27 @@ void WorldTest::testAddScene() {
 }
 
 void WorldTest::testRemoveScene() {
-  CPPUNIT_FAIL("not yet implemented");
+  world->loadScene("game");
+  world->removeScene(game_scene);
+  CPPUNIT_ASSERT(2 == world->scenes->size());
+  CPPUNIT_ASSERT_THROW(world->removeScene("game"), invalid_argument);
+  world->removeScene(game_scene);
 }
 
 void WorldTest::testLoadScene() {
-  CPPUNIT_FAIL("not yet implemented");
+  CPPUNIT_ASSERT_THROW(world->getCurrentScene(), out_of_range);
+  world->loadScene("menu");
+  CPPUNIT_ASSERT(world->getCurrentScene() == menu_scene);
+  world->loadScene("test");
+  CPPUNIT_ASSERT(world->getCurrentScene() == test_scene);
 }
 
 void WorldTest::testUnloadScene() {
-  CPPUNIT_FAIL("not yet implemented");
+  world->unloadScene();
+  CPPUNIT_ASSERT_THROW(world->getCurrentScene(), out_of_range);
+  world->loadScene("game");
+  CPPUNIT_ASSERT(world->getCurrentScene() == game_scene);
+  world->unloadScene();
+  CPPUNIT_ASSERT_THROW(world->getCurrentScene(), out_of_range);
 }
 
