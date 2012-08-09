@@ -18,13 +18,13 @@ World::~World() {
     has the given name */
 vector<Scene*>::iterator World::getSceneIterator(const char *name) {
   vector<Scene*>::iterator search;
-  /* iterator through all Scene objects*/
+  /* iterator through all Scene objects*
   for(search = this->scenes->begin(); search != this->scenes->end(); search++) {
-    /* compare names */
+    /* compare names *
     if((*search)->getName().compare(string(name)) == 0) {
       break;
     }
-  }
+  }*/
 
   /* throw an exception if the scene doesn't exist */
   if(search == this->scenes->end()) {

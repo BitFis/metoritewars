@@ -6,6 +6,8 @@
 #include "engine/Model_3DS.h"
 #include "engine/GLTexture.h"
 
+#include "Animation.h"
+
 bool* keyStates = new bool[256]; // Create an array of boolean values of length 256 (0-255)  
 
 //temp texture
@@ -92,23 +94,9 @@ int main (int argc, char **argv) {
 
     //Free our texture
     //FreeTexture( texture );
+  
+  //testing animations
+  
 
     return 0;
-  /**
-  texture = obj.loadBmpTexture("C:\\metoritewars\\objects\\player\\road.bmp");
-  
-    glutInit (&argc, argv);
-    glutInitDisplayMode (GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);
-    glutInitWindowSize (500, 500);
-    glutInitWindowPosition (100, 100);
-    glutCreateWindow ("A basic OpenGL Window");
-    init ();
-    glutDisplayFunc (display);
-    glutIdleFunc (display);
-    glutReshapeFunc (reshape);
-    glutKeyboardFunc(keyPressed);
-    glutKeyboardUpFunc(keyUp);
-    
-    glutMainLoop ();
-    return 0; */
 }  
