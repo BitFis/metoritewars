@@ -1,6 +1,10 @@
+
+#define _WORLD_CPP 15
+
 #include "World.h"
 #include <iostream>
 #include <cstdio>
+
 
 World::World() {
   this->scenes = new vector<Scene*>(0);
@@ -116,4 +120,34 @@ void World::unloadScene() {
 
   /* reset the current scene */
   this->current_scene = this->no_current_scene;
+}
+
+void World::delegateDisplay() {
+  Scene *scene;
+  try {
+    scene = getCurrentScene();
+    
+    scene->onMove();
+    
+    glClearColor (0.0,0.0,0.0,1.0);
+    glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glLoadIdentity();
+    
+    scene->onDraw();
+
+    glutSwapBuffers();
+
+  } catch (out_of_range &e) {}
+}
+
+World *World::getInstance() {
+  static Guard g;
+  if(instance == NULL) {
+     instance = new World();
+  }
+  return instance;
+}
+
+void World::displayCallback() {
+  instance->delegateDisplay();
 }

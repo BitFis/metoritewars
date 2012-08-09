@@ -11,6 +11,10 @@ void GameScene::onLoad() {
   return;
 }
 
+void GameScene::onMove() {
+  return;
+}
+
 void GameScene::onDraw() {
   return;
 }

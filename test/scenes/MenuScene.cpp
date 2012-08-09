@@ -7,6 +7,10 @@ void MenuScene::onLoad() {
   return;
 }
 
+void MenuScene::onMove() {
+  return;
+}
+
 void MenuScene::onDraw() {
   return;
 }

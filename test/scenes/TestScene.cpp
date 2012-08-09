@@ -10,6 +10,10 @@ void TestScene::onLoad() {
   return;
 }
 
+void TestScene::onMove() {
+  return;
+}
+
 void TestScene::onDraw() {
   return;
 }

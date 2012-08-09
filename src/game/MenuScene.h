@@ -1,7 +1,7 @@
 #ifndef _MENU_SCENE_H
 #define _MENU_SCENE_H 1
 
-#include "engine/Scene.h"
+#include "../engine/Scene.h"
 #include <iostream>
 
 using namespace std;
@@ -11,6 +11,7 @@ class MenuScene : public Scene {
     MenuScene(World *world);
 
     virtual void onLoad();
+    virtual void onMove();
     virtual void onDraw();
     virtual void onUnload();
 };

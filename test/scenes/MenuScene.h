@@ -7,6 +7,7 @@ class MenuScene : public Scene {
   public: 
     MenuScene(World *world);
     virtual void onLoad();
+    virtual void onMove();
     virtual void onDraw();
     virtual void onUnload();
 };

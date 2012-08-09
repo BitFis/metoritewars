@@ -7,6 +7,7 @@ class TestScene : public Scene {
   public: 
     TestScene(World *world);
     virtual void onLoad();
+    virtual void onMove();
     virtual void onDraw();
     virtual void onUnload();
 

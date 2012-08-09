@@ -7,6 +7,7 @@ class GameScene : public Scene{
   public: 
     GameScene(World *world);
     virtual void onLoad();
+    virtual void onMove();
     virtual void onDraw();
     virtual void onUnload();
 };

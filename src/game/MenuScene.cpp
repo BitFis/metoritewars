@@ -8,6 +8,10 @@ void MenuScene::onLoad() {
   std::cout << "menu scene load" << std::endl;
 }
 
+void MenuScene::onMove() {
+  std::cout << "menu scene move" << std::endl;
+}
+
 void MenuScene::onDraw() {
   std::cout << "menu scene draw" << std::endl;
 }

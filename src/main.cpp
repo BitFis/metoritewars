@@ -7,6 +7,9 @@
 #include "engine/GLTexture.h"
 
 #include "Animation.h"
+#include "game/MenuScene.h"
+
+#include "game/Init.h"
 
 bool* keyStates = new bool[256]; // Create an array of boolean values of length 256 (0-255)  
 
@@ -20,24 +23,7 @@ Model_3DS object;
 void keyOperations (void) {  
   
 }
-  
-void display (void) {  
-  glClearColor (0.0,0.0,0.0,1.0);
-  glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-  glLoadIdentity();  
-  gluLookAt (0.0, 0.0, 20.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0); 
 
-  glDisable(GL_TEXTURE_2D);
-
-  object.rot.x = 90;
-  
-  object.Draw();
-  
-  angle += 0.2;
-  
-  glutSwapBuffers();
-}  
-  
 void reshape (int width, int height) {  
   glViewport(0, 0, (GLsizei)width, (GLsizei)height); // Set our viewport to the size of our window  
   glMatrixMode(GL_PROJECTION); // Switch to the projection matrix so that we can manipulate how our scene is viewed  
@@ -60,43 +46,36 @@ void keyPressed (unsigned char key, int x, int y) {
 void keyUp (unsigned char key, int x, int y) {  
   keyStates[key] = false; // Set the state of the current key to not pressed  
 }  
-  
-void init (void) {
-    glEnable (GL_DEPTH_TEST);
-    glEnable (GL_LIGHTING);
-    glEnable (GL_LIGHT0);
-}
+
 
 int main (int argc, char **argv) {  
+   
+  // do some initialization (glut & stuff)
+  Init *init = new Init(&argc, argv);
   
-    glutInit (&argc, argv);
-    glutInitDisplayMode (GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);
-    glutInitWindowSize (500, 500);
-    glutInitWindowPosition (100, 100);
-    glutCreateWindow ("A basic OpenGL Window");
-    
-    
-    init ();
-    
-    
-    glutDisplayFunc (display);
-    glutIdleFunc (display);
-    glutReshapeFunc (reshape);
-    glutKeyboardFunc(keyPressed);
-    glutKeyboardUpFunc(keyUp);
-    
-    
-    //cout << texture << endl;
-    
-    object.Load("C:\\metoritewars\\objects\\player\\ship.3ds");
-    
-    glutMainLoop ();
-
-    //Free our texture
-    //FreeTexture( texture );
+  // create the world
+  World *world = World::getInstance();
   
-  //testing animations
+  // create the scenes
+  MenuScene *menu = new MenuScene(world);
   
-
-    return 0;
+  // add all the scenes to the world
+  world->addScene(menu);
+  
+  world->loadScene("menu");
+  
+  glutDisplayFunc (World::displayCallback);
+  glutIdleFunc (World::displayCallback);
+  glutReshapeFunc (reshape);
+  glutKeyboardFunc(keyPressed);
+  glutKeyboardUpFunc(keyUp);
+    
+  glutMainLoop ();
+  
+  world->removeScene(menu);
+  
+  delete menu;
+  delete init;
+  
+  return 0;
 }  

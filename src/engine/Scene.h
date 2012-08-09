@@ -34,6 +34,7 @@ class Scene {
     string &getName();
 
     virtual void onLoad() = 0;
+    virtual void onMove() = 0;
     virtual void onDraw() = 0;
     virtual void onUnload() = 0;
 
