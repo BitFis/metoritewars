@@ -10,6 +10,12 @@
 Animation::Animation() {
 }
 
+void Animation::addVertex(animationtype animationptr,Vector vertexpos, timespec timepassed, timespec timestart){
+  
+  
+  return;
+}
+
 Animation::~Animation() {
 }
 

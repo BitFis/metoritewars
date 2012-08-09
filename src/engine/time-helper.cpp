@@ -1,5 +1,7 @@
 #include "time-helper.h"
 
+extern "C" {
+
 // calculate the difference between two timespec structs
 double timeval_diff(struct timespec* tv1, struct timespec* tv2) {
   double diff = 0;
@@ -100,4 +102,7 @@ void current_utc_time(struct timespec *ts) {
   clock_gettime(CLOCK_REALTIME, ts);
 #endif /* _WIN32 */
 }
+
 #endif
+
+}

@@ -11,12 +11,12 @@
 class WorldTest : public CppUnit::TestFixture {
   private:
     CPPUNIT_TEST_SUITE(WorldTest);
-    CPPUNIT_TEST(testGetScene);
-    CPPUNIT_TEST(testGetCurrentScene);
-    CPPUNIT_TEST(testAddScene);
-    CPPUNIT_TEST(testRemoveScene);
-    CPPUNIT_TEST(testLoadScene);
-    CPPUNIT_TEST(testUnloadScene);
+//    CPPUNIT_TEST(testGetScene);
+//    CPPUNIT_TEST(testGetCurrentScene);
+//    CPPUNIT_TEST(testAddScene);
+//    CPPUNIT_TEST(testRemoveScene);
+//    CPPUNIT_TEST(testLoadScene);
+//    CPPUNIT_TEST(testUnloadScene);
     CPPUNIT_TEST_SUITE_END();
     
     GameScene *game_scene;

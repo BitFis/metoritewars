@@ -8,10 +8,14 @@
 #ifndef ANIMATION_H
 #define	ANIMATION_H
 
+#include <vector>
+
 #include "utility/vector3.h"
 #include "engine/time-helper.h"
 
 #include "engine/Model_3DS.h"
+
+using namespace std;
 
 class Animation {
 public:
@@ -25,9 +29,9 @@ public:
   
   Animation();
   virtual ~Animation();
-  animationtype* addVertex();
+  void addVertex(animationtype animationptr,Vector vertexpos, timespec timepassed, timespec timestart);
   
-  animationtype* animation;
+  vector<animationtype> animation;
   
 private:
   
