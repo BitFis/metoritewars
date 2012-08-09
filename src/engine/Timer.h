@@ -13,17 +13,18 @@
 class Timer {
 public:
   Timer();
-  Timer(const Timer& orig);
   void get(timespec* time);
   void get(double* time);
   void get(float* time);
+  double getDouble();
+  float getfloat();
   void reset();
-  void update();
   virtual ~Timer();
   
 private:
   void calcDifTimer(timespec* time);
   
+  timespec framespern;
   timespec currenttime;
   timespec lasttime;
 };

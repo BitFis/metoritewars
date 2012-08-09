@@ -10,6 +10,7 @@ void MenuScene::onLoad() {
 
 void MenuScene::onMove() {
   std::cout << "menu scene move" << std::endl;
+  world->loadScene("game");
 }
 
 void MenuScene::onDraw() {

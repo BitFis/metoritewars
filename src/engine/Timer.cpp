@@ -8,56 +8,59 @@
 #include "Timer.h"
 
 Timer::Timer() {
-  current_utc_time(&currenttime);
-  lasttime = currenttime;
-}
-
-Timer::Timer(const Timer& orig) {
+  reset();
 }
 
 void Timer::get(timespec* time){
-  this->update();
-  
-  calcDifTimer(time);
+  *time = framespern;
 }
 
 void Timer::calcDifTimer(timespec* time){
-  this->update();
   
   //calc difference of time
-  time->tv_nsec = lasttime.tv_nsec - currenttime.tv_nsec;
-  time->tv_sec = lasttime.tv_sec - currenttime.tv_sec;
+  time->tv_nsec = currenttime.tv_nsec -  lasttime.tv_nsec;
+  time->tv_sec = currenttime.tv_sec - lasttime.tv_sec;
 }
 
 void Timer::get(double* time){
-  this->update();
   
-  *time = (double)this->currenttime.tv_nsec / 1000000000;
-  *time += (double)this->currenttime.tv_sec;
+  *time = (double)framespern.tv_nsec / 1000000000;
+  *time += (double)framespern.tv_sec;
   
   return;
+}
+
+double Timer::getDouble(){
+  double temptime;
+  get(&temptime);
+  return temptime;
+}
+  
+float Timer::getfloat(){
+  float temptime;
+  get(&temptime);
+  return temptime;
 }
 
 void Timer::get(float* time){
-  this->update();
+  
+  double temptime;
+  
+  get(&temptime);
   
   //always in seconds
-  *time = (float)this->currenttime.tv_nsec / 1000000000;
-  *time += (float)this->currenttime.tv_sec;
+  *time = (float)temptime;
   
   return;
 }
 
-void Timer::update(){
-  current_utc_time(&currenttime);
-}
-
 void Timer::reset(){
+  //get last time
+  lasttime = currenttime;
+  //get current time
   current_utc_time(&currenttime);
-  
-  //reset last timecheck
-  lasttime.tv_nsec = currenttime.tv_nsec;
-  lasttime.tv_sec = currenttime.tv_sec;
+  //get diffrence between the times
+  calcDifTimer(&framespern);
 }
 
 Timer::~Timer() {

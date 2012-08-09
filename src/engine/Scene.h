@@ -24,7 +24,7 @@ using namespace std;
 class Scene {
   friend class World;
 
-  private:
+  protected:
     World *world;
     string name;
 

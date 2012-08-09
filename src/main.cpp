@@ -2,12 +2,9 @@
 #include <GL/glut.h>
 #include <GL/freeglut_ext.h> // Include the GLUT header file  
 
-#include "engine/Object.h"
-#include "engine/Model_3DS.h"
-#include "engine/GLTexture.h"
 
-#include "Animation.h"
-#include "game/MenuScene.h"
+#include "game/TestScene.h"
+
 
 #include "game/Init.h"
 
@@ -57,12 +54,12 @@ int main (int argc, char **argv) {
   World *world = World::getInstance();
   
   // create the scenes
-  MenuScene *menu = new MenuScene(world);
+  TestScene *test = new TestScene(world);
   
   // add all the scenes to the world
-  world->addScene(menu);
+  world->addScene(test);
   
-  world->loadScene("menu");
+  world->loadScene("test");
   
   glutDisplayFunc (World::displayCallback);
   glutIdleFunc (World::displayCallback);
@@ -72,9 +69,9 @@ int main (int argc, char **argv) {
     
   glutMainLoop ();
   
-  world->removeScene(menu);
+  world->removeScene(test);
   
-  delete menu;
+  delete test;
   delete init;
   
   return 0;
