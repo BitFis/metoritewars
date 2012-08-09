@@ -80,18 +80,24 @@
 // Just replace this with your favorite texture class
 #include "GLTexture.h"
 
+
+#include <iostream>
+
+#include <math.h>			// Header file for the math library
+#include <gl\gl.h>			// Header file for the OpenGL32 library
 #include <stdio.h>
 
+// A VERY simple vector struct
+// I could have included a complex class but I wanted the model class to stand alone
+struct Vector {
+  float x;
+  float y;
+  float z;
+};
+  
 class Model_3DS  
 {
 public:
-	// A VERY simple vector struct
-	// I could have included a complex class but I wanted the model class to stand alone
-	struct Vector {
-		float x;
-		float y;
-		float z;
-	};
 
 	// Vertex struct to make code easier to read in places
 	struct Vertex {

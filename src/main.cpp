@@ -14,8 +14,6 @@ GLuint texture;
 float angle = 0;
 
 Model_3DS object;
-
-Object obj ("C:\\metoritewars\\objects\\player\\test.obj");
   
 void keyOperations (void) {  
   
@@ -25,53 +23,17 @@ void display (void) {
   glClearColor (0.0,0.0,0.0,1.0);
   glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   glLoadIdentity();  
-  gluLookAt (0.0, 0.0, 5.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0); 
+  gluLookAt (0.0, 0.0, 20.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0); 
 
   glDisable(GL_TEXTURE_2D);
-  
-  glRotatef(angle, 1.0f, 0.0f, 0.0f); // Rotate our object around the y axis  
 
+  object.rot.x = 90;
+  
   object.Draw();
-  
-    glBindTexture( GL_TEXTURE_2D, texture ); //bind our texture to our shape
-    glRotatef( angle, 1.0f, 1.0f, 1.0f );
-    glBegin (GL_QUADS);
-    glTexCoord2d(0.0,0.0); glVertex2d(-1.0,-1.0); //with our vertices we have to assign a texcoord
-    glTexCoord2d(1.0,0.0); glVertex2d(+1.0,-1.0); //so that our texture has some points to draw to
-    glTexCoord2d(1.0,1.0); glVertex2d(+1.0,+1.0);
-    glTexCoord2d(0.0,1.0); glVertex2d(-1.0,+1.0);
-    glEnd();
-  
-  //obj.Draw();
-  //glutWireCube(2.0f); // Render the primitive  
   
   angle += 0.2;
   
   glutSwapBuffers();
-    
-  /*glClearColor (0.0,0.0,0.0,1.0);
-  glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-  glLoadIdentity();  
-  gluLookAt (0.0, 0.0, 5.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0); 
-
-  glRotatef(angle, 1.0f, 0.0f, 0.0f); // Rotate our object around the y axis  
-
-  
-    glBindTexture( GL_TEXTURE_2D, texture ); //bind our texture to our shape
-    glRotatef( angle, 1.0f, 1.0f, 1.0f );
-    glBegin (GL_QUADS);
-    glTexCoord2d(0.0,0.0); glVertex2d(-1.0,-1.0); //with our vertices we have to assign a texcoord
-    glTexCoord2d(1.0,0.0); glVertex2d(+1.0,-1.0); //so that our texture has some points to draw to
-    glTexCoord2d(1.0,1.0); glVertex2d(+1.0,+1.0);
-    glTexCoord2d(0.0,1.0); glVertex2d(-1.0,+1.0);
-    glEnd();
-  
-  //obj.Draw();
-  //glutWireCube(2.0f); // Render the primitive  
-  
-  angle += 0.2;
-  
-  glutSwapBuffers();*/
 }  
   
 void reshape (int width, int height) {  
@@ -111,9 +73,6 @@ int main (int argc, char **argv) {
     glutInitWindowPosition (100, 100);
     glutCreateWindow ("A basic OpenGL Window");
     
-    //Load our texture
-    texture = obj.loadBmpTexture("C:\\metoritewars\\objects\\player\\road.bmp");
-    
     
     init ();
     
@@ -127,7 +86,7 @@ int main (int argc, char **argv) {
     
     //cout << texture << endl;
     
-    //object.Load("C:\\metoritewars\\objects\\player\\test.3ds");
+    object.Load("C:\\metoritewars\\objects\\player\\ship.3ds");
     
     glutMainLoop ();
 
