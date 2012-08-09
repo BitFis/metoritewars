@@ -50,6 +50,7 @@
 // 
 // // You can move and rotate the model like this:
 // m.rot.x = 90.0f;
+
 // m.rot.y = 30.0f;
 // m.rot.z = 0.0f;
 //

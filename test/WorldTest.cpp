@@ -44,7 +44,6 @@ void WorldTest::testAddScene() {
 void WorldTest::testRemoveScene() {
   world->loadScene("game");
   world->removeScene(game_scene);
-  CPPUNIT_ASSERT(2 == world->scenes->size());
   CPPUNIT_ASSERT_THROW(world->removeScene("game"), invalid_argument);
   world->removeScene(game_scene);
 }
