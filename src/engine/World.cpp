@@ -17,14 +17,11 @@ World::~World() {
 /*  get the iterator of the scene which
     has the given name */
 vector<Scene*>::iterator World::getSceneIterator(const char *name) {
-  /* search for the scene */
-  string nameobj(name);
-  
   vector<Scene*>::iterator search;
   /* iterator through all Scene objects*/
   for(search = this->scenes->begin(); search != this->scenes->end(); search++) {
     /* compare names */
-    if((*search)->getName().compare(nameobj) == 0) {
+    if((*search)->getName().compare(string(name)) == 0) {
       break;
     }
   }
@@ -112,8 +109,7 @@ void World::unloadScene() {
   /* unload the old scene */
   Scene *scene;
   try {
-    scene = getCurrentScene();
-    scene->onUnload();
+    getCurrentScene()->onUnload();
   } catch (out_of_range &e) {}
 
   /* reset the current scene */

@@ -31,7 +31,7 @@ class Scene {
   public:
     Scene(const char *name, World *world);
     ~Scene();
-    string &getName();
+    virtual string &getName();
 
     virtual void onLoad() = 0;
     virtual void onDraw() = 0;
