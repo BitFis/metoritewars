@@ -18,10 +18,6 @@ GLuint texture;
 float angle = 0;
 
 Model_3DS object;
-  
-void keyOperations (void) {  
-  
-}
 
 void reshape (int width, int height) {  
   glViewport(0, 0, (GLsizei)width, (GLsizei)height); // Set our viewport to the size of our window  
