@@ -3,7 +3,7 @@
 #include <GL/freeglut_ext.h> // Include the GLUT header file  
 
 
-#include "game/TestScene.h"
+#include "game/scene/TestScene.h"
 
 
 #include "game/Init.h"

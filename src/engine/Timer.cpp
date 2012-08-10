@@ -7,6 +7,9 @@
 
 #include "Timer.h"
 
+#include <iostream>
+using namespace std;
+
 Timer::Timer() {
   reset();
 }
@@ -17,9 +20,18 @@ void Timer::get(timespec* time){
 
 void Timer::calcDifTimer(timespec* time){
   
-  //calc difference of time
-  time->tv_nsec = currenttime.tv_nsec -  lasttime.tv_nsec;
-  time->tv_sec = currenttime.tv_sec - lasttime.tv_sec;
+  // calculate the diffrence of the nanoseconds
+  long nano = (currenttime.tv_nsec - lasttime.tv_nsec);
+  int add = 0;
+
+  // some calculations if the nanoseconds of struct 1 were bigger
+  if(nano < 0) {
+    nano = 1000000000 + nano;
+    add = 1;
+  }
+  time->tv_nsec = nano;
+  // add the seconds
+  time->tv_sec = (currenttime.tv_sec - lasttime.tv_sec - add);
 }
 
 void Timer::get(double* time){
@@ -33,7 +45,11 @@ void Timer::get(double* time){
 double Timer::getDouble(){
   double temptime;
   get(&temptime);
+  
+  
   return temptime;
+  
+  //return timeval_diff(&lasttime, &currenttime);
 }
   
 float Timer::getfloat(){
@@ -57,6 +73,7 @@ void Timer::get(float* time){
 void Timer::reset(){
   //get last time
   lasttime = currenttime;
+  
   //get current time
   current_utc_time(&currenttime);
   //get diffrence between the times

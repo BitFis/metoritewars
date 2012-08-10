@@ -17,11 +17,10 @@ void TestScene::onLoad(){
 }
 
 void TestScene::onMove(){
+  
   time.reset();
-  
-  time.get(&timer);
-  
-  testobj.rot.x += 10000 * timer;
+  cout << time.getDouble() << endl;
+  testobj.rot.x += 10 * time.getDouble();
   
   glTranslatef(0.0,0.0,-10.0);
   glRotated(90,1.0,0.0,0.0);
@@ -30,7 +29,7 @@ void TestScene::onMove(){
 
 void TestScene::onDraw(){
   
-  cout << timer << endl;
+  //cout << time.getDouble() << endl;
   
   testobj.Draw();
   return;
