@@ -7,6 +7,7 @@ class TestScene : public Scene {
   public: 
     TestScene(World *world);
     virtual void onLoad();
+    virtual void onMouseEvent(int button, int state, int x, int y);
     virtual void onKeyPress(unsigned char key);
     virtual void onKeyUp(unsigned char key);
     virtual void onMove();

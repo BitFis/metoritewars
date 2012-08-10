@@ -11,6 +11,10 @@ void GameScene::onLoad() {
   return;
 }
 
+void GameScene::onMouseEvent(int button, int state, int x, int y) {
+  return;
+}
+
 void GameScene::onKeyPress(unsigned char key) {
   return;
 }

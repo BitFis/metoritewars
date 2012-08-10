@@ -5,6 +5,7 @@
 class World;
 
 #include "World.h"
+#include "KeyBuffer.h"
 #include <string>
 
 using namespace std;
@@ -32,8 +33,10 @@ class Scene {
     Scene(const char *name, World *world);
     virtual ~Scene();
     string &getName();
+    KeyBuffer *getKeys();
 
     virtual void onLoad() = 0;
+    virtual void onMouseEvent(int button, int state, int x, int y) = 0;
     virtual void onKeyUp(unsigned char key) = 0;
     virtual void onKeyPress(unsigned char key) = 0;
     virtual void onMove() = 0;

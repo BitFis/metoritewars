@@ -65,6 +65,10 @@ class World {
     static void keyUpCallback(unsigned char key, int x, int y);
     void delegateKeyUp(unsigned char key);
     
+    static void mouseCallback(int button, int state, int x, int y);
+    void delegateMouse(int button, int state, int x, int y);
+    
+    KeyBuffer *getKeys();
     
      
 };

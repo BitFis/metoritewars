@@ -1,10 +1,3 @@
-/* 
- * File:   GameScene.cpp
- * Author: zurcherl
- * 
- * Created on 9. August 2012, 15:53
- */
-
 #include "GameScene.h"
 
 using namespace std;
@@ -17,6 +10,10 @@ void GameScene::onLoad(){
   
   testobj.Load("objects\\player\\ship.3ds");
   cout << "load gamescene" << endl;
+  return;
+}
+
+void GameScene::onMouseEvent(int button, int state, int x, int y) {
   return;
 }
 

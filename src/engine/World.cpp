@@ -181,3 +181,19 @@ void World::delegateKeyUp(unsigned char key) {
 void World::keyUpCallback(unsigned char key, int x, int y) {
   instance->delegateKeyUp(key);
 }
+
+void World::delegateMouse(int button, int state, int x, int y) {
+  Scene *scene;
+  try {
+    scene = getCurrentScene();
+    scene->onMouseEvent(button, state, x, y);
+  } catch (out_of_range &e) {}
+}
+
+void World::mouseCallback(int button, int state, int x, int y) {
+  instance->delegateMouse(button, state, x, y);
+}
+
+KeyBuffer *World::getKeys() {
+  return this->keys;
+}

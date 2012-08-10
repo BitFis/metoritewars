@@ -70,6 +70,7 @@ int main (int argc, char **argv) {
   glutReshapeFunc (reshape);
   glutKeyboardFunc(World::keyPressCallback);
   glutKeyboardUpFunc(World::keyUpCallback);
+  glutMouseFunc(World::mouseCallback);
     
   glutMainLoop ();
   

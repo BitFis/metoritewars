@@ -12,3 +12,7 @@ Scene::~Scene() {
 string &Scene::getName() {
   return this->name;
 }
+
+KeyBuffer *Scene::getKeys() {
+  return world->getKeys();
+}

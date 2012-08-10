@@ -8,6 +8,10 @@ void MenuScene::onLoad() {
   std::cout << "menu scene load" << std::endl;
 }
 
+void MenuScene::onMouseEvent(int button, int state, int x, int y) {
+  return;
+}
+
 void MenuScene::onKeyPress(unsigned char key) {
   return;
 }
