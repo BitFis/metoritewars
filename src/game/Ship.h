@@ -6,15 +6,13 @@
  */
 
 #ifndef Ship_H
-#define	Ship_H
+#define	Ship_H 1
 
-#include "../engine/Object.h"
+#include "../engine/Model_3DS.h"
 
-
-class Ship {
+class Ship : public Model_3DS {
 public:
     Ship();
-    Ship(const Ship& orig);
     virtual ~Ship();
 private:
 };

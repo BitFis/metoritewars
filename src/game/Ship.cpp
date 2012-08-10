@@ -8,9 +8,7 @@
 #include "Ship.h"
 
 Ship::Ship() {
-}
-
-Ship::Ship(const Ship& orig) {
+  this->Load("objects/player/ship.3ds");
 }
 
 Ship::~Ship() {
