@@ -5,12 +5,13 @@ Init::Init(int *argc, char **argv) {
   
   glutInit (argc, argv);
   glutInitDisplayMode (GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);
-  glutInitWindowSize (500, 500);
-  glutInitWindowPosition (100, 100);
+  glutInitWindowSize (0, 0);
+  glutInitWindowPosition (37337,37337);
   glutCreateWindow ("A basic OpenGL Window");
+   
   glutFullScreen();
   
-  //glMatrixMode(GL_MODELVIEW);
+  glMatrixMode(GL_MODELVIEW);
   
   // some lightning
   glEnable (GL_DEPTH_TEST);

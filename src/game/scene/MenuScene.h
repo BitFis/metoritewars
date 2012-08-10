@@ -1,12 +1,23 @@
 #ifndef _MENU_SCENE_H
 #define _MENU_SCENE_H 1
 
+#include "../../engine/Timer.h"
+#include "../../engine/Model_3DS.h"
 #include "../../engine/Scene.h"
+#include "../../engine/soil/SOIL.h"
+#include <GL/freeglut_ext.h>
 #include <iostream>
 
 using namespace std;
 
 class MenuScene : public Scene {
+  private:
+    GLint menugui;
+    GLint background;
+    Model_3DS planet;
+    Model_3DS ship;
+    Timer timer;
+    
   public: 
     MenuScene(World *world);
 
