@@ -31,7 +31,7 @@ ADD_CUSTOM_COMMAND(TARGET ${METORITEWARS_TEST_EXEC_NAME} POST_BUILD COMMAND "${M
 
 
 IF(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
-  TARGET_LINK_LIBRARIES(${METORITEWARS_EXEC_NAME} base -lSOIL -lopengl32 -lglu32 -lfreeglut -lglaux -lglew32)
+  TARGET_LINK_LIBRARIES(${METORITEWARS_EXEC_NAME} base -static -lSOIL -lopengl32 -lglu32 -lfreeglut -lglaux -lglew32)
   #TARGET_LINK_LIBRARIES(${METORITEWARS_TEST_EXEC_NAME} base -lopengl32 -lglu32 -lfreeglut -lglaux -lglew32 -lcppunit)
 ENDIF()
 IF(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
