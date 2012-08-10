@@ -10,7 +10,7 @@ Init::Init(int *argc, char **argv) {
   glutCreateWindow ("A basic OpenGL Window");
   glutFullScreen();
   
-  glMatrixMode(GL_MODELVIEW);
+  //glMatrixMode(GL_MODELVIEW);
   
   // some lightning
   glEnable (GL_DEPTH_TEST);

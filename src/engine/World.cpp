@@ -142,6 +142,9 @@ void World::delegateDisplay() {
     glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();
     
+    //move camera
+    glTranslatef(0.0,0.0,-10.0);
+    
     scene->onMove();
     
     scene->onDraw();

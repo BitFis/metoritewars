@@ -9,6 +9,7 @@ GameScene::GameScene(World *world) : Scene("game", world) {
 void GameScene::onLoad(){
   
   testobj.Load("objects\\player\\ship.3ds");
+  
   cout << "load gamescene" << endl;
   return;
 }
@@ -18,9 +19,11 @@ void GameScene::onMouseEvent(int button, int state, int x, int y) {
 }
 
 void GameScene::onKeyPress(unsigned char key) {
+  //27 = ESCAPE
   if(key == 27) {
     glutExit();
   }
+  
   return;
 }
 
@@ -31,31 +34,28 @@ void GameScene::onKeyUp(unsigned char key) {
 void GameScene::onMove(){
   timer.reset();
   
-  testobj.rot.x += 100 * timer.getDouble();
-  testobj.rot.y += 100 * timer.getDouble();;
-  
+  testobj.rot.y += 100 * timer.getfloat();
   return;
 }
 
 void GameScene::onDraw(){
   
-  glTranslatef(0.0,0.0,-10.0);
+  glRotatef(45,1.0,0.0,0.0);
   
-  glEnable(GL_BLEND);
-  glBlendFunc(GL_ONE, GL_ONE);
+  //glTranslatef(0.0,0.0,-20.0);
   
-  glEnable(GL_TEXTURE_2D);
-  
-  testobj.Materials->tex.Use();
-  
-	glBegin(GL_TRIANGLES);					
-		glColor4f(0.0f,0.0f,1.0f, 1.0f);		
-		glColor4f(0.0f,1.0f,0.0f, 0.5f);	
-		glColor4f(1.0f,0.0f,0.0f, 0.7f);	
+  glBegin(GL_TRIANGLES);					
+		glColor3f(0.0f,0.0f,1.0f);			
+		glVertex3f( 0.0f, 1.0f, 0.0f);		
+		glColor3f(0.0f,1.0f,0.0f);			
+		glVertex3f(-1.0f,-1.0f, 0.0f);		
+		glColor3f(1.0f,0.0f,0.0f);			
+		glVertex3f( 1.0f,-1.0f, 0.0f);		
 	glEnd();
+ 
   
-  //gluLookAt(0.0,0.0,0.0,0.0,0.0,-5.0,0.0,0.0,0.0);
   testobj.Draw();
+  
   return;
 }
 
