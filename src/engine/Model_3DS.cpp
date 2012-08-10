@@ -12,7 +12,7 @@
 // ways for an artist to animate a 3D Studio model and
 // I didn't want to impose huge limitations on the artists.
 // However, I have imposed a limitation on how the models are
-// textured:
+// textured:game
 // 1) Every faces must be assigned a material
 // 2) If you want the face to be textured assign the
 //    texture to the Diffuse Color map

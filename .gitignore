@@ -8,3 +8,5 @@ bin/
 nbproject/
 *.a
 *.o
+log
+.dep.inc

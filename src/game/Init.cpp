@@ -9,6 +9,8 @@ Init::Init(int *argc, char **argv) {
   glutInitWindowPosition (100, 100);
   glutCreateWindow ("A basic OpenGL Window");
   
+  glMatrixMode(GL_MODELVIEW);
+  
   // some lightning
   glEnable (GL_DEPTH_TEST);
   glEnable (GL_LIGHTING);

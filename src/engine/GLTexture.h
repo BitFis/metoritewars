@@ -38,6 +38,8 @@
 #define GLTEXTURE_H
 
 
+
+#include "soil/SOIL.h"
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -45,7 +47,11 @@
 #include <GL\glew.h>
 #include <gl\gl.h>			// Header File For The OpenGL32 Library
 #include <gl\glu.h>			// Header File For The GLu32 Library
+#include <vector>
+#include "lodepng.h"
 //#include <windows.h>
+
+using namespace lodepng;
 
 class GLTexture  
 {
@@ -56,8 +62,6 @@ public:
 	int height;										// Texture's height
 	void Use();										// Binds the texture for use
 	void BuildColorTexture(unsigned char r, unsigned char g, unsigned char b);	// Sometimes we want a texture of uniform color
-	void LoadFromResource(char *name);				// Load the texture from a resource
-	void LoadBMP(char *name);						// Loads a bitmap file
 	void Load(char *name);							// Load the texture
 	GLTexture();									// Constructor
 	virtual ~GLTexture();							// Destructor

@@ -7,9 +7,11 @@
 
 #include "../../engine/Model_3DS.h"
 #include "../../engine/Scene.h"
+#include "../../engine/Timer.h"
 
 #include <iostream>
 #include <GL/glu.h>
+#include <GL/gl.h>
 
 #ifndef GAMESCENE_H
 #define	GAMESCENE_H
@@ -18,6 +20,7 @@ class GameScene : public Scene {
 
   private:
     Model_3DS testobj;
+    Timer timer;
   
   public:
     GameScene(World *world);

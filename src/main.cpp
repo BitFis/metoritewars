@@ -8,6 +8,7 @@
 
 
 #include "game/Init.h"
+#include "game/scene/GameScene.h"
 
 bool* keyStates = new bool[256]; // Create an array of boolean values of length 256 (0-255)  
 
@@ -56,11 +57,13 @@ int main (int argc, char **argv) {
   
   // create the scenes
   MenuScene *test = new MenuScene(world);
+  GameScene *game = new GameScene(world);
   
   // add all the scenes to the world
   world->addScene(test);
+  world->addScene(game);
   
-  world->loadScene("test");
+  world->loadScene("menu");
   
   glutDisplayFunc (World::displayCallback);
   glutIdleFunc (World::displayCallback);
@@ -71,8 +74,10 @@ int main (int argc, char **argv) {
   glutMainLoop ();
   
   world->removeScene(test);
+  world->removeScene(game);
   
   delete test;
+  delete game;
   delete init;
   
   return 0;
