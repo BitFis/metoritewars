@@ -10,6 +10,14 @@ void TestScene::onLoad() {
   return;
 }
 
+void TestScene::onKeyPress(unsigned char key) {
+  return;
+}
+
+void TestScene::onKeyUp(unsigned char key) {
+  return;
+}
+
 void TestScene::onMove() {
   return;
 }

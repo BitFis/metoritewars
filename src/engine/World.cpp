@@ -2,12 +2,14 @@
 #define _WORLD_CPP 15
 
 #include "World.h"
+#include "KeyBuffer.h"
 #include <iostream>
 #include <cstdio>
 
 
 World::World() {
   this->scenes = new vector<Scene*>(0);
+  this->keys = new KeyBuffer();
   this->current_scene = this->no_current_scene = this->scenes->end();
 }
 
@@ -15,6 +17,7 @@ World::~World() {
   /* free the pointer array */
   this->scenes->clear();
   delete this->scenes;
+  delete this->keys;
 }
 
 /*  get the iterator of the scene which
@@ -122,6 +125,14 @@ void World::unloadScene() {
   this->current_scene = this->no_current_scene;
 }
 
+World *World::getInstance() {
+  static Guard g;
+  if(instance == NULL) {
+     instance = new World();
+  }
+  return instance;
+}
+
 void World::delegateDisplay() {
   Scene *scene;
   try {
@@ -140,14 +151,33 @@ void World::delegateDisplay() {
   } catch (out_of_range &e) {}
 }
 
-World *World::getInstance() {
-  static Guard g;
-  if(instance == NULL) {
-     instance = new World();
-  }
-  return instance;
-}
 
 void World::displayCallback() {
   instance->delegateDisplay();
+}
+
+void World::delegateKeyPress(unsigned char key) {
+  Scene *scene;
+  try {
+    scene = getCurrentScene();
+    this->keys->set(key, 1);
+    scene->onKeyPress(key);
+  } catch (out_of_range &e) {}
+}
+    
+void World::keyPressCallback(unsigned char key, int x, int y) {
+  instance->delegateKeyPress(key);
+}
+
+void World::delegateKeyUp(unsigned char key) {
+  Scene *scene;
+  try {
+    scene = getCurrentScene();
+    this->keys->set(key, 0);
+    scene->onKeyUp(key);
+  } catch (out_of_range &e) {}
+}
+    
+void World::keyUpCallback(unsigned char key, int x, int y) {
+  instance->delegateKeyUp(key);
 }

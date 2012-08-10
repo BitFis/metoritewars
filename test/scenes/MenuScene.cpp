@@ -7,6 +7,14 @@ void MenuScene::onLoad() {
   return;
 }
 
+void MenuScene::onKeyPress(unsigned char key) {
+  return;
+}
+
+void MenuScene::onKeyUp(unsigned char key) {
+  return;
+}
+
 void MenuScene::onMove() {
   return;
 }

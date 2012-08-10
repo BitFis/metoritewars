@@ -20,6 +20,14 @@ void GameScene::onLoad(){
   return;
 }
 
+void GameScene::onKeyPress(unsigned char key) {
+  return;
+}
+
+void GameScene::onKeyUp(unsigned char key) {
+  return;
+}
+
 void GameScene::onMove(){
   //testobj.rot.z += 2;
   return;

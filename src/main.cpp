@@ -3,7 +3,8 @@
 #include <GL/freeglut_ext.h> // Include the GLUT header file  
 
 
-#include "game/TestScene.h"
+#include "game/MenuScene.h"
+#include "engine/Model_3DS.h"
 
 
 #include "game/Init.h"
@@ -54,7 +55,7 @@ int main (int argc, char **argv) {
   World *world = World::getInstance();
   
   // create the scenes
-  TestScene *test = new TestScene(world);
+  MenuScene *test = new MenuScene(world);
   
   // add all the scenes to the world
   world->addScene(test);
@@ -64,8 +65,8 @@ int main (int argc, char **argv) {
   glutDisplayFunc (World::displayCallback);
   glutIdleFunc (World::displayCallback);
   glutReshapeFunc (reshape);
-  glutKeyboardFunc(keyPressed);
-  glutKeyboardUpFunc(keyUp);
+  glutKeyboardFunc(World::keyPressCallback);
+  glutKeyboardUpFunc(World::keyUpCallback);
     
   glutMainLoop ();
   

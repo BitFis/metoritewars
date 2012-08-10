@@ -8,6 +8,13 @@ void MenuScene::onLoad() {
   std::cout << "menu scene load" << std::endl;
 }
 
+void MenuScene::onKeyPress(unsigned char key) {
+  return;
+}
+
+void MenuScene::onKeyUp(unsigned char key) {
+  return;
+}
 void MenuScene::onMove() {
   std::cout << "menu scene move" << std::endl;
   world->loadScene("game");

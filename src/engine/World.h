@@ -10,6 +10,7 @@ class Scene;
 #include "macros.h"
 #include <GL/glut.h>
 #include <GL/gl.h>
+#include "KeyBuffer.h"
 
 
 using namespace std;
@@ -20,6 +21,8 @@ class World {
 
   private:
     static World *instance;
+    
+    KeyBuffer *keys;
     
     vector<Scene*> *scenes;
     vector<Scene*>::iterator current_scene;
@@ -55,6 +58,12 @@ class World {
     
     static void displayCallback(void);
     void delegateDisplay();
+    
+    static void keyPressCallback(unsigned char key, int x, int y);
+    void delegateKeyPress(unsigned char key);
+    
+    static void keyUpCallback(unsigned char key, int x, int y);
+    void delegateKeyUp(unsigned char key);
     
     
      
