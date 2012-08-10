@@ -8,6 +8,7 @@ Init::Init(int *argc, char **argv) {
   glutInitWindowSize (500, 500);
   glutInitWindowPosition (100, 100);
   glutCreateWindow ("A basic OpenGL Window");
+  glutFullScreen();
   
   glMatrixMode(GL_MODELVIEW);
   

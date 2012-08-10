@@ -18,6 +18,9 @@ void GameScene::onMouseEvent(int button, int state, int x, int y) {
 }
 
 void GameScene::onKeyPress(unsigned char key) {
+  if(key == 27) {
+    glutExit();
+  }
   return;
 }
 

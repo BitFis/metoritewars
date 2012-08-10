@@ -1,20 +1,18 @@
-/* 
- * File:   GameScene.h
- * Author: zurcherl
- *
- * Created on 9. August 2012, 15:53
- */
+#ifndef GAMESCENE_H
+#define	GAMESCENE_H
+
 
 #include "../../engine/Model_3DS.h"
 #include "../../engine/Scene.h"
 #include "../../engine/Timer.h"
 
-#include <iostream>
+#include <GL/freeglut_ext.h>
+#include <GL/glut.h>
 #include <GL/glu.h>
 #include <GL/gl.h>
 
-#ifndef GAMESCENE_H
-#define	GAMESCENE_H
+
+#include <iostream>
 
 class GameScene : public Scene {
 
