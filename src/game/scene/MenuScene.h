@@ -1,7 +1,7 @@
 #ifndef _MENU_SCENE_H
 #define _MENU_SCENE_H 1
 
-#include "../engine/Scene.h"
+#include "../../engine/Scene.h"
 #include <iostream>
 
 using namespace std;

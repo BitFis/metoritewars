@@ -5,8 +5,8 @@
  * Created on 9. August 2012, 15:53
  */
 
-#include "../engine/Model_3DS.h"
-#include "../engine/Scene.h"
+#include "../../engine/Model_3DS.h"
+#include "../../engine/Scene.h"
 
 #include <iostream>
 #include <GL/glu.h>

@@ -3,7 +3,7 @@
 #include <GL/freeglut_ext.h> // Include the GLUT header file  
 
 
-#include "game/MenuScene.h"
+#include "game/scene/MenuScene.h"
 #include "engine/Model_3DS.h"
 
 
