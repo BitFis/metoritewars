@@ -6,10 +6,10 @@ Init::Init(int *argc, char **argv) {
   glutInit (argc, argv);
   glutInitDisplayMode (GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);
   glutInitWindowSize (0, 0);
-  glutInitWindowPosition (37337,37337);
+  glutInitWindowPosition (3000,3000);
   glutCreateWindow ("A basic OpenGL Window");
    
-  glutFullScreen();
+  //glutFullScreen();
   
   glMatrixMode(GL_MODELVIEW);
   

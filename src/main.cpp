@@ -5,6 +5,7 @@
 
 #include "game/scene/MenuScene.h"
 #include "engine/Model_3DS.h"
+#include "engine/Timer.h"
 
 
 #include "game/Init.h"
@@ -44,16 +45,28 @@ void keyUp (unsigned char key, int x, int y) {
 
 
 int main (int argc, char **argv) {  
-   
+  //temporary checking how long takes initialisation
+  Timer timer;
+  timer.reset();
+  
+  cout << "starting program at " << timer.getDouble() << endl;
+  
   // do some initialization (glut & stuff)
   Init *init = new Init(&argc, argv);
   
+  cout << "initialazing scenes at " << timer.getDouble() << endl;
+          
   // create the world
   World *world = World::getInstance();
   
+  cout << "created world at " << timer.getDouble() << endl;
+  
   // create the scenes
   MenuScene *test = new MenuScene(world);
+  cout << "created menuscene at " << timer.getDouble() << endl;
+  
   GameScene *game = new GameScene(world);
+  cout << "created gamescene at " << timer.getDouble() << endl;
   
   // add all the scenes to the world
   world->addScene(test);
@@ -67,6 +80,8 @@ int main (int argc, char **argv) {
   glutKeyboardFunc(World::keyPressCallback);
   glutKeyboardUpFunc(World::keyUpCallback);
   glutMouseFunc(World::mouseCallback);
+  
+  cout << "starting loop at " << timer.getDouble() << endl;
     
   glutMainLoop ();
   

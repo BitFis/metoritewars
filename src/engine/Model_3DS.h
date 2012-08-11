@@ -194,16 +194,16 @@ private:
 			
 			// Processes the model's geometry
 			void ObjectChunkProcessor(long length, long findex, int objindex);
-				// Processes the triangles of the model
-				void TriangularMeshChunkProcessor(long length, long findex, int objindex);
-					// Processes the vertices of the model and loads them
-					void VertexListChunkProcessor(long length, long findex, int objindex);
-					// Processes the texture cordiantes of the vertices and loads them
-					void TexCoordsChunkProcessor(long length, long findex, int objindex);
-					// Processes the faces of the model and loads the faces
-					void FacesDescriptionChunkProcessor(long length, long findex, int objindex);
-						// Processes the materials of the faces and splits them up by material
-						void FacesMaterialsListChunkProcessor(long length, long findex, int objindex, int subfacesindex);
+              // Processes the triangles of the model
+              void TriangularMeshChunkProcessor(long length, long findex, int objindex);
+                  // Processes the vertices of the model and loads them
+                  void VertexListChunkProcessor(long length, long findex, int objindex);
+                  // Processes the texture cordiantes of the vertices and loads them
+                  void TexCoordsChunkProcessor(long length, long findex, int objindex);
+                  // Processes the faces of the model and loads the faces
+                  void FacesDescriptionChunkProcessor(long length, long findex, int objindex);
+                      // Processes the materials of the faces and splits them up by material
+                      void FacesMaterialsListChunkProcessor(long length, long findex, int objindex, int subfacesindex);
 
 	// Calculates the normals of the vertices by averaging
 	// the normals of the faces that use that vertex

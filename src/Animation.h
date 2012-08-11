@@ -10,7 +10,7 @@
 
 #include <vector>
 
-#include "utility/vector3.h"
+#include "engine/vector3.h"
 #include "engine/time-helper.h"
 
 #include "engine/Model_3DS.h"

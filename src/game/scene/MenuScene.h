@@ -5,6 +5,7 @@
 #include "../../engine/Model_3DS.h"
 #include "../../engine/Scene.h"
 #include "../../engine/soil/SOIL.h"
+#include "../../engine/Object.h"
 #include <GL/freeglut_ext.h>
 #include <iostream>
 
@@ -16,7 +17,9 @@ class MenuScene : public Scene {
     GLint background;
     Model_3DS planet;
     Model_3DS ship;
+    Object moon;
     Timer timer;
+    //Object test;
     
   public: 
     MenuScene(World *world);

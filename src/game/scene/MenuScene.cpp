@@ -6,6 +6,7 @@ MenuScene::MenuScene(World *world) : Scene("menu", world) {
 }
 
 void MenuScene::onLoad() {
+  
   //load welcomes GUI
   menugui = SOIL_load_OGL_texture
 	(
@@ -26,6 +27,8 @@ void MenuScene::onLoad() {
   
   planet.Load("objects/planet/planet.3ds");
   ship.Load("objects/player/ship.3ds");
+  
+  moon.copyMesh(planet);
   
   planet.pos.x = -4;
   planet.pos.y = -3;
@@ -58,8 +61,6 @@ void MenuScene::onMove() {
           
   //rotate planet
   planet.rot.y += timer.getDouble() * 5;
-  
-  //world->loadScene("game");
 }
 
 void MenuScene::onDraw() {
@@ -85,7 +86,7 @@ void MenuScene::onDraw() {
   glTexCoord2d(0.0,3.0); glVertex2d(-1.0,1.0);
   glEnd();
   
-  //enable light after drawing
+  //enable light after drawing background
   glEnable(GL_LIGHTING);
   
   glPopMatrix();
@@ -94,8 +95,8 @@ void MenuScene::onDraw() {
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
   glEnable(GL_BLEND);
   
-  //draw planet
   planet.Draw();
+  moon.Draw();
   
   /////////////////////////////////
   //draw GUI
@@ -116,7 +117,7 @@ void MenuScene::onDraw() {
   glEnd();
   
   glPopMatrix();
-  /////////////////////////////7
+  /////////////////////////////
 }
 
 void MenuScene::onUnload() {

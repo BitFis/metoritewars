@@ -155,7 +155,7 @@ Model_3DS::Model_3DS()
 
 	// Set up the path
 	path = new char[80];
-  memset(path, 0, 80);
+    memset(path, 0, 80);
 
 	// Zero out our counters for MFC
 	numObjects = 0;
@@ -307,7 +307,7 @@ void Model_3DS::Draw()
 		glRotatef(rot.z, 0.0f, 0.0f, 1.0f);
 
 		glScalef(scale, scale, scale);
-
+        
 		// Loop through the objects
 		for (int i = 0; i < numObjects; i++)
 		{

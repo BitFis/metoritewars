@@ -39,7 +39,10 @@ void GameScene::onMove(){
 }
 
 void GameScene::onDraw(){
- 
+  
+  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+  glEnable(GL_BLEND);
+  //glDisable(GL_LIGHTING);
   
   testobj.Draw();
   

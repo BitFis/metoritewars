@@ -25,14 +25,14 @@ public:
             float z;
         };
 
-        struct
+        /*struct
         {
             float u;	// Texturkoordinaten
             float v;
             float w;
-        };
+        };**/
 
-        float	c[3];	// Array der Koordinaten
+        //float	c[3];	// Array der Koordinaten
     };
 
     // Konstruktoren
