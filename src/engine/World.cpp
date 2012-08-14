@@ -6,17 +6,20 @@
 #include <iostream>
 #include <cstdio>
 
+using namespace std;
 
-World::World(IrrlichtDevice *device) {
-  this->device = device;
+World::World() : IEventReceiver() {
+  this->device = 0;
   this->scenes = new vector<Scene*>(0);
   this->current_scene = this->no_current_scene = this->scenes->end();
+  this->keys = new KeyBuffer();
 }
 
 World::~World() {
   /* free the pointer array */
   this->scenes->clear();
   delete this->scenes;
+  delete this->keys;
 }
 
 /*  get the iterator of the scene which
@@ -44,10 +47,15 @@ Scene *World::getScene(const char *name) {
   return *getSceneIterator(name);
 }
 
+
+bool World::hasCurrentScene() {
+  return this->current_scene != this->no_current_scene;
+}
+
 /* get the currently loaded scene */
 Scene *World::getCurrentScene() {
-  if(this->current_scene == this->no_current_scene) {
-    throw out_of_range("no current scene");
+  if(hasCurrentScene()) {
+    throw std::out_of_range("no scene selected");
   }
   return *this->current_scene;
 }
@@ -74,9 +82,9 @@ void World::addScene(Scene *scene) {
 /* remove a scene by pointer  */
 void World::removeScene(Scene *scene) {
   Scene *current = NULL;
-  try {
+  if(hasCurrentScene()) {
     current = getCurrentScene();
-  } catch(out_of_range &ex) { }
+  }
   
   foreach(iterator, (*this->scenes)) {
     if(*iterator == scene) {
@@ -116,9 +124,9 @@ void World::loadScene(const char *name) {
    on the scene object */
 void World::unloadScene() {
   /* unload the old scene */
-  try {
+  if(hasCurrentScene()) {
     getCurrentScene()->onUnload();
-  } catch (out_of_range &e) {}
+  }
 
   /* reset the current scene */
   this->current_scene = this->no_current_scene;
@@ -129,17 +137,26 @@ KeyBuffer *World::getKeys() {
 }
 
 bool World::OnEvent(const SEvent& event) {
-  bool result;
+  bool result = false;
   
-  if(event.EventType == EET_KEY_INPUT_EVENT) {
-    keys->set(event.KeyInput.Key, event.KeyInput.PressedDown);
-    keys->control(event.KeyInput.Control);
-    keys->shift(event.KeyInput.Shift);
+  if(device != 0) {
+  
+    if(event.EventType == EET_KEY_INPUT_EVENT) {
+      keys->set(event.KeyInput.Key, event.KeyInput.PressedDown);
+      keys->control(event.KeyInput.Control);
+      keys->shift(event.KeyInput.Shift);
+    }
+    
+    if(hasCurrentScene()) {
+      result = getCurrentScene()->OnEvent(event);
+    }
+          
   }
-  try {
-    result = getCurrentScene()->OnEvent(event);
-  } catch (out_of_range &e) { }
   return result;
+}
+
+void World::setDevice(IrrlichtDevice *device) {
+  this->device = device;
 }
 
 IrrlichtDevice *World::getDevice() {

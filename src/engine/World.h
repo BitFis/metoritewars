@@ -3,6 +3,8 @@
 
 class Scene;
 
+
+#include <iostream>
 #include "Scene.h"
 #include <string>
 #include <vector>
@@ -36,12 +38,13 @@ class World : public IEventReceiver {
     
   public:
         
-    World(IrrlichtDevice *device);
+    World();
     ~World();
 
     // methods to add, remove, load & unload scenes
     Scene *getScene(const char *name);
     Scene *getCurrentScene();
+    bool hasCurrentScene();
 
     void addScene(Scene *scene);
     void removeScene(Scene *scene);
@@ -52,6 +55,7 @@ class World : public IEventReceiver {
     // methods needed to receive and delgate event
     bool OnEvent(const SEvent& event);
     
+    void setDevice(IrrlichtDevice *device);
     IrrlichtDevice* getDevice();
     
     KeyBuffer *getKeys();
