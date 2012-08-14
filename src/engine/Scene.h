@@ -40,8 +40,7 @@ class Scene : public VoidReceiver {
 
     virtual void onLoad() = 0;
     virtual bool OnEvent(const SEvent& event) = 0;
-    virtual void onMove() = 0;
-    virtual void onDraw() = 0;
+    virtual void onTick() = 0;
     virtual void onUnload() = 0;
 
 };
