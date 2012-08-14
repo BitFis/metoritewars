@@ -1,21 +1,38 @@
 #ifndef KEYBUFFER_H
 #define	KEYBUFFER_H
 
-#define KEYBUFFER_CHAR_SIZE (sizeof(unsigned char))
-#define KEYBUFFER_NUM_KEYS 256
-#define KEYBUFFER_ARRAY_SIZE (KEYBUFFER_NUM_KEYS/KEYBUFFER_CHAR_SIZE)
+#include <irrlicht/irrlicht.h>
+
+using namespace irr;
+
+#define KEYBUFFER_SPECIAL_CONTROL  0
+#define KEYBUFFER_SPECIAL_SHIFT    1
+#define KEYBUFFER_SPECIAL_KEYS_NUM 2
 
 class KeyBuffer {
   private:
     unsigned char *keys;
+    unsigned int array_size;
+    
+    bool special_keys[KEYBUFFER_SPECIAL_KEYS_NUM];
+    
+    void special_key(unsigned int index, bool value);
+    bool special_key(unsigned int index);
+
     
   public:
     KeyBuffer();
     ~KeyBuffer();
     
-    void set(unsigned char index, bool value);
-    bool get(unsigned char index);
+    void set(unsigned int index, bool value);
+    bool get(unsigned int index);
 
+        
+    void control(bool value);
+    bool control();
+
+    void shift(bool value);
+    bool shift();
 
 };
 

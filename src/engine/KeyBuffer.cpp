@@ -8,8 +8,9 @@
 #include "KeyBuffer.h"
 
 KeyBuffer::KeyBuffer() {
-  keys = new unsigned char[KEYBUFFER_ARRAY_SIZE];
-  for(int i = 0; i < (int)KEYBUFFER_ARRAY_SIZE; i++) {
+  array_size = ceil(KEY_KEY_CODES_COUNT/sizeof(unsigned char));
+  keys = new unsigned char[array_size];
+  for(int i = 0; i < (int)array_size; i++) {
     keys[i] = 0;
   }
 }
@@ -18,17 +19,52 @@ KeyBuffer::~KeyBuffer() {
   delete keys;
 }
 
-void KeyBuffer::set(unsigned char index, bool value) {
-  unsigned char real_index = index / 8;
-  unsigned char index_offset = index % 8;
-  unsigned char bitmask = 1 << index_offset;
-  keys[real_index] = (value) ? keys[real_index] | bitmask : keys[real_index] & ~bitmask;
+void KeyBuffer::set(unsigned int index, bool value) {
+  if(index < array_size * 8) {
+    unsigned int real_index = index / 8;
+    unsigned char index_offset = index % 8;
+    unsigned char bitmask = 1 << index_offset;
+    keys[real_index] = (value) ? keys[real_index] | bitmask : keys[real_index] & ~bitmask;
+  }
 }
 
-bool KeyBuffer::get(unsigned char index) {
-  unsigned char real_index = index / 8;
-  unsigned char index_offset = index % 8;
-  unsigned char bitmask = 1 << index_offset;
-  
-  return (bool)((keys[real_index] & bitmask) >> index_offset);
+bool KeyBuffer::get(unsigned int index) {
+  if(index < array_size * 8) {
+    unsigned int real_index = index / 8;
+    unsigned char index_offset = index % 8;
+    unsigned char bitmask = 1 << index_offset;
+
+    return (bool)((keys[real_index] & bitmask) >> index_offset);
+  }
+  return false;
+}
+
+
+void KeyBuffer::special_key(unsigned int index, bool value) {
+  if(index < KEYBUFFER_SPECIAL_KEYS_NUM) {
+    special_keys[index] = value;
+  }
+}
+
+bool KeyBuffer::special_key(unsigned int index) {
+  if(index < KEYBUFFER_SPECIAL_KEYS_NUM) {
+    return special_keys[index];
+  }
+  return false;
+}
+
+void KeyBuffer::control(bool value) {
+  special_key(KEYBUFFER_SPECIAL_CONTROL, value);
+}
+
+bool KeyBuffer::control() {
+  return special_key(KEYBUFFER_SPECIAL_CONTROL);
+}
+
+void KeyBuffer::shift(bool value) {
+  special_key(KEYBUFFER_SPECIAL_SHIFT, value);
+}
+
+bool KeyBuffer::shift() {
+  return special_key(KEYBUFFER_SPECIAL_SHIFT);
 }
