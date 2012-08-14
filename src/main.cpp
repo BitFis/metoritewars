@@ -1,5 +1,7 @@
 #include <irrlicht/irrlicht.h>
 #include "engine/World.h"
+#include "game/scene/GameMenu.h"
+
 using namespace irr;
 
 int main() {
@@ -12,7 +14,17 @@ int main() {
   }
 
   world->setDevice(device);
+  
+  //create scene
+  GameMenu* menu = new GameMenu(world);
 
+  
+  //add scenes
+  world->addScene(menu);
+  
+  //load menu scene
+  world->loadScene("menu");
+  
   video::IVideoDriver* driver = device->getVideoDriver();
   scene::ISceneManager* smgr = device->getSceneManager();
 
@@ -23,7 +35,7 @@ int main() {
 	u32 then = device->getTimer()->getTime();
   
   while (device->run()) {
-    // Work out a frame delta time.
+    //Work out a frame delta time.
     const u32 now = device->getTimer()->getTime();
     const f32 frameDeltaTime = (f32)(now - then) / 1000.f; // Time in seconds
     then = now;
@@ -53,6 +65,8 @@ int main() {
     }
   }
 
+  delete menu;
+  
   /*
   In the end, delete the Irrlicht device.
    */

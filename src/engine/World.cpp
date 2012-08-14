@@ -54,7 +54,7 @@ bool World::hasCurrentScene() {
 
 /* get the currently loaded scene */
 Scene *World::getCurrentScene() {
-  if(hasCurrentScene()) {
+  if(!hasCurrentScene()) {
     throw std::out_of_range("no scene selected");
   }
   return *this->current_scene;
@@ -105,13 +105,12 @@ void World::removeScene(const char *name) {
 void World::loadScene(const char *name) {
   /* unload the old scene (if there is one) */
   unloadScene();
-
+  
   /* set the new current scene */
   vector<Scene*>::iterator it = getSceneIterator(name);
   if(it != this->scenes->end()) {
     this->current_scene = it;
-
-    /* execute the onLoad event in the scene */
+    
     (*this->current_scene)->onLoad();
   }
 }
