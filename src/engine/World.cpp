@@ -7,9 +7,9 @@
 #include <cstdio>
 
 
-World::World() {
+World::World(IrrlichtDevice *device) {
+  this->device = device;
   this->scenes = new vector<Scene*>(0);
-  this->keys = new KeyBuffer();
   this->current_scene = this->no_current_scene = this->scenes->end();
 }
 
@@ -17,7 +17,6 @@ World::~World() {
   /* free the pointer array */
   this->scenes->clear();
   delete this->scenes;
-  delete this->keys;
 }
 
 /*  get the iterator of the scene which
@@ -125,78 +124,24 @@ void World::unloadScene() {
   this->current_scene = this->no_current_scene;
 }
 
-World *World::getInstance() {
-  static Guard g;
-  if(instance == NULL) {
-     instance = new World();
-  }
-  return instance;
-}
-
-void World::delegateDisplay() {
-  Scene *scene;
-  try {
-    scene = getCurrentScene();
-        
-    glClearColor (0.0,0.0,0.0,1.0);
-    glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glLoadIdentity();
-    
-    //move camera
-    glTranslatef(0.0,0.0,-10.0);
-    
-    scene->onMove();
-    
-    scene->onDraw();
-
-    glutSwapBuffers();
-
-  } catch (out_of_range &e) {}
-}
-
-
-void World::displayCallback() {
-  instance->delegateDisplay();
-}
-
-void World::delegateKeyPress(unsigned char key) {
-  Scene *scene;
-  try {
-    scene = getCurrentScene();
-    this->keys->set(key, 1);
-    scene->onKeyPress(key);
-  } catch (out_of_range &e) {}
-}
-    
-void World::keyPressCallback(unsigned char key, int x, int y) {
-  instance->delegateKeyPress(key);
-}
-
-void World::delegateKeyUp(unsigned char key) {
-  Scene *scene;
-  try {
-    scene = getCurrentScene();
-    this->keys->set(key, 0);
-    scene->onKeyUp(key);
-  } catch (out_of_range &e) {}
-}
-    
-void World::keyUpCallback(unsigned char key, int x, int y) {
-  instance->delegateKeyUp(key);
-}
-
-void World::delegateMouse(int button, int state, int x, int y) {
-  Scene *scene;
-  try {
-    scene = getCurrentScene();
-    scene->onMouseEvent(button, state, x, y);
-  } catch (out_of_range &e) {}
-}
-
-void World::mouseCallback(int button, int state, int x, int y) {
-  instance->delegateMouse(button, state, x, y);
-}
-
 KeyBuffer *World::getKeys() {
-  return this->keys;
+  return keys;
+}
+
+bool World::OnEvent(const SEvent& event) {
+  bool result;
+  
+  if(event.EventType == EET_KEY_INPUT_EVENT) {
+    keys->set(event.KeyInput.Key, event.KeyInput.PressedDown);
+    keys->control(event.KeyInput.Control);
+    keys->shift(event.KeyInput.Shift);
+  }
+  try {
+    result = getCurrentScene()->OnEvent(event);
+  } catch (out_of_range &e) { }
+  return result;
+}
+
+IrrlichtDevice *World::getDevice() {
+  return device;
 }

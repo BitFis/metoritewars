@@ -13,14 +13,18 @@ class Scene;
 #include "KeyBuffer.h"
 
 
+#include <irrlicht/irrlicht.h>
+
+
 using namespace std;
+using namespace irr;
 
 /* this class is responsible for managing
    and switching between scenes */
-class World {
+class World : public IEventReceiver {
 
   private:
-    static World *instance;
+    IrrlichtDevice *device;
     
     KeyBuffer *keys;
     
@@ -30,12 +34,12 @@ class World {
 
     vector<Scene*>::iterator getSceneIterator(const char *name);
     
-    World();
-
   public:
-    
+        
+    World(IrrlichtDevice *device);
     ~World();
 
+    // methods to add, remove, load & unload scenes
     Scene *getScene(const char *name);
     Scene *getCurrentScene();
 
@@ -45,36 +49,12 @@ class World {
     void loadScene(const char *name);
     void unloadScene();
     
-    class Guard {
-      public: ~Guard() {
-        if(World::instance != NULL) {
-          delete World::instance;
-        }
-      }
-    };
-    friend class Guard;
+    // methods needed to receive and delgate event
+    bool OnEvent(const SEvent& event);
     
-    static World *getInstance();
-    
-    static void displayCallback(void);
-    void delegateDisplay();
-    
-    static void keyPressCallback(unsigned char key, int x, int y);
-    void delegateKeyPress(unsigned char key);
-    
-    static void keyUpCallback(unsigned char key, int x, int y);
-    void delegateKeyUp(unsigned char key);
-    
-    static void mouseCallback(int button, int state, int x, int y);
-    void delegateMouse(int button, int state, int x, int y);
+    IrrlichtDevice* getDevice();
     
     KeyBuffer *getKeys();
-    
      
 };
-
-#ifdef _WORLD_CPP
-World *World::instance = NULL;
-#endif
-
 #endif /* _WORLD_H */

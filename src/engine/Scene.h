@@ -6,9 +6,13 @@ class World;
 
 #include "World.h"
 #include "KeyBuffer.h"
+#include "VoidReceiver.h"
 #include <string>
 
+#include <irrlicht/irrlicht.h>
+
 using namespace std;
+using namespace irr;
 
 
 /* base class for each level or menu or stuff like that
@@ -22,7 +26,7 @@ using namespace std;
     - overwrite the methods on_load(), on_unload()
       and the rest of the virtual methods too. */
 
-class Scene {
+class Scene : public VoidReceiver {
   friend class World;
 
   protected:
@@ -33,12 +37,9 @@ class Scene {
     Scene(const char *name, World *world);
     virtual ~Scene();
     string &getName();
-    KeyBuffer *getKeys();
 
     virtual void onLoad() = 0;
-    virtual void onMouseEvent(int button, int state, int x, int y) = 0;
-    virtual void onKeyUp(unsigned char key) = 0;
-    virtual void onKeyPress(unsigned char key) = 0;
+    virtual bool OnEvent(const SEvent& event) = 0;
     virtual void onMove() = 0;
     virtual void onDraw() = 0;
     virtual void onUnload() = 0;
