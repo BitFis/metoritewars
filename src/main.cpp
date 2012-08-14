@@ -32,7 +32,7 @@ int main() {
     driver->beginScene(true, true, video::SColor(255, 113, 113, 133));
     
     if(world->hasCurrentScene()) {
-      world->getCurrentScene()->onMove();
+      world->getCurrentScene()->onTick();
     }
     
     smgr->drawAll(); // draw the 3d scene
