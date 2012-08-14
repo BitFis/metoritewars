@@ -6,9 +6,12 @@
  */
 
 #include "KeyBuffer.h"
+#include <iostream>
+
+using namespace std;
 
 KeyBuffer::KeyBuffer() {
-  array_size = ceil(KEY_KEY_CODES_COUNT/sizeof(unsigned char));
+  array_size = ceil(KEY_KEY_CODES_COUNT/(float)(sizeof(unsigned char) * 8));
   keys = new unsigned char[array_size];
   for(int i = 0; i < (int)array_size; i++) {
     keys[i] = 0;
@@ -20,7 +23,7 @@ KeyBuffer::~KeyBuffer() {
 }
 
 void KeyBuffer::set(unsigned int index, bool value) {
-  if(index < array_size * 8) {
+  if(index < (array_size * 8)) {
     unsigned int real_index = index / 8;
     unsigned char index_offset = index % 8;
     unsigned char bitmask = 1 << index_offset;
@@ -29,7 +32,7 @@ void KeyBuffer::set(unsigned int index, bool value) {
 }
 
 bool KeyBuffer::get(unsigned int index) {
-  if(index < array_size * 8) {
+  if(index < (array_size * 8)) {
     unsigned int real_index = index / 8;
     unsigned char index_offset = index % 8;
     unsigned char bitmask = 1 << index_offset;

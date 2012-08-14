@@ -12,7 +12,6 @@ using namespace irr;
 class KeyBuffer {
   private:
     unsigned char *keys;
-    unsigned int array_size;
     
     bool special_keys[KEYBUFFER_SPECIAL_KEYS_NUM];
     
@@ -21,6 +20,8 @@ class KeyBuffer {
 
     
   public:
+    
+    unsigned int array_size;
     KeyBuffer();
     ~KeyBuffer();
     
