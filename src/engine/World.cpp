@@ -33,18 +33,18 @@ vector<Scene*>::iterator World::getSceneIterator(const char *name) {
       break;
     }
   }
-
-  /* throw an exception if the scene doesn't exist */
-  if(search == this->scenes->end()) {
-    throw invalid_argument("no scene with name '" + string(name) + "'");
-  }
   return search;
 }
 
 /* get the pointer to the scene object
    which has the given name*/
 Scene *World::getScene(const char *name) {
-  return *getSceneIterator(name);
+  vector<Scene*>::iterator it;
+  if((it = getSceneIterator(name)) == this->scenes->end()) {
+    return 0;
+  } else {
+    return *it;
+  }
 }
 
 
@@ -64,16 +64,9 @@ Scene *World::getCurrentScene() {
    scenes in this world */
 void World::addScene(Scene *scene) {
   /* check if there already is a scene with the same name  */
-  bool exists = false;
-  try {
-    getSceneIterator(scene->getName().c_str());
-    exists = true;
-  } catch(invalid_argument &e) {
-    /* nope there is none, so add the scene to the array */
+  if(getScene(scene->getName().c_str()) == 0) {
     this->scenes->push_back(scene);
-  }
-
-  if(exists) {
+  } else {
     /* there is already a scene with the same name, so throw an exception */
     throw invalid_argument("scene '" + scene->getName() + "' has been added before");
   }
@@ -99,7 +92,10 @@ void World::removeScene(Scene *scene) {
 
 /* remove a scene by name */
 void World::removeScene(const char *name) {
-  this->scenes->erase(getSceneIterator(name));
+  vector<Scene*>::iterator it = getSceneIterator(name);
+  if(it != this->scenes->end()) {
+    this->scenes->erase(it);
+  }
 }
 /* load the scene which has the given name
 
@@ -111,10 +107,13 @@ void World::loadScene(const char *name) {
   unloadScene();
 
   /* set the new current scene */
-  this->current_scene = getSceneIterator(name);
+  vector<Scene*>::iterator it = getSceneIterator(name);
+  if(it != this->scenes->end()) {
+    this->current_scene = it;
 
-  /* execute the onLoad event in the scene */
-  (*this->current_scene)->onLoad();
+    /* execute the onLoad event in the scene */
+    (*this->current_scene)->onLoad();
+  }
 }
 
 /* this unloads the current loaded scene
