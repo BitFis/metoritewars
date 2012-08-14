@@ -1,14 +1,9 @@
-/* 
- * File:   VoidReceiver.cpp
- * Author: kuttelm
- * 
- * Created on 14. August 2012, 10:06
- */
-
 #include "VoidReceiver.h"
 
 VoidReceiver::VoidReceiver(IrrlichtDevice *device) {
   this->device = device;
+  this->driver = device->getVideoDriver();
+  this->smgr = device->getSceneManager();
 }
 
 VoidReceiver::~VoidReceiver() {

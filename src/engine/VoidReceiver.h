@@ -1,10 +1,3 @@
-/* 
- * File:   VoidReceiver.h
- * Author: kuttelm
- *
- * Created on 14. August 2012, 10:06
- */
-
 #ifndef VOIDRECEIVER_H
 #define	VOIDRECEIVER_H
 
@@ -16,6 +9,8 @@ using namespace irr;
 class VoidReceiver : public IEventReceiver{
   private:
     IrrlichtDevice *device;
+    video::IVideoDriver *driver;
+    scene::ISceneManager *smgr;
   
   public:
     VoidReceiver(IrrlichtDevice *device);
