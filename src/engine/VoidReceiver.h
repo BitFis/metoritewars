@@ -7,12 +7,14 @@ using namespace irr;
 
 
 class VoidReceiver : public IEventReceiver{
-  private:
+  protected:
     IrrlichtDevice *device;
     video::IVideoDriver *driver;
     scene::ISceneManager *smgr;
+    gui::IGUIEnvironment *gui;
   
   public:
+    
     VoidReceiver(IrrlichtDevice *device);
     virtual ~VoidReceiver();
 

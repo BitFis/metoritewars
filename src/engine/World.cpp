@@ -135,6 +135,7 @@ KeyBuffer *World::getKeys() {
 }
 
 bool World::OnEvent(const SEvent& event) {
+  
   bool result = false;
   
   if(device != 0) {

@@ -1,6 +1,7 @@
 #include <irrlicht/irrlicht.h>
 #include "engine/World.h"
 #include "game/scene/GameMenu.h"
+#include "game/scene/GameScene.h"
 
 using namespace irr;
 
@@ -17,10 +18,12 @@ int main() {
   
   //create scene
   GameMenu* menu = new GameMenu(world);
+  GameScene* game = new GameScene(world);
 
   
   //add scenes
   world->addScene(menu);
+  world->addScene(game);
   
   //load menu scene
   world->loadScene("menu");
@@ -33,6 +36,9 @@ int main() {
 	// In order to do framerate independent movement, we have to know
 	// how long it was since the last frame
 	u32 then = device->getTimer()->getTime();
+  
+  device->getGUIEnvironment()->addButton(core::rect<s32>(10,200,10 + 300,200 + 80), 0, 300, L"Start", L"Start Game");
+  device->getGUIEnvironment()->addButton(core::rect<s32>(10,290,10 + 300,290 + 80), 0, 301, L"Quit", L"Exits Program");
   
   while (device->run()) {
     //Work out a frame delta time.
@@ -66,6 +72,7 @@ int main() {
   }
 
   delete menu;
+  delete game;
   
   /*
   In the end, delete the Irrlicht device.

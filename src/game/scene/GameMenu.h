@@ -9,6 +9,7 @@
 #define	GAMEMENU_H
 
 #include "../../engine/Scene.h"
+#include "../../engine/VoidReceiver.h"
 
 class GameMenu : public Scene{
 public:
