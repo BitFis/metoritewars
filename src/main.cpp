@@ -61,7 +61,7 @@ int main() {
     int fps = driver->getFPS();
     if (lastFPS != fps)
     {
-      core::stringw tmp(L"Movement Example - Irrlicht Engine [");
+      core::stringw tmp(L"Metoritewars [Irrlicht][");
       tmp += driver->getName();
       tmp += L"] fps: ";
       tmp += fps;
