@@ -10,23 +10,11 @@ void TestScene::onLoad() {
   return;
 }
 
-void TestScene::onMouseEvent(int button, int state, int x, int y) {
-  return;
+bool TestScene::OnEvent(const SEvent& event) {
+  return false;
 }
 
-void TestScene::onKeyPress(unsigned char key) {
-  return;
-}
-
-void TestScene::onKeyUp(unsigned char key) {
-  return;
-}
-
-void TestScene::onMove() {
-  return;
-}
-
-void TestScene::onDraw() {
+void TestScene::onTick() {
   return;
 }
 

@@ -3,7 +3,7 @@
 CPPUNIT_TEST_SUITE_REGISTRATION(WorldTest);
 
 void WorldTest::setUp() {
-  world = World::getInstance();
+  world = new World();
   game_scene = new GameScene(world);
   menu_scene = new MenuScene(world);
   test_scene = new TestScene(world);
@@ -20,6 +20,7 @@ void WorldTest::tearDown() {
   delete game_scene;
   delete menu_scene;
   delete test_scene;
+  delete world;
 }
 
 void WorldTest::testGetScene() {
@@ -27,8 +28,7 @@ void WorldTest::testGetScene() {
   CPPUNIT_ASSERT(world->getScene("menu") == menu_scene);
   CPPUNIT_ASSERT(world->getScene("test") == test_scene);
   
-  // throws an invalid_argument exception
-  CPPUNIT_ASSERT_THROW(world->getScene("random inexistent scene"), invalid_argument);
+  CPPUNIT_ASSERT(world->getScene("random inexistent scene") ==  0);
 }
 
 void WorldTest::testGetCurrentScene() {
@@ -46,7 +46,7 @@ void WorldTest::testAddScene() {
 void WorldTest::testRemoveScene() {
   world->loadScene("game");
   world->removeScene(game_scene);
-  CPPUNIT_ASSERT_THROW(world->removeScene("game"), invalid_argument);
+  world->removeScene("game");
   world->removeScene(game_scene);
 }
 

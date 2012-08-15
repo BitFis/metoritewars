@@ -11,23 +11,11 @@ void GameScene::onLoad() {
   return;
 }
 
-void GameScene::onMouseEvent(int button, int state, int x, int y) {
-  return;
+bool GameScene::OnEvent(const SEvent& event) {
+  return false;
 }
 
-void GameScene::onKeyPress(unsigned char key) {
-  return;
-}
-
-void GameScene::onKeyUp(unsigned char key) {
-  return;
-}
-
-void GameScene::onMove() {
-  return;
-}
-
-void GameScene::onDraw() {
+void GameScene::onTick() {
   return;
 }
 

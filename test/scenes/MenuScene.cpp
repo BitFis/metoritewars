@@ -7,23 +7,11 @@ void MenuScene::onLoad() {
   return;
 }
 
-void MenuScene::onMouseEvent(int button, int state, int x, int y) {
-  return;
+bool MenuScene::OnEvent(const SEvent& event) {
+  return false;
 }
 
-void MenuScene::onKeyPress(unsigned char key) {
-  return;
-}
-
-void MenuScene::onKeyUp(unsigned char key) {
-  return;
-}
-
-void MenuScene::onMove() {
-  return;
-}
-
-void MenuScene::onDraw() {
+void MenuScene::onTick() {
   return;
 }
 
