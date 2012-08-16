@@ -2,11 +2,12 @@
 #include "engine/World.h"
 #include "game/scene/GameMenu.h"
 #include "game/scene/GameScene.h"
+#include <ctime>
 
 using namespace irr;
 
 int main() {
-  
+  srand(time(NULL));
   World *world = new World();
   IrrlichtDevice* device = createDevice(video::EDT_OPENGL,
           core::dimension2d<u32 > (world->win.width, world->win.height), 16, world->win.fullscreen, true, world->win.fullscreen, world);

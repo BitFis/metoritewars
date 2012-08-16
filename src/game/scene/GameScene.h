@@ -16,7 +16,7 @@ public:
   
 private:
   Ship *ship;
-  Meteor *meteor;
+  vector<Meteor*> *meteors;
 };
 
 #endif	/* GAMESCENE_H */
