@@ -7,9 +7,8 @@ GameScene::GameScene(World *world) : Scene("game", world){
 void GameScene::onLoad(){
   ship = new Ship("objects/player/ship.3ds", this->smgr);
   this->meteors = new vector<Meteor*>(0);
-  for(int i = 0; i < 20; i++) {
-    this->meteors->push_back(new Meteor(smgr));
-  }
+  
+  last_meteor_created_at = device->getTimer()->getTime();
 }
 
 bool GameScene::OnEvent(const SEvent& event){
@@ -17,7 +16,23 @@ bool GameScene::OnEvent(const SEvent& event){
 }
 
 void GameScene::onTick(){
-  cout << "asdasd" << endl;
+  unsigned int tick = device->getTimer()->getTime();
+  int count = (tick - last_meteor_created_at) / 500;
+  if(count) {
+    last_meteor_created_at = tick;
+    for(int i = 0; i < count; i++) {
+      this->meteors->push_back(new Meteor(smgr));
+    }
+  }
+  
+  Meteor *meteor;
+  foreach(it_meteor, (*this->meteors)) {
+    //meteor = *it_meteor;
+    if(meteor->animationFinished()) {
+      //this->meteors->erase(it_meteor);
+      //delete meteor;
+    }
+  }
 }
 
 void GameScene::onUnload(){

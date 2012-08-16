@@ -14,6 +14,8 @@ public:
   virtual void onTick();
   virtual void onUnload();
   
+  unsigned int last_meteor_created_at;
+  
 private:
   Ship *ship;
   vector<Meteor*> *meteors;

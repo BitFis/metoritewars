@@ -10,6 +10,7 @@ using namespace irr;
 class Meteor {
 private:
   float size;
+  scene::ISceneNodeAnimator* anim_fly;
   scene::ISceneManager* smgr;
   scene::IAnimatedMeshSceneNode* mesh;
   
@@ -23,6 +24,7 @@ private:
 public:
   Meteor(scene::ISceneManager* smgr);
   virtual ~Meteor();
+  bool animationFinished();
 
 };
 
