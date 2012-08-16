@@ -4,9 +4,12 @@
 using namespace std;
 
 TestScene::TestScene(World *world) : Scene("test", world) {
+  on_load_called = false;
+  on_unload_called = false;
 }
 
 void TestScene::onLoad() {
+  on_load_called = true;
   return;
 }
 
@@ -19,5 +22,6 @@ void TestScene::onTick() {
 }
 
 void TestScene::onUnload() {
+  on_unload_called = true;
   return;
 }

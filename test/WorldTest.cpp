@@ -67,3 +67,13 @@ void WorldTest::testUnloadScene() {
   CPPUNIT_ASSERT_THROW(world->getCurrentScene(), out_of_range);
 }
 
+void WorldTest::testCallBacks() {
+  CPPUNIT_ASSERT(test_scene->on_load_called == false);
+  CPPUNIT_ASSERT(test_scene->on_unload_called == false);
+  world->loadScene("test");
+  CPPUNIT_ASSERT(test_scene->on_load_called == true);
+  CPPUNIT_ASSERT(test_scene->on_unload_called == false);
+  world->loadScene("game");
+  CPPUNIT_ASSERT(test_scene->on_unload_called == true);
+}
+

@@ -4,7 +4,12 @@
 #include "../../src/engine/Scene.h"
 
 class TestScene : public Scene {
+  
   public: 
+    
+    bool on_load_called;
+    bool on_unload_called;
+  
     TestScene(World *world);
     virtual void onLoad();
     virtual bool OnEvent(const SEvent& event);

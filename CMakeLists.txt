@@ -32,7 +32,7 @@ ADD_CUSTOM_TARGET(tests "${METORITEWARS_BIN_PATH}/${METORITEWARS_TEST_EXEC_NAME}
 
 IF(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
   TARGET_LINK_LIBRARIES(${METORITEWARS_EXEC_NAME} base -lIrrlicht -static -lSOIL -lopengl32 -lglu32 -static -lfreeglut -lglaux -lglew32)
-  #TARGET_LINK_LIBRARIES(${METORITEWARS_TEST_EXEC_NAME} base -lIrrlicht -lopengl32 -lglu32 -lfreeglut -lglaux -lglew32 -lcppunit)
+  TARGET_LINK_LIBRARIES(${METORITEWARS_TEST_EXEC_NAME} base -lIrrlicht -lopengl32 -lglu32 -lfreeglut -lglaux -lglew32 -lcppunit)
 ENDIF()
 IF(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
   TARGET_LINK_LIBRARIES(${METORITEWARS_EXEC_NAME} -lGL base -lIrrlicht -lGLU -lglut -lSDL)

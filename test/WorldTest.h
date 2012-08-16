@@ -17,6 +17,7 @@ class WorldTest : public CppUnit::TestFixture {
     CPPUNIT_TEST(testRemoveScene);
     CPPUNIT_TEST(testLoadScene);
     CPPUNIT_TEST(testUnloadScene);
+    CPPUNIT_TEST(testCallBacks);
     CPPUNIT_TEST_SUITE_END();
     
     GameScene *game_scene;
@@ -35,6 +36,7 @@ class WorldTest : public CppUnit::TestFixture {
     void testRemoveScene();
     void testLoadScene();
     void testUnloadScene();
+    void testCallBacks();
 };
 
 #endif	/* WORLDTEST_H */
