@@ -12,6 +12,7 @@ GameMenu::GameMenu(World* world) : Scene("menu", world) {
 }
 
 void GameMenu::onLoad(){
+  
   //create own skin
   gui::IGUISkin* skin = gui->getSkin();
   gui::IGUIFont* font = gui->getFont("menufont.bmp");
@@ -20,6 +21,9 @@ void GameMenu::onLoad(){
     skin->setFont(font);
   
   skin->setFont(gui->getBuiltInFont(), gui::EGDF_TOOLTIP);
+  
+  device->getGUIEnvironment()->addButton(core::rect<s32>(world->win.width/2 - 300/2,200,300/2 + world->win.width/2,200 + 80), 0, MENU_START_GAME, L"Start", L"Starts Game");
+  device->getGUIEnvironment()->addButton(core::rect<s32>(world->win.width/2 - 300/2,290,300/2 + world->win.width/2,290 + 80), 0, MENU_EXIT_BUTTON, L"Quit", L"Exits Program");
 }
 
 bool GameMenu::OnEvent(const SEvent& event){
@@ -32,9 +36,9 @@ bool GameMenu::OnEvent(const SEvent& event){
     
     //get button events
     if(event.GUIEvent.EventType == gui::EGET_BUTTON_CLICKED){
-      if(id == 301){
+      if(id == MENU_EXIT_BUTTON){
         device->closeDevice();
-      }else if(id == 300){
+      }else if(id == MENU_START_GAME){
         world->loadScene("game");
       }
     }
@@ -48,7 +52,7 @@ void GameMenu::onTick(){
 }
 
 void GameMenu::onUnload(){
-  
+  gui->clear();
 }
 
 

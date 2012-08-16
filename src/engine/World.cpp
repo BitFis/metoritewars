@@ -13,6 +13,11 @@ World::World() : IEventReceiver() {
   this->scenes = new vector<Scene*>(0);
   this->current_scene = this->no_current_scene = this->scenes->end();
   this->keys = new KeyBuffer();
+  
+  //set default window settings
+  win.width = 1024;
+  win.height = 768;
+  win.fullscreen = false;
 }
 
 World::~World() {

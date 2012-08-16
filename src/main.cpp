@@ -9,7 +9,7 @@ int main() {
   
   World *world = new World();
   IrrlichtDevice* device = createDevice(video::EDT_OPENGL,
-          core::dimension2d<u32 > (1024, 768), 16, false, true, false, world);
+          core::dimension2d<u32 > (world->win.width, world->win.height), 16, world->win.fullscreen, true, world->win.fullscreen, world);
   if (device == 0) {
     return 1; // could not create selected driver.
   }
@@ -36,9 +36,6 @@ int main() {
 	// In order to do framerate independent movement, we have to know
 	// how long it was since the last frame
 	u32 then = device->getTimer()->getTime();
-  
-  device->getGUIEnvironment()->addButton(core::rect<s32>(10,200,10 + 300,200 + 80), 0, 300, L"Start", L"Start Game");
-  device->getGUIEnvironment()->addButton(core::rect<s32>(10,290,10 + 300,290 + 80), 0, 301, L"Quit", L"Exits Program");
   
   while (device->run()) {
     //Work out a frame delta time.

@@ -21,11 +21,18 @@ class Scene;
 using namespace std;
 using namespace irr;
 
+struct winType{
+  unsigned int height;
+  unsigned int width;
+  bool fullscreen;
+};
+
 /* this class is responsible for managing
    and switching between scenes */
 class World : public IEventReceiver {
 
   private:
+    
     IrrlichtDevice *device;
     
     KeyBuffer *keys;
@@ -37,6 +44,7 @@ class World : public IEventReceiver {
     vector<Scene*>::iterator getSceneIterator(const char *name);
     
   public:
+    struct winType win;
         
     World();
     ~World();

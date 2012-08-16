@@ -11,6 +11,9 @@
 #include "../../engine/Scene.h"
 #include "../../engine/VoidReceiver.h"
 
+#define MENU_EXIT_BUTTON 300
+#define MENU_START_GAME 301
+
 class GameMenu : public Scene{
 public:
   GameMenu(World *world);

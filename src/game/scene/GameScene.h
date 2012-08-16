@@ -10,6 +10,7 @@
 
 #include "../../engine/Scene.h"
 #include "../../engine/VoidReceiver.h"
+#include "../Ship.h"
 
 class GameScene : public Scene{
 public:
@@ -20,6 +21,7 @@ public:
   virtual void onUnload();
   
 private:
+  Ship *ship;
 
 };
 
