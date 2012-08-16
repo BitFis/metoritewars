@@ -1,16 +1,10 @@
-/* 
- * File:   GameScene.h
- * Author: zurcherl
- *
- * Created on 14. August 2012, 17:40
- */
-
 #ifndef GAMESCENE_H
 #define	GAMESCENE_H
 
 #include "../../engine/Scene.h"
 #include "../../engine/VoidReceiver.h"
 #include "../Ship.h"
+#include "../Meteor.h"
 
 class GameScene : public Scene{
 public:
@@ -22,7 +16,7 @@ public:
   
 private:
   Ship *ship;
-
+  Meteor *meteor;
 };
 
 #endif	/* GAMESCENE_H */
