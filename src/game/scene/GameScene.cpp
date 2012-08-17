@@ -16,6 +16,8 @@ bool GameScene::OnEvent(const SEvent& event){
 }
 
 void GameScene::onTick(){
+  
+  /* spawn new meteor every 500 ms*/
   unsigned int tick = device->getTimer()->getTime();
   int count = (tick - last_meteor_created_at) / 500;
   if(count) {
@@ -24,7 +26,25 @@ void GameScene::onTick(){
       this->meteors->push_back(new Meteor(smgr));
     }
   }
-
+  
+  /* remove old meteors */
+  foreach(it_meteor, (*this->meteors)) {
+    if((*it_meteor)->animationFinished()) {
+      smgr->addToDeletionQueue((*it_meteor)->getMesh());
+      this->meteors->erase(it_meteor);
+    }
+  }
+  
+  /* check for collisions between meteors */
+  foreach(it_meteor1, (*this->meteors)) {
+    foreach(it_meteor2, (*this->meteors)) {
+      if(*it_meteor1 != *it_meteor2) {
+        if((*it_meteor1)->collidesWith((*it_meteor2)->getMesh())) {
+          
+        }
+      }
+    }
+  }
 }
 
 void GameScene::onUnload(){
