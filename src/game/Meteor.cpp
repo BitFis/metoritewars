@@ -9,7 +9,6 @@ Meteor::Meteor(scene::ISceneManager* smgr) {
   
   size = sqrt(sqrt((rand() / (float)RAND_MAX) * 100)) / 250;
   mesh = smgr->addAnimatedMeshSceneNode(static_mesh, 0, 15, core::vector3df(0.0, 0.0, 0.0), core::vector3df(0.0, 0.0, 0.0), core::vector3df(size, size, size));
-  anim_fly = 0;
   
   if(mesh) {
     mesh->setMaterialFlag(video::EMF_LIGHTING, false);
@@ -36,8 +35,13 @@ void Meteor::attachFlightAnimator() {
   float x2 = sin(angle) * radius;
   float y2 = cos(angle) * radius;
   float distance = sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1)) / (radius * 2);
-  anim_fly = smgr->createFlyStraightAnimator(core::vector3df(x1, y1, 0.0), core::vector3df(x2, y2, 0.0), (4000 * distance) * ((size * 150)), false, false);
+  u32 time = (4000 * distance) * (size * 150);
+  scene::ISceneNodeAnimator* anim_delete = smgr->createDeleteAnimator(time);
+  mesh->addAnimator(anim_delete);
+  anim_delete->drop();
+  scene::ISceneNodeAnimator* anim_fly = smgr->createFlyStraightAnimator(core::vector3df(x1, y1, 0.0), core::vector3df(x2, y2, 0.0), time, false, false);
   mesh->addAnimator(anim_fly);
+  anim_fly->drop();
 }
 
 float Meteor::genRandomAngle() {
@@ -66,14 +70,8 @@ float Meteor::genRandomAngle(float before) {
   return angle;
 }
 
-bool Meteor::animationFinished() {
-  //anim_fly->grab();
-  //return anim_fly == 0 ? true : anim_fly->hasFinished();
-  return false;
-}
-
 Meteor::~Meteor() {
   mesh->drop();
-  anim_fly->drop();
+  mesh->removeAll();
 }
 

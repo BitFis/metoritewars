@@ -24,15 +24,7 @@ void GameScene::onTick(){
       this->meteors->push_back(new Meteor(smgr));
     }
   }
-  
-  Meteor *meteor;
-  foreach(it_meteor, (*this->meteors)) {
-    //meteor = *it_meteor;
-    if(meteor->animationFinished()) {
-      //this->meteors->erase(it_meteor);
-      //delete meteor;
-    }
-  }
+
 }
 
 void GameScene::onUnload(){
