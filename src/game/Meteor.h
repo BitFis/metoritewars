@@ -12,8 +12,9 @@ private:
   float size;
   scene::ISceneManager* smgr;
   scene::IAnimatedMeshSceneNode* mesh;
-  
   static scene::IAnimatedMesh* static_mesh;
+  
+  scene::ISceneNodeAnimator* anim_fly;
   
   void attachFlightAnimator();
   void attachRotateAnimator();
@@ -23,6 +24,9 @@ private:
 public:
   Meteor(scene::ISceneManager* smgr);
   virtual ~Meteor();
+  scene::IAnimatedMeshSceneNode* getMesh();
+  bool collidesWith(scene::ISceneNode* node);
+  bool animationFinished();
 
 };
 
