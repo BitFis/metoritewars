@@ -4,13 +4,16 @@
 Meteor::Meteor(scene::ISceneManager* smgr) {
   this->smgr = smgr;
   anim_fly = 0;
-  
+  velocity = 0;
   /* load the mesh only once from the disk */
   if(static_mesh == 0)  {
     static_mesh = smgr->getMesh("objects/player/meteor.x");
   }
   /* generate random size */
-  size = sqrt(sqrt((rand() / (float)RAND_MAX) * 100)) / 250;
+  size =  sqrt(sqrt((rand() / (float)RAND_MAX) * 100)) / 250;
+  
+  int force = 100;
+  velocity = force / size;
   
   /* create the animated mesh */
   mesh = smgr->addAnimatedMeshSceneNode(static_mesh, 0, 15, core::vector3df(0.0, 0.0, 0.0), core::vector3df(0.0, 0.0, 0.0), core::vector3df(size, size, size));
@@ -38,24 +41,47 @@ void Meteor::attachRotateAnimator() {
 void Meteor::attachFlightAnimator() {
   /* define the radius of the circle arround the camera where meteorids
      are spawned in*/
-  float radius = 1.5f;
+  float radius = 1.0f;
   
   /* generate a random angle to get a random position on the circle edge */
   float angle = genRandomAngle();
-  float x1 = sin(angle) * radius;
-  float y1 = cos(angle) * radius;
+  to_anim.set(sin(angle) * radius, cos(angle) * radius, 0);
   
   /* again generate a random angle, but this on should not be near the other 
      generated angle */
   angle = genRandomAngle(angle);
-  float x2 = sin(angle) * radius;
-  float y2 = cos(angle) * radius;
+  from_anim.set(sin(angle) * radius, cos(angle) * radius, 0);
   
   /* calculate distance betweed these two points of the circle edge */
-  float distance = sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1)) / (radius * 2);
+  float distance = from_anim.getDistanceFrom(to_anim);
   
   /* create the animation */
-  anim_fly = smgr->createFlyStraightAnimator(core::vector3df(x1, y1, 0.0), core::vector3df(x2, y2, 0.0), (4000 * distance) * (size * 150), false, false);
+  anim_fly = smgr->createFlyStraightAnimator(from_anim, to_anim, calcTransitionTime(distance), false, false);
+  mesh->addAnimator(anim_fly);
+}
+
+
+float Meteor::calcTransitionTime(float distance) {
+  return (distance / velocity) * 25000000;
+}
+
+void Meteor::attachFlightAnimator(float angle) {
+  /* define the radius of the circle arround the camera where meteorids
+     are spawned in*/
+  float radius = 1.0f;
+  
+  
+  u32 time_left = calcTransitionTime(mesh->getPosition().getDistanceFrom(to_anim));
+  
+  /* calculate the coords for the new angle */
+  to_anim.set(sin(angle) * radius, cos(angle) * radius, 0);
+  from_anim.set(mesh->getPosition());
+  mesh->removeAnimator(anim_fly);
+  
+  
+  /* create the animation */
+  anim_fly = smgr->createFlyStraightAnimator(from_anim, to_anim, time_left, false, false);
+  
   mesh->addAnimator(anim_fly);
   
 }
@@ -98,6 +124,36 @@ bool Meteor::collidesWith(scene::ISceneNode* node) {
   return node->getTransformedBoundingBox().intersectsWithBox(this->mesh->getTransformedBoundingBox());
 }
 
+void Meteor::bounceOf(Meteor* meteor) {
+  /* core::vector3df pos1 = this->mesh->getPosition();
+  core::vector3df pos2 = meteor->getMesh()->getPosition();
+  
+  float angle = acos(abs(this->mesh->getPosition().Y - this->to_anim.Y) / this->mesh->getPosition().getDistanceFrom(this->to_anim));
+  
+  cout << angle / M_PI * 180 << endl;
+  
+  
+  if(abs(pos1.X - pos2.X) < abs(pos1.Y - pos2.Y)) {
+    //vertical
+    angle = angle > M_PI ? M_PI - (angle - M_PI) + M_PI : M_PI - angle;
+  } else {
+    
+    angle -= M_PI_2;
+    if(angle < 0) {
+      angle = M_2_PI - angle;
+    }
+    angle = M_PI - (angle - M_PI) + M_PI;
+    if(angle > M_2_PI) {
+      angle -= M_2_PI;
+    }
+    angle += M_PI_2;
+  }
+  
+  cout << angle / M_PI * 180 << endl;
+  
+  attachFlightAnimator(angle); */
+}
+
 bool Meteor::animationFinished() {
   return anim_fly->hasFinished();
 }
@@ -107,4 +163,3 @@ Meteor::~Meteor() {
   mesh->drop();
   mesh->removeAll();
 }
-

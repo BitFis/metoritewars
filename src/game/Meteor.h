@@ -15,8 +15,14 @@ private:
   static scene::IAnimatedMesh* static_mesh;
   
   scene::ISceneNodeAnimator* anim_fly;
+  core::vector3df from_anim;
+  core::vector3df to_anim;
+  float velocity;
+  float angle;
   
   void attachFlightAnimator();
+  void attachFlightAnimator(float angle);
+  float calcTransitionTime(float distance);
   void attachRotateAnimator();
   float genRandomAngle();
   float genRandomAngle(float before);
@@ -27,7 +33,7 @@ public:
   scene::IAnimatedMeshSceneNode* getMesh();
   bool collidesWith(scene::ISceneNode* node);
   bool animationFinished();
-
+  void bounceOf(Meteor *meteor);
 };
 
 #ifdef _METEOR_CPP
@@ -35,4 +41,5 @@ scene::IAnimatedMesh* Meteor::static_mesh = 0;
 #endif
 
 #endif	/* METEOR_H */
+
 

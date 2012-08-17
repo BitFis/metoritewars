@@ -28,6 +28,7 @@ void GameScene::onTick(){
   }
   
   /* remove old meteors */
+  Meteor *meteor;
   foreach(it_meteor, (*this->meteors)) {
     if((*it_meteor)->animationFinished()) {
       smgr->addToDeletionQueue((*it_meteor)->getMesh());
@@ -40,7 +41,8 @@ void GameScene::onTick(){
     foreach(it_meteor2, (*this->meteors)) {
       if(*it_meteor1 != *it_meteor2) {
         if((*it_meteor1)->collidesWith((*it_meteor2)->getMesh())) {
-          
+          printf("%p collides with %p\n", *it_meteor1, *it_meteor2);
+          (*it_meteor1)->bounceOf(*it_meteor2);
         }
       }
     }
