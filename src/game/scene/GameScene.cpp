@@ -38,6 +38,7 @@ void GameScene::onTick(){
   
   if(world->getKeys()->get(KEY_LEFT)){
     ship->rotate(-1, world->getFramDeltaTime());
+  }
   
   /* spawn new meteor every 500 ms*/
   unsigned int tick = device->getTimer()->getTime();
