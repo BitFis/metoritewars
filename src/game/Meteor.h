@@ -3,6 +3,7 @@
 
 #include <irrlicht/irrlicht.h>
 #include <iostream>
+#include "../engine/Angle.h"
 
 using namespace std;
 using namespace irr;
@@ -24,8 +25,8 @@ private:
   void attachFlightAnimator(float angle);
   float calcTransitionTime(float distance);
   void attachRotateAnimator();
-  float genRandomAngle();
-  float genRandomAngle(float before);
+  Angle genRandomAngle();
+  Angle genRandomAngle(Angle before);
   void loadMesh();
 public:
   Meteor(scene::ISceneManager* smgr);

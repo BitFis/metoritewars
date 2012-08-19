@@ -44,13 +44,13 @@ void Meteor::attachFlightAnimator() {
   float radius = 1.0f;
   
   /* generate a random angle to get a random position on the circle edge */
-  float angle = genRandomAngle();
-  to_anim.set(sin(angle) * radius, cos(angle) * radius, 0);
+  Angle angle = genRandomAngle();
+  to_anim.set(sin(angle.getRAD()) * radius, cos(angle.getRAD()) * radius, 0);
   
   /* again generate a random angle, but this on should not be near the other 
      generated angle */
   angle = genRandomAngle(angle);
-  from_anim.set(sin(angle) * radius, cos(angle) * radius, 0);
+  from_anim.set(sin(angle.getRAD()) * radius, cos(angle.getRAD()) * radius, 0);
   
   /* calculate distance betweed these two points of the circle edge */
   float distance = from_anim.getDistanceFrom(to_anim);
@@ -86,31 +86,19 @@ void Meteor::attachFlightAnimator(float angle) {
   
 }
 
-float Meteor::genRandomAngle() {
+Angle Meteor::genRandomAngle() {
   /* generate random angle in RAD */
-  return ((rand() / (float)RAND_MAX) * 360) / 180 * M_PI;
+  return Angle(((rand() / (float)RAND_MAX) * 360) / 180 * M_PI);
 }
 
-float Meteor::genRandomAngle(float before) {
+Angle Meteor::genRandomAngle(Angle before) {
   /* generate random angle in RAD but it should not be near `before` */
-  float angle, upper, lower;
-  bool ok = false;
-  while(!ok) {
+  Angle angle(0.0f), upper(0.0f), lower(0.0f);
+  do {
     angle = genRandomAngle();
     upper = angle + M_PI_4;
     lower = angle - M_PI_4;
-    if(!(before < upper && before > lower)) {
-      before = before + M_PI;
-      before = before > M_2_PI ? before - M_2_PI : before;
-      upper = upper + M_PI;
-      upper = upper > M_2_PI ? upper - M_2_PI : upper;
-      lower = lower + M_PI;
-      lower = lower > M_2_PI ? lower - M_2_PI : lower;
-      if(!(before < upper && before > lower)) {
-        ok = true;
-      }
-    }
-  }
+  } while(before < upper && before > lower);
   return angle;
 }
 
