@@ -38,7 +38,6 @@ Ship::Ship(const char*  filename, scene::ISceneManager* smgr) {
 }
 
 void Ship::shoot(float passedTime){
-  printf("%f / %f \n ", lastshot, passedTime);
   if(lastshot + shots->getShotTimeout() < passedTime){
     shots->createShot(ship->getPosition(), ship->getRotation(), ship->getScale());
     
@@ -56,7 +55,6 @@ scene::ISceneNode* Ship::getShipNode(){
 }
 
 void Ship::update(float DeltaTime){
-  
   
   //move forward  
   ship->setPosition(ship->getPosition() + core::vector3df(0.0,0.0,rotation.getDEG()).rotationToDirection(speed * DeltaTime));

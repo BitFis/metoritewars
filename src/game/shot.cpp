@@ -8,8 +8,10 @@
 #include "Shot.h"
 
 Shot::Shot(const char*  filename, scene::ISceneManager* smgr, scene::IAnimatedMeshSceneNode* ship) {
-  mainShot = smgr->addAnimatedMeshSceneNode(smgr->getMesh("objects/player/Shot.x"),ship,32, core::vector3df(0.0,0.0,0.0), core::vector3df(0.0,-90.0,0.0), core::vector3df(0.1,0.1,0.1));
+  mainShot = smgr->addAnimatedMeshSceneNode(smgr->getMesh("objects/player/shot.x"),ship,32, core::vector3df(0.0,0.0,0.0), core::vector3df(0.0,-90.0,0.0), core::vector3df(0.2,0.2,0.2));
 
+  mainShot->setVisible(false);
+  
   this->smgr = smgr;
   
   //setup shot settings
@@ -28,6 +30,9 @@ float Shot::getShotTimeout(){
 void Shot::createShot(core::vector3df shotpos, core::vector3df shiprot, core::vector3df shipscale){
   shots.push_back(mainShot->clone(smgr->getRootSceneNode(), smgr));
   
+  //set visible again
+  shots.back()->setVisible(true);
+  
   //setup last shot
   shots.back()->setPosition(shotpos);
   shots.back()->setRotation(shiprot + core::vector3df(0.0,0.0,-90.0));
@@ -41,6 +46,10 @@ void Shot::move(float DeltaTime){
     (*shot)->setPosition((*shot)->getRotation().rotationToDirection(core::vector3df(-1 * shotspeed * DeltaTime, 0.0,0.0)) + (*shot)->getPosition());
     
   }
+}
+
+std::vector<scene::ISceneNode*> &Shot::getShotNode(){
+  return shots;
 }
 
 Shot::~Shot() {

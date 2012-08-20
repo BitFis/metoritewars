@@ -24,6 +24,8 @@ public:
   
   float getShotTimeout();
   
+  std::vector<scene::ISceneNode*> &getShotNode();
+  
   void setShotSpeed(float Speed);
   void setLiveTime(float LiveTime);
   

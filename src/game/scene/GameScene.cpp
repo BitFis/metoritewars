@@ -35,6 +35,8 @@ void GameScene::onTick(){
   
   if(world->getKeys()->get(KEY_SPACE)){
     ship->shoot(world->getRunTime());
+    
+    scene::ISceneNode* testnode = ship->getShots()->getShotNode()[0];
   }
   
   ////////////////////////////////////////
@@ -67,6 +69,38 @@ void GameScene::onTick(){
     }
   }
   
+  vector<scene::ISceneNode*>::iterator shot_last_it;
+  vector<scene::ISceneNode*> &shots = ship->getShots()->getShotNode();
+  /* check for collisions between meteors */
+  foreach(it_meteor1, (*this->meteors)) {
+    foreach(it_meteor2, (*this->meteors)) {
+      if(*it_meteor1 != *it_meteor2) {
+        if((*it_meteor1)->collidesWith((*it_meteor2))) {
+          (*it_meteor1)->bounceOf(*it_meteor2);
+        }
+      }
+    }
+    
+    shot_last_it = shots.begin();
+    //check if it collided with a shot of the ship
+    foreach(shot, shots){
+      if((*it_meteor1)->collidesWith((*shot), 1.0)){
+        smgr->addToDeletionQueue((*shot));
+        ship->getShots()->getShotNode().erase(shot);
+        shot = shot_last_it;
+        (*it_meteor1)->getMesh()->setPosition(ship->getPosVec3df()+core::vector3df(100.0,100.0,100.0));
+      } else {
+        shot_last_it = shot;
+      }
+    }
+    
+    //check if it collided with the ship
+    if((*it_meteor1)->collidesWith((ship->getShipNode()), 1.0)){
+      std::cout << "you killed your self!!" << endl;
+      //take lives from the ship
+    }
+  }
+  
   /* remove old meteors */
   Meteor *meteor;
   vector<Meteor*>::iterator last_it = this->meteors->begin();
@@ -79,17 +113,6 @@ void GameScene::onTick(){
     } else {
       last_it = it_meteor;
       meteor->update(world->getFrameDeltaTime());
-    }
-  }
-  
-  /* check for collisions between meteors */
-  foreach(it_meteor1, (*this->meteors)) {
-    foreach(it_meteor2, (*this->meteors)) {
-      if(*it_meteor1 != *it_meteor2) {
-        if((*it_meteor1)->collidesWith((*it_meteor2))) {
-          (*it_meteor1)->bounceOf(*it_meteor2);
-        }
-      }
     }
   }
 }
