@@ -10,9 +10,13 @@
 
 #include <irrlicht/irrlicht.h>
 #include "Shot.h"
+#include "../engine/Angle.h"
 #include <cmath>
 
+#include <iostream>
+
 using namespace irr;
+using namespace std;
 
 class Ship {
 public:
@@ -48,11 +52,11 @@ private:
   
   float lastshot; //to set shot timeout
   
-  float rotation; //current rotation
-  float speed; //current move speed
+  Angle rotation; //current rotation
+  core::vector3df speed; //current move speed
   
-  float movspeed; //move boost
   float rotspeed; //rotation boost
+  float acceleration;
   
   bool movefor; //moving forward
   bool moveback; //moving backwards
