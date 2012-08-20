@@ -38,7 +38,7 @@ class World : public IEventReceiver {
     KeyBuffer *keys;
     
     float frameDeltaTime;
-    float runTimePassed = 0;
+    float runTimePassed;
     
     vector<Scene*> *scenes;
     vector<Scene*>::iterator current_scene;

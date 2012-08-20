@@ -8,7 +8,7 @@ void GameScene::onLoad(){
   ship = new Ship("objects/player/ship.x", this->smgr);
   this->meteors = new vector<Meteor*>(0);
   
-  scene::ICameraSceneNode* camera = smgr->addCameraSceneNode(0,core::vector3df(0.0,0.0,2.0),core::vector3df(0.0,0.0,0.0),1,true);
+  camera = smgr->addCameraSceneNode(0,core::vector3df(0.0,0.0,2.0),core::vector3df(0.0,0.0,0.0),1,true);
   
   last_meteor_created_at = device->getTimer()->getTime();
 }
@@ -20,7 +20,15 @@ bool GameScene::OnEvent(const SEvent& event){
 
 void GameScene::onTick(){
   //update ship
+  core::vector3df pos;
   ship->update(world->getFrameDeltaTime());
+  pos = ship->getPosVec3df();
+  pos.Z = camera->getPosition().Z;
+  
+  camera->setPosition(pos);
+  camera->setTarget(ship->getPosVec3df());
+  
+  Meteor::setSpawnOffset(ship->getPosVec3df());
   
   /////////////////////////////////////////
   //shoot
@@ -51,7 +59,7 @@ void GameScene::onTick(){
   
   /* spawn new meteor every 500 ms*/
   unsigned int tick = device->getTimer()->getTime();
-  int count = (tick - last_meteor_created_at) / 500;
+  int count = (tick - last_meteor_created_at) / 100;
   if(count) {
     last_meteor_created_at = tick;
     for(int i = 0; i < count; i++) {
@@ -64,13 +72,13 @@ void GameScene::onTick(){
   vector<Meteor*>::iterator last_it = this->meteors->begin();
   foreach(it_meteor, (*this->meteors)) {
     meteor = *it_meteor;
-    meteor->update(world->getFrameDeltaTime());
-    if(meteor->tooFarAwayFrom(core::vector3df(0,0,0), 1.6f)) {
+    if(meteor->tooFarAwayFrom(ship->getPosVec3df(), 2.3f)) {
       this->meteors->erase(it_meteor);
       smgr->addToDeletionQueue(meteor->getMesh());
       it_meteor = last_it;
     } else {
       last_it = it_meteor;
+      meteor->update(world->getFrameDeltaTime());
     }
   }
   
@@ -78,11 +86,8 @@ void GameScene::onTick(){
   foreach(it_meteor1, (*this->meteors)) {
     foreach(it_meteor2, (*this->meteors)) {
       if(*it_meteor1 != *it_meteor2) {
-        if((*it_meteor1)->collidesWith((*it_meteor2)->getMesh())) {
-          if(abs((*it_meteor1)->getLastCrashed() - tick) > 50) {
-            (*it_meteor1)->bounceOf(*it_meteor2);
-            (*it_meteor1)->setLastCrashed(tick);
-          }
+        if((*it_meteor1)->collidesWith((*it_meteor2))) {
+          (*it_meteor1)->bounceOf(*it_meteor2);
         }
       }
     }

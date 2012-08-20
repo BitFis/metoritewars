@@ -19,6 +19,7 @@ public:
 private:
   Ship *ship;
   vector<Meteor*> *meteors;
+  scene::ICameraSceneNode* camera;
 };
 
 #endif	/* GAMESCENE_H */

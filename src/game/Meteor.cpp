@@ -3,6 +3,7 @@
 
 Meteor::Meteor(scene::ISceneManager* smgr) {
   this->smgr = smgr;
+  colliding_with = 0;
   velocity = 1;
   /* load the mesh only once from the disk */
   if(static_mesh == 0)  {
@@ -13,8 +14,8 @@ Meteor::Meteor(scene::ISceneManager* smgr) {
   size =  sqrt(sqrt((rand() / (float)RAND_MAX) * 100)) / 250;
   
   /* create the animated mesh */
-  mesh = smgr->addAnimatedMeshSceneNode(static_mesh, 0, 15, core::vector3df(0.0, 0.0, 0.0), core::vector3df(0.0, 0.0, 0.0), core::vector3df(size, size, size));
-  mesh->setPosition(core::vector3df(0, 0, 0));
+  mesh = smgr->addAnimatedMeshSceneNode(static_mesh, smgr->getRootSceneNode(), 15, core::vector3df(0.0, 0.0, 0.0), core::vector3df(0.0, 0.0, 0.0), core::vector3df(size, size, size));
+  mesh->setPosition(spawn_offset);
   
   /* attach lightning */
   if(mesh) {
@@ -23,7 +24,7 @@ Meteor::Meteor(scene::ISceneManager* smgr) {
   }
   angle = genRandomAngle();
   update(1);
-  angle += M_PI;
+  angle += (rand() / (float)RAND_MAX) * (M_PI * 1.6f) + (M_PI * 0.2f);
   float force = 0.005;
   velocity = force / size;
   
@@ -72,6 +73,17 @@ bool Meteor::collidesWith(scene::ISceneNode* node) {
   return node->getPosition().getDistanceFrom(this->mesh->getPosition()) < this->mesh->getScale().X * 6 + node->getScale().X * 6;
 }
 
+bool Meteor::collidesWith(Meteor* meteor) {
+  bool back = collidesWith(meteor->getMesh());
+  bool ret = back && colliding_with == 0;
+  if(!back && meteor == colliding_with) {
+    colliding_with = 0;
+  } else if(back && meteor == 0) {
+    colliding_with = meteor;
+  }
+  return ret;
+}
+
 void Meteor::bounceOf(Meteor* meteor) {
   core::vector3df pos1 = this->mesh->getPosition();
   core::vector3df pos2 = meteor->getMesh()->getPosition();
@@ -89,7 +101,7 @@ void Meteor::bounceOf(Meteor* meteor) {
 }
 
 void Meteor::update(float delta) {
-  float radius = 1.5f;
+  float radius = 2.2f;
   core::vector3df pos = this->mesh->getPosition();
   pos.X += sin(angle.getRAD()) * radius * velocity * delta;
   pos.Y += cos(angle.getRAD()) * radius * velocity * delta;
@@ -101,16 +113,11 @@ bool Meteor::tooFarAwayFrom(core::vector3df pos, float distance) {
   return fabs(distance) < fabs(this->mesh->getPosition().getDistanceFrom(pos));
 }
 
-void Meteor::setLastCrashed(unsigned int last_crashed) {
-  this->last_crashed = last_crashed;
-  
-}
-
-unsigned int Meteor::getLastCrashed() {
-  return last_crashed;
-}
-
 Meteor::~Meteor() {
   mesh->drop();
   mesh->removeAll();
+}
+
+void Meteor::setSpawnOffset(core::vector3df spawn_offset) {
+  Meteor::spawn_offset = spawn_offset;
 }

@@ -46,7 +46,7 @@ private:
   float maxSpeed; //max possible speed
   float maxRot; //max rotation
   
-  float lastshot = 0; //to set shot timeout
+  float lastshot; //to set shot timeout
   
   float rotation; //current rotation
   float speed; //current move speed
