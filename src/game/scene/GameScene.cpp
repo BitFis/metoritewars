@@ -78,11 +78,8 @@ void GameScene::onTick(){
   foreach(it_meteor1, (*this->meteors)) {
     foreach(it_meteor2, (*this->meteors)) {
       if(*it_meteor1 != *it_meteor2) {
-        if((*it_meteor1)->collidesWith((*it_meteor2)->getMesh())) {
-          if(abs((*it_meteor1)->getLastCrashed() - tick) > 50) {
-            (*it_meteor1)->bounceOf(*it_meteor2);
-            (*it_meteor1)->setLastCrashed(tick);
-          }
+        if((*it_meteor1)->collidesWith((*it_meteor2))) {
+          (*it_meteor1)->bounceOf(*it_meteor2);
         }
       }
     }

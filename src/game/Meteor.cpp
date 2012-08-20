@@ -3,6 +3,7 @@
 
 Meteor::Meteor(scene::ISceneManager* smgr) {
   this->smgr = smgr;
+  colliding_with = 0;
   velocity = 1;
   /* load the mesh only once from the disk */
   if(static_mesh == 0)  {
@@ -72,6 +73,16 @@ bool Meteor::collidesWith(scene::ISceneNode* node) {
   return node->getPosition().getDistanceFrom(this->mesh->getPosition()) < this->mesh->getScale().X * 6 + node->getScale().X * 6;
 }
 
+bool Meteor::collidesWith(Meteor* meteor) {
+  bool ret = collidesWith(meteor->getMesh());
+  if(!ret && meteor == colliding_with) {
+    colliding_with = 0;
+  } else if(ret) {
+    colliding_with = meteor;
+  }
+  return ret && colliding_with == 0;
+}
+
 void Meteor::bounceOf(Meteor* meteor) {
   core::vector3df pos1 = this->mesh->getPosition();
   core::vector3df pos2 = meteor->getMesh()->getPosition();
@@ -99,15 +110,6 @@ void Meteor::update(float delta) {
 
 bool Meteor::tooFarAwayFrom(core::vector3df pos, float distance) {
   return fabs(distance) < fabs(this->mesh->getPosition().getDistanceFrom(pos));
-}
-
-void Meteor::setLastCrashed(unsigned int last_crashed) {
-  this->last_crashed = last_crashed;
-  
-}
-
-unsigned int Meteor::getLastCrashed() {
-  return last_crashed;
 }
 
 Meteor::~Meteor() {

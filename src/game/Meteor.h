@@ -9,7 +9,7 @@ using namespace irr;
 class Meteor {
 private:
   float size;
-  unsigned int last_crashed;
+  Meteor* colliding_with;
   scene::ISceneManager* smgr;
   scene::IAnimatedMeshSceneNode* mesh;
   static scene::IAnimatedMesh* static_mesh;
@@ -26,10 +26,9 @@ public:
   virtual ~Meteor();
   scene::IAnimatedMeshSceneNode* getMesh();
   bool collidesWith(scene::ISceneNode* node);
+  bool collidesWith(Meteor* meteor);
   bool tooFarAwayFrom(core::vector3df pos, float distance);
   void bounceOf(Meteor *meteor);
-  void setLastCrashed(unsigned int last_crashed);
-  unsigned int getLastCrashed();
   void update(float delta);
 };
 

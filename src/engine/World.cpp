@@ -9,6 +9,7 @@
 using namespace std;
 
 World::World() : IEventReceiver() {
+  runTimePassed = 0;
   this->device = 0;
   this->scenes = new vector<Scene*>(0);
   this->current_scene = this->no_current_scene = this->scenes->end();

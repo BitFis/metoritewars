@@ -8,6 +8,7 @@
 #include "Ship.h"
 
 Ship::Ship(const char*  filename, scene::ISceneManager* smgr) {
+  lastshot = 0;
   ship = smgr->addAnimatedMeshSceneNode(smgr->getMesh(filename),0,12,core::vector3df(0.0,0.0,0.0),core::vector3df(90.0,180.0,0.0),core::vector3df(0.01,0.01,0.01));
   
   shots = new Shot("objects/player/shot.x", smgr, ship);
