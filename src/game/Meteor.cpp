@@ -15,7 +15,7 @@ Meteor::Meteor(scene::ISceneManager* smgr) {
   
   /* create the animated mesh */
   mesh = smgr->addAnimatedMeshSceneNode(static_mesh, smgr->getRootSceneNode(), 15, core::vector3df(0.0, 0.0, 0.0), core::vector3df(0.0, 0.0, 0.0), core::vector3df(size, size, size));
-  mesh->setPosition(core::vector3df(0, 0, 0));
+  mesh->setPosition(spawn_offset);
   
   /* attach lightning */
   if(mesh) {
@@ -116,4 +116,8 @@ bool Meteor::tooFarAwayFrom(core::vector3df pos, float distance) {
 Meteor::~Meteor() {
   mesh->drop();
   mesh->removeAll();
+}
+
+void Meteor::setSpawnOffset(core::vector3df spawn_offset) {
+  Meteor::spawn_offset = spawn_offset;
 }

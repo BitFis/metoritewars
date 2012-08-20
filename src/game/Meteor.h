@@ -8,6 +8,7 @@ using namespace irr;
 
 class Meteor {
 private:
+  static core::vector3df spawn_offset;
   float size;
   Meteor* colliding_with;
   scene::ISceneManager* smgr;
@@ -30,10 +31,12 @@ public:
   bool tooFarAwayFrom(core::vector3df pos, float distance);
   void bounceOf(Meteor *meteor);
   void update(float delta);
+  static void setSpawnOffset(core::vector3df spawn_offset);
 };
 
 #ifdef _METEOR_CPP
 scene::IAnimatedMesh* Meteor::static_mesh = 0;
+core::vector3df Meteor::spawn_offset(0.0f, 0.0f, 0.0f);
 #endif
 
 #endif	/* METEOR_H */
