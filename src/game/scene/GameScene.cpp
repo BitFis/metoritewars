@@ -51,7 +51,7 @@ void GameScene::onTick(){
   
   /* spawn new meteor every 500 ms*/
   unsigned int tick = device->getTimer()->getTime();
-  int count = (tick - last_meteor_created_at) / 500;
+  int count = (tick - last_meteor_created_at) / 100;
   if(count) {
     last_meteor_created_at = tick;
     for(int i = 0; i < count; i++) {
@@ -64,13 +64,13 @@ void GameScene::onTick(){
   vector<Meteor*>::iterator last_it = this->meteors->begin();
   foreach(it_meteor, (*this->meteors)) {
     meteor = *it_meteor;
-    meteor->update(world->getFrameDeltaTime());
-    if(meteor->tooFarAwayFrom(core::vector3df(0,0,0), 1.6f)) {
+    if(meteor->tooFarAwayFrom(core::vector3df(0,0,0), 2.3f)) {
       this->meteors->erase(it_meteor);
       smgr->addToDeletionQueue(meteor->getMesh());
       it_meteor = last_it;
     } else {
       last_it = it_meteor;
+      meteor->update(world->getFrameDeltaTime());
     }
   }
   

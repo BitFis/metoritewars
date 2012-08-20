@@ -14,7 +14,7 @@ Meteor::Meteor(scene::ISceneManager* smgr) {
   size =  sqrt(sqrt((rand() / (float)RAND_MAX) * 100)) / 250;
   
   /* create the animated mesh */
-  mesh = smgr->addAnimatedMeshSceneNode(static_mesh, 0, 15, core::vector3df(0.0, 0.0, 0.0), core::vector3df(0.0, 0.0, 0.0), core::vector3df(size, size, size));
+  mesh = smgr->addAnimatedMeshSceneNode(static_mesh, smgr->getRootSceneNode(), 15, core::vector3df(0.0, 0.0, 0.0), core::vector3df(0.0, 0.0, 0.0), core::vector3df(size, size, size));
   mesh->setPosition(core::vector3df(0, 0, 0));
   
   /* attach lightning */
@@ -24,7 +24,7 @@ Meteor::Meteor(scene::ISceneManager* smgr) {
   }
   angle = genRandomAngle();
   update(1);
-  angle += M_PI;
+  angle += (rand() / (float)RAND_MAX) * (M_PI * 1.6f) + (M_PI * 0.2f);
   float force = 0.005;
   velocity = force / size;
   
@@ -74,13 +74,14 @@ bool Meteor::collidesWith(scene::ISceneNode* node) {
 }
 
 bool Meteor::collidesWith(Meteor* meteor) {
-  bool ret = collidesWith(meteor->getMesh());
-  if(!ret && meteor == colliding_with) {
+  bool back = collidesWith(meteor->getMesh());
+  bool ret = back && colliding_with == 0;
+  if(!back && meteor == colliding_with) {
     colliding_with = 0;
-  } else if(ret) {
+  } else if(back && meteor == 0) {
     colliding_with = meteor;
   }
-  return ret && colliding_with == 0;
+  return ret;
 }
 
 void Meteor::bounceOf(Meteor* meteor) {
@@ -100,7 +101,7 @@ void Meteor::bounceOf(Meteor* meteor) {
 }
 
 void Meteor::update(float delta) {
-  float radius = 1.5f;
+  float radius = 2.2f;
   core::vector3df pos = this->mesh->getPosition();
   pos.X += sin(angle.getRAD()) * radius * velocity * delta;
   pos.Y += cos(angle.getRAD()) * radius * velocity * delta;
