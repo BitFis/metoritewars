@@ -10,7 +10,6 @@
 
 #include <irrlicht/irrlicht.h>
 #include "Shot.h"
-#include "../engine/AnimatedObject.h"
 #include <cmath>
 
 using namespace irr;
@@ -32,7 +31,8 @@ public:
   
   virtual ~Ship();
 private:
-  float getAcceleration();
+  void accelerationSpeed();
+  void decelerateSpeed();
   
   void autoSlowdown(float* speed, float movspeed, bool* backMovement, bool* forMovement, float DeltaTime);
   
@@ -40,8 +40,6 @@ private:
   
   scene::ISceneManager* smgr;
   scene::IAnimatedMeshSceneNode* ship;
-  
-  //AnimatedObject* ship;
   
   float DeltaTime;
   

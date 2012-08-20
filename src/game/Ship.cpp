@@ -53,6 +53,62 @@ scene::ISceneNode* Ship::getShipNode(){
 
 void Ship::update(float DeltaTime){
   
+  
+  //move forward  
+  ship->setPosition(ship->getPosition() + core::vector3df(0.0,0.0,rotation).rotationToDirection(core::vector3df(0,speed * DeltaTime,0.0)));
+  
+  //rotate ship
+  ship->setRotation(core::vector3df(90.0,0.0,rotation));
+  
+  
+  this->DeltaTime = DeltaTime;
+  
+  //move ship
+  if(movefor){
+    if(speed < maxSpeed){
+      accelerationSpeed();
+    }else{
+      speed = maxSpeed;
+    }
+    
+    movefor = false;
+  }else{
+    speed > 0 && decelerateSpeed();
+  }
+  
+  //rotate ship
+  if(moveback){
+    if(speed > maxSpeed/5){
+      decelerateSpeed();
+    }else{
+      speed = maxSpeed/5;
+    }
+    
+    moveback = false;
+  }
+  
+}
+
+void Ship::moveFor(float deltaTime){
+  //speed = (speed < maxSpeed ? move(movspeed, deltaTime, &speed) : maxSpeed);
+  movefor = true;
+}
+
+void Ship::moveBack(float deltaTime){
+  //speed = (speed > -maxSpeed/5 ? move(-movspeed, deltaTime, &speed) : -maxSpeed/5);
+  moveback = true;
+}
+
+void Ship::accelerationSpeed(){
+  speed += 0.1;
+}
+
+void Ship::decelerateSpeed(){
+  speed -= 0.1;
+}
+
+/*void Ship::update(float DeltaTime){
+  
   this->DeltaTime = DeltaTime;
   
   //move forward  
@@ -104,7 +160,7 @@ void Ship::rotate(int rotate, float deltaTime){
   //rotation += rotation < maxRot && rotation > -maxRot ? rotation + rotspeed * rotate * deltaTime : maxRot;
   
   //prevent overflow
-}
+}*/
 
 Ship::~Ship() {
   delete shots;
