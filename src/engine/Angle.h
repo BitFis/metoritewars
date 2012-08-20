@@ -2,6 +2,9 @@
 #define _ANGLE_H
 
 #include <cmath>
+#include <iostream>
+
+using namespace std;
 
 typedef enum {ANGLE_TYPE_DEG, ANGLE_TYPE_RAD} angletype;
 

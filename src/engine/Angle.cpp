@@ -9,10 +9,10 @@ Angle::~Angle() {
 }
 
 void Angle::preserveInvalid() {
-  if(angle_rad >= M_2_PI) {
-    angle_rad -= ((int)(angle_rad / M_2_PI)) * M_2_PI;
+  if(angle_rad > (M_PI * 2) || fabs(angle_rad - (M_PI * 2)) < 0.001) {
+    angle_rad -= ((int)(angle_rad / (M_PI * 2))) * (M_PI * 2);
   } else if(angle_rad < 0) {
-    angle_rad += ((int)(-angle_rad / M_2_PI) + 1) * M_2_PI;
+    angle_rad += ((int)(-angle_rad / (M_PI * 2)) + 1) * (M_PI * 2);
   }
 }
 
@@ -20,7 +20,7 @@ void Angle::set(float angle, angletype type) {
   if(type == ANGLE_TYPE_RAD) {
     angle_rad = angle;
   } else if(type == ANGLE_TYPE_DEG) {
-    angle_rad = (angle / 360.0f) * M_2_PI;
+    angle_rad = (angle / 360.0f) * M_PI * 2;
   }
   preserveInvalid();
 }
@@ -51,7 +51,6 @@ Angle Angle::operator-=(const Angle &angle) {
 
 Angle Angle::operator-=(const float angle) {
   this->set(this->getRAD() - angle);
-  preserveInvalid();
   return *this;
 }
 

@@ -14,16 +14,16 @@ void AngleTest::testConstruct() {
   Angle angle(0);
   Angle angle1(0, ANGLE_TYPE_RAD);
   Angle angle2(0, ANGLE_TYPE_DEG);
-  Angle angle3(360, ANGLE_TYPE_DEG);
+  Angle angle3(360.0f, ANGLE_TYPE_DEG);
   Angle angle4(0);
-  angle4 = angle4 + M_2_PI;
+  angle4 = angle4 + (M_PI * 2);
   CPPUNIT_ASSERT(angle == angle1);
   CPPUNIT_ASSERT(angle2 == angle1);
   CPPUNIT_ASSERT(angle2 == angle);
   cout << angle3.getDEG() << " " << angle.getDEG() << endl;
   CPPUNIT_ASSERT(angle3 == angle);
   CPPUNIT_ASSERT(angle4 == angle);
-  angle4 += M_2_PI;
+  angle4 += (M_PI * 2);
   CPPUNIT_ASSERT(angle4 == angle);
 }
 
