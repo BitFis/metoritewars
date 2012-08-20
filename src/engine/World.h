@@ -37,6 +37,8 @@ class World : public IEventReceiver {
     
     KeyBuffer *keys;
     
+    float frameDeltaTime;
+    
     vector<Scene*> *scenes;
     vector<Scene*>::iterator current_scene;
     vector<Scene*>::iterator no_current_scene;
@@ -54,6 +56,9 @@ class World : public IEventReceiver {
     Scene *getCurrentScene();
     bool hasCurrentScene();
 
+    float getFramDeltaTime();
+    void setFrameDeltaTime(float frameDeltaTime);
+    
     void addScene(Scene *scene);
     void removeScene(Scene *scene);
     void removeScene(const char *name);
