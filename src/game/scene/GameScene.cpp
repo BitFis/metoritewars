@@ -8,6 +8,8 @@ void GameScene::onLoad(){
   ship = new Ship("objects/player/ship.x", this->smgr);
   this->meteors = new vector<Meteor*>(0);
   
+  scene::ICameraSceneNode* camera = smgr->addCameraSceneNode(0,core::vector3df(0.0,0.0,2.0),core::vector3df(0.0,0.0,0.0),1,true);
+  
   last_meteor_created_at = device->getTimer()->getTime();
 }
 
@@ -19,6 +21,13 @@ bool GameScene::OnEvent(const SEvent& event){
 void GameScene::onTick(){
   //update ship
   ship->update(world->getFrameDeltaTime());
+  
+  /////////////////////////////////////////
+  //shoot
+  
+  if(world->getKeys()->get(KEY_SPACE)){
+    ship->shoot(world->getRunTime());
+  }
   
   ////////////////////////////////////////
   //move ship forward
@@ -33,11 +42,11 @@ void GameScene::onTick(){
   
   //rotate ship
   if(world->getKeys()->get(KEY_RIGHT)){
-    ship->rotate(1, world->getFrameDeltaTime());
+    ship->rotate(-1, world->getFrameDeltaTime());
   }
   
   if(world->getKeys()->get(KEY_LEFT)){
-    ship->rotate(-1, world->getFrameDeltaTime());
+    ship->rotate(1, world->getFrameDeltaTime());
   }
   
   /* spawn new meteor every 500 ms*/

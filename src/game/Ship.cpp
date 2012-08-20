@@ -8,15 +8,17 @@
 #include "Ship.h"
 
 Ship::Ship(const char*  filename, scene::ISceneManager* smgr) {
-  ship = smgr->addAnimatedMeshSceneNode(smgr->getMesh(filename),0,12,core::vector3df(0.0,0.0,0.0),core::vector3df(-90.0,0.0,0.0),core::vector3df(0.01,0.01,0.01));
+  ship = smgr->addAnimatedMeshSceneNode(smgr->getMesh(filename),0,12,core::vector3df(0.0,0.0,0.0),core::vector3df(90.0,180.0,0.0),core::vector3df(0.01,0.01,0.01));
+  
+  shots = new Shot("objects/player/shot.x", smgr, ship);
   
   //set ship variables
   speed = 0;
   movspeed = 1;
-  maxSpeed = 0.04;
+  maxSpeed = 2;
   
   rotation = 0;
-  rotspeed = 150;
+  rotspeed = 200;
   maxRot = 1;
   
   //set material
@@ -31,20 +33,35 @@ Ship::Ship(const char*  filename, scene::ISceneManager* smgr) {
   
 }
 
+void Ship::shoot(float passedTime){
+  printf("%f / %f \n ", lastshot, passedTime);
+  if(lastshot + shots->getShotTimeout() < passedTime){
+    shots->createShot(ship->getPosition(), ship->getRotation(), ship->getScale());
+    
+    //reset shot
+    lastshot = passedTime;
+  }
+}
+  
+core::vector3df Ship::getPosVec3df(){
+  return ship->getPosition();
+}
+
+scene::ISceneNode* Ship::getShipNode(){
+  return ship;
+}
+
 void Ship::update(float DeltaTime){
-  //move forward
-  ship->setPosition(core::vector3df((speed * sinf(2 * core::PI / 360 * rotation)), -(speed * cosf(2 * core::PI / 360 * rotation)),0.0) + ship->getPosition());
+  
+  this->DeltaTime = DeltaTime;
+  
+  //move forward  
+  ship->setPosition(ship->getPosition() + core::vector3df(0.0,0.0,rotation).rotationToDirection(core::vector3df(0,speed * DeltaTime,0.0)));
   
   //rotate ship
-  ship->setRotation(core::vector3df(-90.0,0.0,rotation));
+  ship->setRotation(core::vector3df(90.0,0.0,rotation));
   
-  //slowdown movement
-  //autoSlowdown(&speed, movspeed, &moveback, &movefor, DeltaTime);
-  
-  //slowdown rotation
-  //autoSlowdown(&rotation, rotspeed, &rotright, &rotleft, DeltaTime);
-  
-  printf("%f\n", speed);
+  shots->move(DeltaTime);
 }
 
 void Ship::autoSlowdown(float* speed, float movspeed, bool* backMovement, bool* forMovement, float DeltaTime){
@@ -63,7 +80,7 @@ void Ship::autoSlowdown(float* speed, float movspeed, bool* backMovement, bool* 
 
 float Ship::move(int move, float deltaTime, float* speed){
 
-  return *speed + (getAcceleration() * move) * deltaTime;
+  return *speed + (getAcceleration() * move);
 }
 
 void Ship::moveFor(float deltaTime){
@@ -77,7 +94,7 @@ void Ship::moveBack(float deltaTime){
 }
 
 float Ship::getAcceleration(){
-  return 0.05;
+  return 0.03;
 }
 
 void Ship::rotate(int rotate, float deltaTime){
@@ -86,11 +103,10 @@ void Ship::rotate(int rotate, float deltaTime){
   
   //rotation += rotation < maxRot && rotation > -maxRot ? rotation + rotspeed * rotate * deltaTime : maxRot;
   
-  printf("%f\n", rotation);
-  
   //prevent overflow
 }
 
 Ship::~Ship() {
+  delete shots;
 }
 

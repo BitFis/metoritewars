@@ -42,10 +42,11 @@ int main() {
     //Work out a frame delta time.
     const u32 now = device->getTimer()->getTime();
     world->setFrameDeltaTime((float)(now - then) / 1000.f); // Time in seconds
+    world->setRunTime(now / 1000.f);
     then = now;
 
      
-    driver->beginScene(true, true, video::SColor(255, 113, 113, 133));
+    driver->beginScene(true, true, video::SColor(255, 0, 0, 0));
     
     if(world->hasCurrentScene()) {
       world->getCurrentScene()->onTick();

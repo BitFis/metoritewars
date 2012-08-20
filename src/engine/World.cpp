@@ -27,6 +27,10 @@ World::~World() {
   delete this->keys;
 }
 
+void World::setRunTime(float passedTime){
+  this->runTimePassed = passedTime;
+}
+
 /*  get the iterator of the scene which
     has the given name */
 vector<Scene*>::iterator World::getSceneIterator(const char *name) {
@@ -39,6 +43,10 @@ vector<Scene*>::iterator World::getSceneIterator(const char *name) {
     }
   }
   return search;
+}
+
+float World::getRunTime(){
+  return runTimePassed;
 }
 
 /* get the pointer to the scene object
