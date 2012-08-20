@@ -2,27 +2,20 @@
 #define	METEOR_H
 
 #include <irrlicht/irrlicht.h>
-#include <iostream>
 #include "../engine/Angle.h"
 
-using namespace std;
 using namespace irr;
 
 class Meteor {
 private:
   float size;
+  unsigned int last_crashed;
   scene::ISceneManager* smgr;
   scene::IAnimatedMeshSceneNode* mesh;
   static scene::IAnimatedMesh* static_mesh;
-  
-  scene::ISceneNodeAnimator* anim_fly;
-  core::vector3df from_anim;
-  core::vector3df to_anim;
   float velocity;
-  float angle;
+  Angle angle;
   
-  void attachFlightAnimator();
-  void attachFlightAnimator(float angle);
   float calcTransitionTime(float distance);
   void attachRotateAnimator();
   Angle genRandomAngle();
@@ -33,8 +26,11 @@ public:
   virtual ~Meteor();
   scene::IAnimatedMeshSceneNode* getMesh();
   bool collidesWith(scene::ISceneNode* node);
-  bool animationFinished();
+  bool tooFarAwayFrom(core::vector3df pos, float distance);
   void bounceOf(Meteor *meteor);
+  void setLastCrashed(unsigned int last_crashed);
+  unsigned int getLastCrashed();
+  void update(float delta);
 };
 
 #ifdef _METEOR_CPP

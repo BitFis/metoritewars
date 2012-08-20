@@ -18,26 +18,26 @@ bool GameScene::OnEvent(const SEvent& event){
 
 void GameScene::onTick(){
   //update ship
-  ship->update(world->getFramDeltaTime());
+  ship->update(world->getFrameDeltaTime());
   
   ////////////////////////////////////////
   //move ship forward
   if(world->getKeys()->get(KEY_UP)){
-    ship->moveFor(world->getFramDeltaTime());
+    ship->moveFor(world->getFrameDeltaTime());
   }
   
   //move ship back
   if(world->getKeys()->get(KEY_DOWN)){
-    ship->moveBack(world->getFramDeltaTime());
+    ship->moveBack(world->getFrameDeltaTime());
   }
   
   //rotate ship
   if(world->getKeys()->get(KEY_RIGHT)){
-    ship->rotate(1, world->getFramDeltaTime());
+    ship->rotate(1, world->getFrameDeltaTime());
   }
   
   if(world->getKeys()->get(KEY_LEFT)){
-    ship->rotate(-1, world->getFramDeltaTime());
+    ship->rotate(-1, world->getFrameDeltaTime());
   }
   
   /* spawn new meteor every 500 ms*/
@@ -52,10 +52,16 @@ void GameScene::onTick(){
   
   /* remove old meteors */
   Meteor *meteor;
+  vector<Meteor*>::iterator last_it = this->meteors->begin();
   foreach(it_meteor, (*this->meteors)) {
-    if((*it_meteor)->animationFinished()) {
-      smgr->addToDeletionQueue((*it_meteor)->getMesh());
+    meteor = *it_meteor;
+    meteor->update(world->getFrameDeltaTime());
+    if(meteor->tooFarAwayFrom(core::vector3df(0,0,0), 1.6f)) {
       this->meteors->erase(it_meteor);
+      smgr->addToDeletionQueue(meteor->getMesh());
+      it_meteor = last_it;
+    } else {
+      last_it = it_meteor;
     }
   }
   
@@ -64,8 +70,10 @@ void GameScene::onTick(){
     foreach(it_meteor2, (*this->meteors)) {
       if(*it_meteor1 != *it_meteor2) {
         if((*it_meteor1)->collidesWith((*it_meteor2)->getMesh())) {
-          printf("%p collides with %p\n", *it_meteor1, *it_meteor2);
-          (*it_meteor1)->bounceOf(*it_meteor2);
+          if(abs((*it_meteor1)->getLastCrashed() - tick) > 50) {
+            (*it_meteor1)->bounceOf(*it_meteor2);
+            (*it_meteor1)->setLastCrashed(tick);
+          }
         }
       }
     }

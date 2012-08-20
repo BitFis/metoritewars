@@ -1,5 +1,9 @@
 #include "Angle.h"
 
+Angle::Angle() {
+  set(0, ANGLE_TYPE_RAD);
+}
+
 Angle::Angle(float angle, angletype type) {
   set(angle, type);
 }

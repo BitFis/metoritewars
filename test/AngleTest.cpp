@@ -20,7 +20,6 @@ void AngleTest::testConstruct() {
   CPPUNIT_ASSERT(angle == angle1);
   CPPUNIT_ASSERT(angle2 == angle1);
   CPPUNIT_ASSERT(angle2 == angle);
-  cout << angle3.getDEG() << " " << angle.getDEG() << endl;
   CPPUNIT_ASSERT(angle3 == angle);
   CPPUNIT_ASSERT(angle4 == angle);
   angle4 += (M_PI * 2);

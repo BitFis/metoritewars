@@ -14,6 +14,7 @@ class Angle {
     void preserveInvalid();
 
   public:
+    Angle();
     Angle(float angle, angletype type = ANGLE_TYPE_RAD);
     virtual ~Angle();
 

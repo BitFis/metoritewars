@@ -163,7 +163,7 @@ void World::setDevice(IrrlichtDevice *device) {
   this->device = device;
 }
 
-float World::getFramDeltaTime(){
+float World::getFrameDeltaTime(){
   return frameDeltaTime;
 }
 

@@ -56,7 +56,7 @@ class World : public IEventReceiver {
     Scene *getCurrentScene();
     bool hasCurrentScene();
 
-    float getFramDeltaTime();
+    float getFrameDeltaTime();
     void setFrameDeltaTime(float frameDeltaTime);
     
     void addScene(Scene *scene);
