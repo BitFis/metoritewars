@@ -1,12 +1,3 @@
-/* 
- * File:   Ship.cpp
- * Author: zurcherl
- * 
- * Created on 16. August 2012, 10:55
- */
-
-#include <basetsd.h>
-
 #include "Ship.h"
 
 Ship::Ship(const char*  filename, scene::ISceneManager* smgr, video::IVideoDriver* driver) {
