@@ -12,6 +12,16 @@ void GameScene::onLoad(){
   
   last_meteor_created_at = device->getTimer()->getTime();
   
+  gui->getSkin()->setColor(gui::EGDC_BUTTON_TEXT,video::SColor(255, 255, 255, 255));
+  gui->getSkin()->setSize(gui::EGDS_BUTTON_HEIGHT, 500);
+  
+  //reset to normal font
+  gui->getSkin()->setFont(gui->getBuiltInFont(), gui::EGDF_DEFAULT);
+  
+  gui->addStaticText(L"POINTS: 0", core::rect<s32>(20,20,350,40), false);
+  
+  //background
+  background = new Background(smgr, driver);
 }
 
 bool GameScene::OnEvent(const SEvent& event){
@@ -20,6 +30,9 @@ bool GameScene::OnEvent(const SEvent& event){
 }
 
 void GameScene::onTick(){
+  
+  background->returnStars()->setPosition(ship->getShipNode()->getPosition() + core::vector3df(2.5,-6.0,0.0));
+  
   //update ship
   core::vector3df pos;
   ship->update(world->getFrameDeltaTime());
@@ -30,6 +43,7 @@ void GameScene::onTick(){
   camera->setTarget(ship->getPosVec3df());
   
   Meteor::setSpawnOffset(ship->getPosVec3df());
+  
   
   /////////////////////////////////////////
   //shoot
@@ -122,6 +136,7 @@ void GameScene::onTick(){
 }
 
 void GameScene::onUnload(){
+  delete background;
   delete ship;
   foreach(meteor, (*this->meteors)) {
     delete *meteor;
