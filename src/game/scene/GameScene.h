@@ -5,6 +5,7 @@
 #include "../../engine/VoidReceiver.h"
 #include "../Ship.h"
 #include "../Meteor.h"
+#include "../Background.h"
 
 class GameScene : public Scene{
 public:
@@ -13,6 +14,9 @@ public:
   virtual bool OnEvent(const SEvent& event);
   virtual void onTick();
   virtual void onUnload();
+  
+  bool tooFarAwayFrom(scene::IAnimatedMeshSceneNode* mesh, core::vector3df pos, float distance);
+  bool tooFarAwayFrom(scene::ISceneNode* mesh, core::vector3df pos, float distance);
   
   unsigned int last_meteor_created_at;
   

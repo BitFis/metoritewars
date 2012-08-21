@@ -62,7 +62,10 @@ void Ship::update(float DeltaTime){
   //rotate ship
   ship->setRotation(core::vector3df(90.0,0.0,rotation.getDEG()));
   
+  //moving shots
+  shots->move(DeltaTime);
   
+  //update DeltaTime of class
   this->DeltaTime = DeltaTime;
   
   float cur_accel;
@@ -99,7 +102,7 @@ void Ship::update(float DeltaTime){
   
   speed += accel_vec;
   
-  cout << "speed: " << new_speed.getDistanceFrom(core::vector3df(0,0,0)) << endl;
+  //cout << "speed: " << new_speed.getDistanceFrom(core::vector3df(0,0,0)) << endl;
 }
 
 void Ship::moveFor(float deltaTime){

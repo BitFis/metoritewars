@@ -112,10 +112,6 @@ void Meteor::update(float delta) {
   this->mesh->setPosition(pos);
 }
 
-bool Meteor::tooFarAwayFrom(core::vector3df pos, float distance) {
-  return fabs(distance) < fabs(this->mesh->getPosition().getDistanceFrom(pos));
-}
-
 Meteor::~Meteor() {
   mesh->drop();
   mesh->removeAll();

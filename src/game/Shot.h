@@ -26,6 +26,9 @@ public:
   
   std::vector<scene::ISceneNode*> &getShotNode();
   
+  void removeShot(std::vector<scene::ISceneNode*>::iterator &shot);
+  void removeShot(scene::ISceneNode* shot);
+  
   void setShotSpeed(float Speed);
   void setLiveTime(float LiveTime);
   

@@ -11,6 +11,10 @@ void GameScene::onLoad(){
   camera = smgr->addCameraSceneNode(0,core::vector3df(0.0,0.0,2.0),core::vector3df(0.0,0.0,0.0),1,true);
   
   last_meteor_created_at = device->getTimer()->getTime();
+  
+  //creating background with particels
+  Background background(smgr, driver);
+  
 }
 
 bool GameScene::OnEvent(const SEvent& event){
@@ -84,9 +88,14 @@ void GameScene::onTick(){
     shot_last_it = shots.begin();
     //check if it collided with a shot of the ship
     foreach(shot, shots){
-      if((*it_meteor1)->collidesWith((*shot), 1.0)){
-        smgr->addToDeletionQueue((*shot));
-        ship->getShots()->getShotNode().erase(shot);
+      
+      //remove shot if it is outside of the ring
+      if(tooFarAwayFrom((*shot), ship->getPosVec3df(), 2.3f)){
+        ship->getShots()->removeShot(shot);
+        shot = shot_last_it;
+      }else if((*it_meteor1)->collidesWith((*shot), 1.0)){
+        //removing shot if it hit a meteor
+        ship->getShots()->removeShot(shot);
         shot = shot_last_it;
         (*it_meteor1)->getMesh()->setPosition(ship->getPosVec3df()+core::vector3df(100.0,100.0,100.0));
       } else {
@@ -106,7 +115,7 @@ void GameScene::onTick(){
   vector<Meteor*>::iterator last_it = this->meteors->begin();
   foreach(it_meteor, (*this->meteors)) {
     meteor = *it_meteor;
-    if(meteor->tooFarAwayFrom(ship->getPosVec3df(), 2.3f)) {
+    if(tooFarAwayFrom(meteor->getMesh(), ship->getPosVec3df(), 2.3f)) {
       this->meteors->erase(it_meteor);
       smgr->addToDeletionQueue(meteor->getMesh());
       it_meteor = last_it;
@@ -123,5 +132,13 @@ void GameScene::onUnload(){
     delete *meteor;
   }
   delete meteors;
+}
+
+bool GameScene::tooFarAwayFrom(scene::IAnimatedMeshSceneNode* mesh, core::vector3df pos, float distance) {
+  return fabs(distance) < fabs(mesh->getPosition().getDistanceFrom(pos));
+}
+
+bool GameScene::tooFarAwayFrom(scene::ISceneNode* mesh, core::vector3df pos, float distance) {
+  return fabs(distance) < fabs(mesh->getPosition().getDistanceFrom(pos));
 }
 

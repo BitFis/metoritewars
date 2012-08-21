@@ -44,7 +44,19 @@ void Shot::move(float DeltaTime){
   foreach(shot, shots) {
     //set position
     (*shot)->setPosition((*shot)->getRotation().rotationToDirection(core::vector3df(-1 * shotspeed * DeltaTime, 0.0,0.0)) + (*shot)->getPosition());
-    
+  }
+}
+
+void Shot::removeShot(std::vector<scene::ISceneNode*>::iterator &shot){
+  smgr->addToDeletionQueue((*shot));
+  shots.erase(shot);
+}
+
+void Shot::removeShot(scene::ISceneNode* removingshot){
+  foreach(shot, shots){
+    if((*shot) == removingshot){
+      removeShot(shot);
+    }
   }
 }
 

@@ -28,7 +28,6 @@ public:
   scene::IAnimatedMeshSceneNode* getMesh();
   bool collidesWith(scene::ISceneNode* node, float NodeScale);
   bool collidesWith(Meteor* meteor);
-  bool tooFarAwayFrom(core::vector3df pos, float distance);
   void bounceOf(Meteor *meteor);
   void update(float delta);
   static void setSpawnOffset(core::vector3df spawn_offset);
