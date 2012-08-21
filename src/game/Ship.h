@@ -30,13 +30,15 @@ public:
   
   void shoot(float passedTime);
   
+  Shot* getShots();
+  
   core::vector3df getPosVec3df();
   scene::ISceneNode* getShipNode();
   
   virtual ~Ship();
 private:
-  void accelerationSpeed();
-  void decelerateSpeed();
+  //void accelerationSpeed();
+  //void decelerateSpeed();
   
   void autoSlowdown(float* speed, float movspeed, bool* backMovement, bool* forMovement, float DeltaTime);
   

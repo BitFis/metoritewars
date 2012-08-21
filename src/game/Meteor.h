@@ -26,7 +26,7 @@ public:
   Meteor(scene::ISceneManager* smgr);
   virtual ~Meteor();
   scene::IAnimatedMeshSceneNode* getMesh();
-  bool collidesWith(scene::ISceneNode* node);
+  bool collidesWith(scene::ISceneNode* node, float NodeScale);
   bool collidesWith(Meteor* meteor);
   bool tooFarAwayFrom(core::vector3df pos, float distance);
   void bounceOf(Meteor *meteor);

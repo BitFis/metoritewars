@@ -68,13 +68,16 @@ scene::IAnimatedMeshSceneNode* Meteor::getMesh() {
 }
 
 
-bool Meteor::collidesWith(scene::ISceneNode* node) {
+bool Meteor::collidesWith(scene::ISceneNode* node, float NodeScale) {
   /* check if the bounding boxes collide */
-  return node->getPosition().getDistanceFrom(this->mesh->getPosition()) < this->mesh->getScale().X * 6 + node->getScale().X * 6;
+  return node->getPosition()
+          .getDistanceFrom(this->mesh->getPosition()) 
+          < this->mesh->getScale()
+          .X * 6 + node->getScale().X * NodeScale;
 }
 
 bool Meteor::collidesWith(Meteor* meteor) {
-  bool back = collidesWith(meteor->getMesh());
+  bool back = collidesWith(meteor->getMesh(), 6);
   bool ret = back && colliding_with == 0;
   if(!back && meteor == colliding_with) {
     colliding_with = 0;
