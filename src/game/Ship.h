@@ -16,7 +16,7 @@ using namespace irr;
 
 class Ship {
 public:
-  Ship(const char* filename, scene::ISceneManager* smgr);
+  Ship(const char*  filename, scene::ISceneManager* smgr, video::IVideoDriver* driver);
   float move(int move, float deltaTime, float* speed);
   void rotate(int rotate, float deltaTime);
   void moveFor();
@@ -38,7 +38,10 @@ private:
   Shot* shots;
   
   scene::ISceneManager* smgr;
+  video::IVideoDriver* driver;
   scene::IAnimatedMeshSceneNode* ship;
+  
+  scene::IParticleSystemSceneNode* shipfire;
   
   float max_speed; //max possible speed
   

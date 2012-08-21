@@ -15,6 +15,7 @@ public:
   virtual void onTick();
   virtual void onUnload();
   
+  
   bool tooFarAwayFrom(scene::IAnimatedMeshSceneNode* mesh, core::vector3df pos, float distance);
   bool tooFarAwayFrom(scene::ISceneNode* mesh, core::vector3df pos, float distance);
   

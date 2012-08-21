@@ -5,17 +5,22 @@
  * Created on 16. August 2012, 10:55
  */
 
+#include <basetsd.h>
+
 #include "Ship.h"
 
-Ship::Ship(const char*  filename, scene::ISceneManager* smgr) {
-  ship = smgr->addAnimatedMeshSceneNode(smgr->getMesh(filename),0,12,core::vector3df(0.0,0.0,0.0),core::vector3df(90.0,180.0,0.0),core::vector3df(0.01,0.01,0.01));
+Ship::Ship(const char*  filename, scene::ISceneManager* smgr, video::IVideoDriver* driver) {
+  lastshot = 0;
+  ship = smgr->addAnimatedMeshSceneNode(smgr->getMesh(filename),0,12,core::vector3df(0.0,0.0,0.0),core::vector3df(0.0,180.0,0.0),core::vector3df(0.01,0.01,0.01),smgr);
+  
+  this->driver = driver;
   
   shots = new Shot("objects/player/shot.x", smgr, ship);
   
   //set ship variables
   lastshot = 0;
   speed = 0;
-  acceleration = 0.1f;
+  acceleration = 1.0f;
   max_speed = 1.5f;
   
   rotation = 0;
@@ -30,6 +35,28 @@ Ship::Ship(const char*  filename, scene::ISceneManager* smgr) {
   //set Animations
   ship->setFrameLoop(0,39);
   ship->setAnimationSpeed(10);
+  
+  //adding particle effect
+  shipfire = smgr->addParticleSystemSceneNode(false);
+  
+  scene::IParticleEmitter* em = shipfire->createBoxEmitter(
+          core::aabbox3d<f32>(-0.7,0.7,-0.7,0.0,0.1,0.7), // emitter size
+          core::vector3df(0.0f,0.0f,0.0f),   // initial direction
+          8000,1000,                             // emit rate
+          video::SColor(0,255,255,255),       // darkest color
+          video::SColor(0,255,255,255),       // brightest color
+          200000,200000,0,                         // min and max age, angle
+          core::dimension2df(0.f,0.f),         // min size
+          core::dimension2df(0.2f,0.2f));        // max size
+  
+  shipfire->setEmitter(em);
+  
+  //em->drop();
+  
+  shipfire->setMaterialFlag(video::EMF_LIGHTING, false);
+  shipfire->setMaterialFlag(video::EMF_ZWRITE_ENABLE, false);
+  shipfire->setMaterialTexture(0, driver->getTexture("media/fire.bmp"));
+  shipfire->setMaterialType(video::EMT_TRANSPARENT_VERTEX_ALPHA);
   
 }
 
@@ -53,7 +80,7 @@ scene::ISceneNode* Ship::getShipNode(){
 void Ship::update(float DeltaTime){
   // move all shots
   shots->move(DeltaTime);
-  float cur_accel;
+  float cur_accel = 0.0f;
   
   
   // calculate current acceleration
@@ -97,7 +124,7 @@ void Ship::update(float DeltaTime){
   }
  
   // accelerate
-  speed += cur_accel;
+  speed += cur_accel * DeltaTime;
   
   //move forward  
   ship->setPosition(ship->getPosition() + core::vector3df(0.0,0.0,rotation).rotationToDirection(core::vector3df(0,speed * DeltaTime,0.0)));
