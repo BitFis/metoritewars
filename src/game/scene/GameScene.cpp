@@ -39,19 +39,17 @@ void GameScene::onTick(){
   
   if(world->getKeys()->get(KEY_SPACE)){
     ship->shoot(world->getRunTime());
-    
-    scene::ISceneNode* testnode = ship->getShots()->getShotNode()[0];
   }
   
   ////////////////////////////////////////
   //move ship forward
   if(world->getKeys()->get(KEY_UP)){
-    ship->moveFor(world->getFrameDeltaTime());
+    ship->moveFor();
   }
   
   //move ship back
   if(world->getKeys()->get(KEY_DOWN)){
-    ship->moveBack(world->getFrameDeltaTime());
+    ship->moveBack();
   }
   
   //rotate ship

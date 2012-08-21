@@ -8,22 +8,18 @@
 #include "Ship.h"
 
 Ship::Ship(const char*  filename, scene::ISceneManager* smgr) {
-  lastshot = 0;
-  ship = smgr->addAnimatedMeshSceneNode(smgr->getMesh(filename),0,12,core::vector3df(0.0,0.0,0.0),core::vector3df(0.0,180.0,0.0),core::vector3df(0.01,0.01,0.01));
+  ship = smgr->addAnimatedMeshSceneNode(smgr->getMesh(filename),0,12,core::vector3df(0.0,0.0,0.0),core::vector3df(90.0,180.0,0.0),core::vector3df(0.01,0.01,0.01));
   
   shots = new Shot("objects/player/shot.x", smgr, ship);
   
   //set ship variables
-  speed = core::vector3df(0.0f,0.0f,0.0f);
-  acceleration = 1.0f;
-  maxSpeed = 2;
+  lastshot = 0;
+  speed = 0;
+  acceleration = 0.1f;
+  max_speed = 1.5f;
   
-  rotation.set(0.0f);
-  rotspeed = 1.0f;
-  maxRot = 1;
-  
-  movefor = false;
-  moveback = false;
+  rotation = 0;
+  rotspeed = 200;
   
   //set material
   if(ship){
@@ -54,16 +50,14 @@ scene::ISceneNode* Ship::getShipNode(){
   return ship;
 }
 
-void Ship::update(float DeltaTime){  
-  //moving shots
+void Ship::update(float DeltaTime){
+  // move all shots
   shots->move(DeltaTime);
-  
-  this->DeltaTime = DeltaTime;
-  
   float cur_accel;
   
-  bool movement = false;
   
+  // calculate current acceleration
+  bool movement = false;
   if(movefor) {
     cur_accel += acceleration;
     movefor = false;
@@ -75,47 +69,53 @@ void Ship::update(float DeltaTime){
     movement = true;
   }
   
-  if(!movement) {
-    speed *= 0.995f; // @TODO: this should not be indepentent to DeltaTime ...
+  
+  // automaticly slow down spaceship when not accelerating
+  if(movement) {
+    time_not_accelerating = 0;
+  } else {
+    time_not_accelerating += DeltaTime;
+    float timediff = 0.5f;
+    
+    int times = time_not_accelerating / timediff;
+    if(times > 0) {
+      time_not_accelerating -= times * timediff;
+      for(int i = 0; i < times; i++) {
+        speed *= 0.8f;
+      }
+    }
   }
   
-  core::vector3df accel_vec(sin(rotation.getRAD()) * cur_accel * DeltaTime, cos(rotation.getRAD()) * cur_accel * DeltaTime, 0.0f);
-  core::vector3df new_speed = speed + accel_vec;
-  
-  float cur_length = speed.getDistanceFrom(core::vector3df(0,0,0));
-  
-  if(new_speed.getDistanceFrom(core::vector3df(0,0,0)) > cur_length) {
-    float b = 1 - (cur_length * cur_length)/(maxSpeed * maxSpeed);
+  // some calculations to not exeed max_speed & have a smooth acceleration
+  float new_speed = speed + cur_accel;
+  if(abs(new_speed) > abs(speed)) {
+    float b = 1 - (speed * speed)/(max_speed * max_speed);
     if(b <= 0) b = DBL_MIN;
     
     float lorentz_factor  = 1/sqrt(b);
-    accel_vec /= lorentz_factor;
+    cur_accel /= lorentz_factor;
   }
-  
-  speed += accel_vec;
+ 
+  // accelerate
+  speed += cur_accel;
   
   //move forward  
-  ship->setPosition(ship->getPosition() + core::vector3df(0.0,0.0,rotation.getDEG()).rotationToDirection(speed * DeltaTime));
+  ship->setPosition(ship->getPosition() + core::vector3df(0.0,0.0,rotation).rotationToDirection(core::vector3df(0,speed * DeltaTime,0.0)));
   
   //rotate ship
-  ship->setRotation(core::vector3df(90.0,0.0,rotation.getDEG()));
+  ship->setRotation(core::vector3df(90.0,0.0,rotation));
 }
 
-void Ship::moveFor(float deltaTime){
-  //speed = (speed < maxSpeed ? move(movspeed, deltaTime, &speed) : maxSpeed);
+void Ship::moveFor(){
   movefor = true;
 }
 
-void Ship::moveBack(float deltaTime){
-  //speed = (speed > -maxSpeed/5 ? move(-movspeed, deltaTime, &speed) : -maxSpeed/5);
+void Ship::moveBack(){
   moveback = true;
 }
 
-
 void Ship::rotate(int rotate, float deltaTime){
-  Angle angle(3600.0f + rotspeed * rotate, ANGLE_TYPE_DEG);
-  cout << "angle = " << angle.getDEG() << endl;
-  rotation -= angle;
+  rotation -= rotspeed * rotate * deltaTime;
 }
 
 Shot* Ship::getShots() {
