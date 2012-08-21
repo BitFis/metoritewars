@@ -52,11 +52,12 @@ private:
   
   float lastshot; //to set shot timeout
   
-  Angle rotation; //current rotation
   core::vector3df speed; //current move speed
-  
-  float rotspeed; //rotation boost
   float acceleration;
+  
+  float rotaccel;
+  float rotspeed; //rotation boost
+  Angle rotation; //current rotation
   
   bool movefor; //moving forward
   bool moveback; //moving backwards

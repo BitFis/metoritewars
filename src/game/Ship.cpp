@@ -19,7 +19,8 @@ Ship::Ship(const char*  filename, scene::ISceneManager* smgr) {
   maxSpeed = 2;
   
   rotation.set(0);
-  rotspeed = 10.0f;
+  rotaccel = 0.6f;
+  rotspeed = 0.0f;
   maxRot = 1;
   
   movefor = false;
@@ -54,18 +55,10 @@ scene::ISceneNode* Ship::getShipNode(){
   return ship;
 }
 
-void Ship::update(float DeltaTime){
-  
-  //move forward  
-  ship->setPosition(ship->getPosition() + core::vector3df(0.0,0.0,rotation.getDEG()).rotationToDirection(speed * DeltaTime));
-  
-  //rotate ship
-  ship->setRotation(core::vector3df(90.0,0.0,rotation.getDEG()));
-  
+void Ship::update(float DeltaTime){  
   //moving shots
   shots->move(DeltaTime);
   
-  //update DeltaTime of class
   this->DeltaTime = DeltaTime;
   
   float cur_accel;
@@ -102,7 +95,11 @@ void Ship::update(float DeltaTime){
   
   speed += accel_vec;
   
-  //cout << "speed: " << new_speed.getDistanceFrom(core::vector3df(0,0,0)) << endl;
+  //move forward  
+  ship->setPosition(ship->getPosition() + core::vector3df(0.0,0.0,rotation.getDEG()).rotationToDirection(speed * DeltaTime));
+  
+  //rotate ship
+  ship->setRotation(core::vector3df(90.0,0.0,rotation.getDEG()));
 }
 
 void Ship::moveFor(float deltaTime){
@@ -118,7 +115,8 @@ void Ship::moveBack(float deltaTime){
 
 void Ship::rotate(int rotate, float deltaTime){
   //rotate
-  Angle angle(rotspeed * rotate * deltaTime, ANGLE_TYPE_DEG);
+  rotspeed += rotaccel * deltaTime * deltaTime;
+  Angle angle(3600.0f + rotspeed * rotate, ANGLE_TYPE_DEG);
   cout << "angle = " << angle.getDEG() << endl;
   rotation -= angle;
 }
