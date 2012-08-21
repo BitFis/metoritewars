@@ -37,8 +37,6 @@ public:
   
   virtual ~Ship();
 private:
-  //void accelerationSpeed();
-  //void decelerateSpeed();
   
   void autoSlowdown(float* speed, float movspeed, bool* backMovement, bool* forMovement, float DeltaTime);
   

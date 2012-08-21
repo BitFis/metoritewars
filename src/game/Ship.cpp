@@ -112,20 +112,16 @@ void Ship::moveBack(float deltaTime){
   moveback = true;
 }
 
-void Ship::accelerationSpeed(){
-  speed += (1 * DeltaTime) / sqrt(sqrt(1 / maxSpeed));
-}
-
-void Ship::decelerateSpeed(){
-  speed -= (1 * DeltaTime) / (1 / sqrt(sqrt(1 / maxSpeed)));
-}
-
 
 void Ship::rotate(int rotate, float deltaTime){
   //rotate
   Angle angle(rotspeed * rotate * deltaTime, ANGLE_TYPE_DEG);
   cout << "angle = " << angle.getDEG() << endl;
   rotation -= angle;
+}
+
+Shot* Ship::getShots() {
+  return shots;
 }
 
 Ship::~Ship() {
