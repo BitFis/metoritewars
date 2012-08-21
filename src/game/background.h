@@ -9,6 +9,7 @@
 #define	Background_H
 
 #include <irrlicht/irrlicht.h>
+#include <iostream>
 
 using namespace irr;
 
@@ -19,6 +20,7 @@ public:
 private:
   scene::ISceneManager* smgr;
 
+  scene::IParticleEmitter* stars;
 };
 
 #endif	/* Background_H */
