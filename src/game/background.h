@@ -16,11 +16,14 @@ using namespace irr;
 class Background {
 public:
   Background(scene::ISceneManager* smgr, video::IVideoDriver* driver);
+  
+  void stopCreating();
+  
   virtual ~Background();
 private:
   scene::ISceneManager* smgr;
 
-  scene::IParticleEmitter* stars;
+  scene::IParticleSystemSceneNode* stars;
 };
 
 #endif	/* Background_H */

@@ -5,15 +5,12 @@ GameScene::GameScene(World *world) : Scene("game", world){
 };
 
 void GameScene::onLoad(){
-  ship = new Ship("objects/player/ship.x", this->smgr);
+  ship = new Ship("objects/player/ship.x", this->smgr, this->driver);
   this->meteors = new vector<Meteor*>(0);
   
   camera = smgr->addCameraSceneNode(0,core::vector3df(0.0,0.0,2.0),core::vector3df(0.0,0.0,0.0),1,true);
   
   last_meteor_created_at = device->getTimer()->getTime();
-  
-  //creating background with particels
-  Background background(smgr, driver);
   
 }
 
@@ -52,6 +49,7 @@ void GameScene::onTick(){
   //move ship back
   if(world->getKeys()->get(KEY_DOWN)){
     ship->moveBack(world->getFrameDeltaTime());
+    
   }
   
   //rotate ship
