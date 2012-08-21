@@ -4,13 +4,14 @@
 #include <cmath>
 #include <iostream>
 
+#define ANGLE_MAX 360000
 using namespace std;
 
 typedef enum {ANGLE_TYPE_DEG, ANGLE_TYPE_RAD} angletype;
 
 class Angle {
   private:
-    float angle_rad;
+    int angle_deg;
     void preserveInvalid();
 
   public:
@@ -18,10 +19,11 @@ class Angle {
     Angle(float angle, angletype type = ANGLE_TYPE_RAD);
     virtual ~Angle();
 
-    float getDEG();
-    float getRAD();
+    float getDEG() const;
+    float getRAD() const;
 
     void set(float angle, angletype type = ANGLE_TYPE_RAD);
+    void set(int angle, angletype type = ANGLE_TYPE_RAD);
 
     Angle operator+=(const Angle &angle);
     Angle operator+=(float angle);

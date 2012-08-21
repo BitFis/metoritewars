@@ -1,7 +1,7 @@
 #include "Angle.h"
 
 Angle::Angle() {
-  set(0, ANGLE_TYPE_RAD);
+  set(0, ANGLE_TYPE_DEG);
 }
 
 Angle::Angle(float angle, angletype type) {
@@ -13,32 +13,36 @@ Angle::~Angle() {
 }
 
 void Angle::preserveInvalid() {
-  if(angle_rad > (M_PI * 2) || fabs(angle_rad - (M_PI * 2)) < 0.001) {
-    angle_rad -= ((int)(angle_rad / (M_PI * 2))) * (M_PI * 2);
-  } else if(angle_rad < 0) {
-    angle_rad += ((int)(-angle_rad / (M_PI * 2)) + 1) * (M_PI * 2);
+  if(angle_deg >= ANGLE_MAX) {
+    angle_deg -= ((int)(angle_deg / ANGLE_MAX)) * ANGLE_MAX;
+  } else if(angle_deg < 0) {
+    angle_deg += ((int)((-angle_deg) / ANGLE_MAX) + 1) * ANGLE_MAX;
   }
 }
 
 void Angle::set(float angle, angletype type) {
-  if(type == ANGLE_TYPE_RAD) {
-    angle_rad = angle;
-  } else if(type == ANGLE_TYPE_DEG) {
-    angle_rad = (angle / 360.0f) * M_PI * 2;
+  set((int)round(angle * 1000), type);
+}
+
+void Angle::set(int angle, angletype type) {
+  if(type == ANGLE_TYPE_DEG) {
+    angle_deg = angle;
+  } else if(type == ANGLE_TYPE_RAD) {
+    angle_deg = (angle / M_PI) * 180.0f;
   }
   preserveInvalid();
 }
 
-float Angle::getDEG() {
-  return (angle_rad * 360.0f) / M_2_PI;
+float Angle::getDEG() const {
+  return angle_deg / 1000.0f;
 }
 
-float Angle::getRAD() {
-  return angle_rad;
+float Angle::getRAD() const {
+  return (angle_deg / 180.0f * M_PI) / 1000.0f;
 }
 
 Angle Angle::operator+=(const Angle &angle) {
-  this->operator+=(angle.angle_rad);
+  this->operator+=(angle.getRAD());
   return *this;
 }
 
@@ -49,7 +53,7 @@ Angle Angle::operator+=(const float angle) {
 }
 
 Angle Angle::operator-=(const Angle &angle) {
-  this->operator-=(angle.angle_rad);
+  this->operator-=(angle.getRAD());
   return *this;
 }
 
@@ -59,49 +63,49 @@ Angle Angle::operator-=(const float angle) {
 }
 
 Angle operator+(Angle angle1, Angle angle2) {
-  Angle res(angle1.angle_rad + angle2.angle_rad);
+  Angle res(angle1.getRAD() + angle1.getRAD());
   return res;
 }
 
 Angle operator+(float angle1, Angle angle2) {
-  Angle res(angle1 + angle2.angle_rad);
+  Angle res(angle1 + angle2.getRAD());
   return res;
 }
 
 Angle operator+(Angle angle1, float angle2) {
-  Angle res(angle1.angle_rad + angle2);
+  Angle res(angle1.getRAD() + angle2);
   return res;
 }
 
 Angle operator-(Angle angle1, Angle angle2) {
-  Angle res(angle1.angle_rad - angle2.angle_rad);
+  Angle res(angle1.getRAD() - angle2.getRAD());
   return res;
 }
 
 Angle operator-(float angle1, Angle angle2) {
-  Angle res(angle1 - angle2.angle_rad);
+  Angle res(angle1 - angle2.getRAD());
   return res;
 }
 
 Angle operator-(Angle angle1, float angle2) {
-  Angle res(angle1.angle_rad - angle2);
+  Angle res(angle1.getRAD()  - angle2);
   return res;
 }
 
 bool Angle::operator==(Angle angle) {
-  return fabs(angle.angle_rad - this->angle_rad) < 0.001;
+  return abs(angle.angle_deg - this->angle_deg) < 100 || abs(abs(angle.angle_deg - this->angle_deg) - ANGLE_MAX) < 100;
 }
 
 bool Angle::operator>(Angle angle1) {
-  return this->angle_rad > angle1.getRAD();
+  return this->getDEG() > angle1.getDEG();
 }
 
 bool Angle::operator<(Angle angle1) {
-  return this->angle_rad < angle1.getRAD();
+  return this->getDEG() < angle1.getDEG();
 }
 
 Angle Angle::operator-() const {
-  return Angle(this->angle_rad - M_PI);
+  return Angle((this->angle_deg - (ANGLE_MAX / 2)) / 1000.f, ANGLE_TYPE_DEG);
 }
 
 Angle &Angle::operator=(const Angle& angle) {
@@ -109,7 +113,7 @@ Angle &Angle::operator=(const Angle& angle) {
     return *this;
   }
 
-  this->set(angle.angle_rad);
+  this->set(angle.angle_deg, ANGLE_TYPE_DEG);
   return *this;
 }
 

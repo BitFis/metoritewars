@@ -18,9 +18,8 @@ Ship::Ship(const char*  filename, scene::ISceneManager* smgr) {
   acceleration = 1.0f;
   maxSpeed = 2;
   
-  rotation.set(0);
-  rotaccel = 0.6f;
-  rotspeed = 0.0f;
+  rotation.set(0.0f);
+  rotspeed = 1.0f;
   maxRot = 1;
   
   movefor = false;
@@ -114,8 +113,6 @@ void Ship::moveBack(float deltaTime){
 
 
 void Ship::rotate(int rotate, float deltaTime){
-  //rotate
-  rotspeed += rotaccel * deltaTime * deltaTime;
   Angle angle(3600.0f + rotspeed * rotate, ANGLE_TYPE_DEG);
   cout << "angle = " << angle.getDEG() << endl;
   rotation -= angle;
