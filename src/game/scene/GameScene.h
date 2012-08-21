@@ -22,6 +22,8 @@ public:
   unsigned int last_meteor_created_at;
   
 private:
+  Background* background;
+  
   Ship *ship;
   vector<Meteor*> *meteors;
   scene::ICameraSceneNode* camera;

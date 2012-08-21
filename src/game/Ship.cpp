@@ -36,27 +36,7 @@ Ship::Ship(const char*  filename, scene::ISceneManager* smgr, video::IVideoDrive
   ship->setFrameLoop(0,39);
   ship->setAnimationSpeed(10);
   
-  //adding particle effect
-  shipfire = smgr->addParticleSystemSceneNode(false);
   
-  scene::IParticleEmitter* em = shipfire->createBoxEmitter(
-          core::aabbox3d<f32>(-0.7,0.7,-0.7,0.0,0.1,0.7), // emitter size
-          core::vector3df(0.0f,0.0f,0.0f),   // initial direction
-          8000,1000,                             // emit rate
-          video::SColor(0,255,255,255),       // darkest color
-          video::SColor(0,255,255,255),       // brightest color
-          200000,200000,0,                         // min and max age, angle
-          core::dimension2df(0.f,0.f),         // min size
-          core::dimension2df(0.2f,0.2f));        // max size
-  
-  shipfire->setEmitter(em);
-  
-  //em->drop();
-  
-  shipfire->setMaterialFlag(video::EMF_LIGHTING, false);
-  shipfire->setMaterialFlag(video::EMF_ZWRITE_ENABLE, false);
-  shipfire->setMaterialTexture(0, driver->getTexture("media/fire.bmp"));
-  shipfire->setMaterialType(video::EMT_TRANSPARENT_VERTEX_ALPHA);
   
 }
 
@@ -77,8 +57,10 @@ scene::ISceneNode* Ship::getShipNode(){
   return ship;
 }
 
-void Ship::update(float DeltaTime){
-  // move all shots
+void Ship::update(float DeltaTime){  
+  
+  
+  //moving shots
   shots->move(DeltaTime);
   float cur_accel = 0.0f;
   

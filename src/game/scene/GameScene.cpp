@@ -12,6 +12,8 @@ void GameScene::onLoad(){
   
   last_meteor_created_at = device->getTimer()->getTime();
   
+  //background
+  background = new Background(smgr, driver);
 }
 
 bool GameScene::OnEvent(const SEvent& event){
@@ -20,6 +22,9 @@ bool GameScene::OnEvent(const SEvent& event){
 }
 
 void GameScene::onTick(){
+  
+  background->returnStars()->setPosition(ship->getShipNode()->getPosition() + core::vector3df(2.5,-6.0,0.0));
+  
   //update ship
   core::vector3df pos;
   ship->update(world->getFrameDeltaTime());
@@ -30,6 +35,7 @@ void GameScene::onTick(){
   camera->setTarget(ship->getPosVec3df());
   
   Meteor::setSpawnOffset(ship->getPosVec3df());
+  
   
   /////////////////////////////////////////
   //shoot
@@ -122,6 +128,7 @@ void GameScene::onTick(){
 }
 
 void GameScene::onUnload(){
+  delete background;
   delete ship;
   foreach(meteor, (*this->meteors)) {
     delete *meteor;

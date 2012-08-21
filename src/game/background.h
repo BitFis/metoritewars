@@ -17,12 +17,15 @@ class Background {
 public:
   Background(scene::ISceneManager* smgr, video::IVideoDriver* driver);
   
-  void stopCreating();
+  void createParticles();
+  void stopCreateParticles();
+  scene::IParticleSystemSceneNode* returnStars();
   
   virtual ~Background();
 private:
   scene::ISceneManager* smgr;
 
+  scene::IParticleEmitter* em;
   scene::IParticleSystemSceneNode* stars;
 };
 
