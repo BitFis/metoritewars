@@ -15,13 +15,13 @@ Background::Background(scene::ISceneManager* smgr, video::IVideoDriver* driver) 
 
   em = stars->createBoxEmitter(
           core::aabbox3d<f32>(-0.7,0.7,-0.7,0.0,0.1,0.7), // emitter size
-          core::vector3df(0.0f,0.0f,0.0f),   // initial direction
-          800,1000,                             // emit rate
-          video::SColor(0,255,255,255),       // darkest color
-          video::SColor(0,255,255,255),       // brightest color
-          2000,2000,0,                         // min and max age, angle
-          core::dimension2df(0.0f,0.0f),         // min size
-          core::dimension2df(0.01f,0.01f));        // max size
+          core::vector3df(0.0f,0.0f,0.0f),          // initial direction
+          800,1000,                                 // emit rate
+          video::SColor(0,255,255,255),             // darkest color
+          video::SColor(0,255,255,255),             // brightest color
+          2000,2000,0,                              // min and max age, angle
+          core::dimension2df(0.0f,0.0f),            // min size
+          core::dimension2df(0.01f,0.01f));         // max size
   
   stars->setEmitter(em); // this grabs the emitter
   

@@ -20,7 +20,12 @@ void GameMenu::onLoad(){
   if(font)
     skin->setFont(font);
   
+  //skin->setColor(gui::EGUI_DEFAULT_COLOR::EGDC_GRAY_TEXT, irr::video::SColor(255, 255, 255, 255));
+  
   skin->setFont(gui->getBuiltInFont(), gui::EGDF_TOOLTIP);
+  
+  
+  gui->addStaticText(L"Transparent Control:", core::rect<s32>(150,20,350,40), false);
   
   device->getGUIEnvironment()->addButton(core::rect<s32>(world->win.width/2 - 300/2,200,300/2 + world->win.width/2,200 + 80), 0, MENU_START_GAME, L"Start", L"Starts Game");
   device->getGUIEnvironment()->addButton(core::rect<s32>(world->win.width/2 - 300/2,290,300/2 + world->win.width/2,290 + 80), 0, MENU_EXIT_BUTTON, L"Quit", L"Exits Program");

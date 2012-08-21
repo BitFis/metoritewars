@@ -12,6 +12,14 @@ void GameScene::onLoad(){
   
   last_meteor_created_at = device->getTimer()->getTime();
   
+  gui->getSkin()->setColor(gui::EGDC_BUTTON_TEXT,video::SColor(255, 255, 255, 255));
+  gui->getSkin()->setSize(gui::EGDS_BUTTON_HEIGHT, 500);
+  
+  //reset to normal font
+  gui->getSkin()->setFont(gui->getBuiltInFont(), gui::EGDF_DEFAULT);
+  
+  gui->addStaticText(L"POINTS: 0", core::rect<s32>(20,20,350,40), false);
+  
   //background
   background = new Background(smgr, driver);
 }
