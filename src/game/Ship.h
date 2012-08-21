@@ -10,6 +10,7 @@
 
 #include <irrlicht/irrlicht.h>
 #include "Shot.h"
+#include "../engine/Angle.h"
 #include <cmath>
 
 using namespace irr;
@@ -47,11 +48,14 @@ private:
   
   float lastshot; //to set shot timeout
   
-  float rotation; //current rotation
+  Angle current_rotation;
+  Angle rotation; //current rotation
   float acceleration;
   float speed; //current move speed
   
-  float rotspeed; //rotation boost
+  float rotspeed;
+  float effective_rotspeed;
+  float rot_acceleration;
   
   bool movefor; //moving forward
   bool moveback; //moving backwards
