@@ -17,8 +17,8 @@ Ship::Ship(const char*  filename, scene::ISceneManager* smgr, video::IVideoDrive
   rotation.set(0.0f);
   current_rotation.set(0.0f);
   rotspeed = 200;
-  effective_rotspeed = 1.0f;
-  rot_acceleration = 50.0f;
+  effective_rotspeed = 0.0f;
+  rot_acceleration = 0.2f;
   
   //set material
   if(ship){
@@ -102,19 +102,19 @@ void Ship::update(float DeltaTime){
   
   
   Angle diff(rotation - current_rotation);
-  if(diff == Angle(0.0f)) {
+  if(!(diff == Angle(0.0f))) {
+    float cur_rot_accel;
     if(diff > M_PI) {
-      diff.set(-diff.getDEG() + 360.0f, ANGLE_TYPE_DEG);
-      rotate_side = false;
+      diff.set(360.0f - diff.getDEG(), ANGLE_TYPE_DEG);
+      cur_rot_accel = rot_acceleration;
     } else {
-      rotate_side = true;
+      cur_rot_accel = -rot_acceleration;
     }
-
-    float cur_rot_accel = rot_acceleration;
+    
     float new_rot_speed = effective_rotspeed + cur_rot_accel;
 
-    if(new_rot_speed > effective_rotspeed) {
-      float b = 1 - (effective_rotspeed * effective_rotspeed)/(diff.getDEG() * diff.getDEG());
+    if(abs(new_rot_speed) > abs(effective_rotspeed)) {
+      float b = 1 - (effective_rotspeed * effective_rotspeed)/(diff.getRAD() * diff.getRAD());
       if(b <= 0) b = DBL_MIN;
 
       float lorentz_factor  = 1/sqrt(b);
@@ -124,9 +124,9 @@ void Ship::update(float DeltaTime){
     effective_rotspeed += cur_rot_accel;
 
     if(rotate_side) {
-      current_rotation.set(current_rotation.getDEG() + (diff.getDEG() - effective_rotspeed), ANGLE_TYPE_DEG);
+      current_rotation.set(current_rotation.getDEG() + effective_rotspeed, ANGLE_TYPE_DEG);
     } else {
-      current_rotation.set(current_rotation.getDEG() - (diff.getDEG() - effective_rotspeed), ANGLE_TYPE_DEG);
+      current_rotation.set(current_rotation.getDEG() - effective_rotspeed, ANGLE_TYPE_DEG);
     }
   }
   
@@ -135,7 +135,7 @@ void Ship::update(float DeltaTime){
   ship->setPosition(ship->getPosition() + core::vector3df(0.0,0.0,current_rotation.getDEG()).rotationToDirection(core::vector3df(0,speed * DeltaTime,0.0)));
   
   //rotate ship
-  ship->setRotation(core::vector3df(90.0,0.0,current_rotation.getDEG()));
+  ship->setRotation(core::vector3df(90.0,0.0,rotation.getDEG()));
 }
 
 void Ship::moveFor(){
