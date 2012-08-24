@@ -5,6 +5,7 @@ Ship::Ship(const char*  filename, scene::ISceneManager* smgr, video::IVideoDrive
   ship = smgr->addAnimatedMeshSceneNode(smgr->getMesh(filename),0,12,core::vector3df(0.0,0.0,0.0),core::vector3df(0.0,180.0,0.0),core::vector3df(0.01,0.01,0.01),smgr);
   
   this->driver = driver;
+  this->smgr = smgr;
   
   shots = new Shot("objects/player/shot.x", smgr, ship);
   
@@ -29,6 +30,35 @@ Ship::Ship(const char*  filename, scene::ISceneManager* smgr, video::IVideoDrive
   //set Animations
   ship->setFrameLoop(0,39);
   ship->setAnimationSpeed(10);
+  
+    
+  
+  shipfire = smgr->addParticleSystemSceneNode(false, ship, 1337);
+  scene::IParticleEmitter* emitter = shipfire->createBoxEmitter(
+          core::aabbox3d<f32>(-1.1,1.1,-1.1,0.0,0.1,0.1), // emitter size
+          core::vector3df(0.0f,0.0f,0.0f),          // initial direction
+          200,1000,                                 // emit rate
+          video::SColor(0,255,255,255),             // darkest color
+          video::SColor(0,255,255,255),             // brightest color
+          200,250,0,                              // min and max age, angle
+          core::dimension2df(0.0f,0.0f),            // min size
+          core::dimension2df(0.02f,0.02f));
+  
+  shipfire->setEmitter(emitter);
+  
+  scene::IParticleAffector* paf = shipfire->createFadeOutParticleAffector();
+  
+  shipfire->addAffector(paf);
+  
+  paf->drop();
+
+  shipfire->setRotation(core::vector3df(0.0,0.0,0.0));
+  shipfire->setScale(core::vector3df(2.0,2.0,2.0));
+  shipfire->setPosition(core::vector3df(1.1f,-2.0f,3.0f));
+  shipfire->setMaterialFlag(video::EMF_LIGHTING, false);
+  shipfire->setMaterialFlag(video::EMF_ZWRITE_ENABLE, false);
+  shipfire->setMaterialTexture(0, driver->getTexture("objects/player/ship-effect.png"));
+  shipfire->setMaterialType(video::EMT_TRANSPARENT_VERTEX_ALPHA);
 }
 
 void Ship::shoot(float passedTime){
@@ -90,7 +120,8 @@ void Ship::update(float DeltaTime){
   // some calculations to not exeed max_speed & have a smooth acceleration
   float new_speed = speed + cur_accel;
   if(abs(new_speed) > abs(speed)) {
-    float b = 1 - (speed * speed)/(max_speed * max_speed);
+    float reverse = (speed < 0) ? 3 : 1;
+    float b = 1 - (speed * speed)/((max_speed / reverse) * (max_speed / reverse));
     if(b <= 0) b = DBL_MIN;
     
     float lorentz_factor  = 1/sqrt(b);
@@ -123,11 +154,8 @@ void Ship::update(float DeltaTime){
 
     effective_rotspeed += cur_rot_accel;
 
-    if(rotate_side) {
-      current_rotation.set(current_rotation.getDEG() + effective_rotspeed * DeltaTime * 2.5f, ANGLE_TYPE_DEG);
-    } else {
-      current_rotation.set(current_rotation.getDEG() - effective_rotspeed * DeltaTime * 2.5f, ANGLE_TYPE_DEG);
-    }
+    current_rotation.set(current_rotation.getDEG() - effective_rotspeed * DeltaTime * 2.5f, ANGLE_TYPE_DEG);
+    
   }
   
   
@@ -135,7 +163,7 @@ void Ship::update(float DeltaTime){
   ship->setPosition(ship->getPosition() + core::vector3df(0.0,0.0,current_rotation.getDEG()).rotationToDirection(core::vector3df(0,speed * DeltaTime,0.0)));
   
   //rotate ship
-  ship->setRotation(core::vector3df(90.0,0.0,rotation.getDEG()));
+  ship->setRotation(core::vector3df(90.0,0.0,rotation.getDEG()));  
 }
 
 void Ship::moveFor(){
@@ -147,7 +175,15 @@ void Ship::moveBack(){
 }
 
 void Ship::rotate(int rotate, float deltaTime){
-  rotation.set(rotation.getDEG() - rotspeed * rotate * deltaTime, ANGLE_TYPE_DEG);
+  Angle diff(current_rotation - rotation);
+  diff = diff > M_PI ? diff + (M_PI / 2.0f) : diff;
+  if(diff < (M_PI / 2.0f)) {
+    rotation.set(rotation.getDEG() - rotspeed * rotate * deltaTime, ANGLE_TYPE_DEG);
+  }
+}
+
+Angle Ship::getRotation() {
+  return this->current_rotation;
 }
 
 Shot* Ship::getShots() {

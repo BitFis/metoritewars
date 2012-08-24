@@ -30,6 +30,7 @@ public:
   
   core::vector3df getPosVec3df();
   scene::ISceneNode* getShipNode();
+  Angle getRotation();
   
   virtual ~Ship();
 private:
