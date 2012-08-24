@@ -18,7 +18,7 @@ Ship::Ship(const char*  filename, scene::ISceneManager* smgr, video::IVideoDrive
   current_rotation.set(0.0f);
   rotspeed = 200;
   effective_rotspeed = 0.0f;
-  rot_acceleration = 0.2f;
+  rot_acceleration = 40.0f;
   
   //set material
   if(ship){
@@ -124,9 +124,9 @@ void Ship::update(float DeltaTime){
     effective_rotspeed += cur_rot_accel;
 
     if(rotate_side) {
-      current_rotation.set(current_rotation.getDEG() + effective_rotspeed, ANGLE_TYPE_DEG);
+      current_rotation.set(current_rotation.getDEG() + effective_rotspeed * DeltaTime * 2.5f, ANGLE_TYPE_DEG);
     } else {
-      current_rotation.set(current_rotation.getDEG() - effective_rotspeed, ANGLE_TYPE_DEG);
+      current_rotation.set(current_rotation.getDEG() - effective_rotspeed * DeltaTime * 2.5f, ANGLE_TYPE_DEG);
     }
   }
   
