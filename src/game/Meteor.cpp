@@ -19,7 +19,7 @@ Meteor::Meteor(scene::ISceneManager* smgr) {
   
   /* attach lightning */
   if(mesh) {
-    mesh->setMaterialFlag(video::EMF_LIGHTING, false); 
+    mesh->setMaterialFlag(video::EMF_LIGHTING, true); 
     attachRotateAnimator();
   }
   angle = genRandomAngle();

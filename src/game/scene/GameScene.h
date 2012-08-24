@@ -27,6 +27,7 @@ private:
   Ship *ship;
   vector<Meteor*> *meteors;
   scene::ICameraSceneNode* camera;
+  scene::ILightSceneNode* light;
 };
 
 #endif	/* GAMESCENE_H */

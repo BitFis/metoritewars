@@ -84,7 +84,6 @@ void Ship::update(float DeltaTime){
   //moving shots
   shots->move(DeltaTime);
   float cur_accel = 0.0f;
-  bool rotate_side;
   
   
   // calculate current acceleration

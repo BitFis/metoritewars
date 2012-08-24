@@ -35,7 +35,7 @@ Background::Background(scene::ISceneManager* smgr, video::IVideoDriver* driver) 
   stars->setRotation(core::vector3df(0.0,0.0,0.0));
   stars->setScale(core::vector3df(7.0,6.0,0.1));
   stars->setPosition(core::vector3df(2.0,-4.0,0.0));
-  stars->setMaterialFlag(video::EMF_LIGHTING, false);
+  stars->setMaterialFlag(video::EMF_LIGHTING, true);
   stars->setMaterialFlag(video::EMF_ZWRITE_ENABLE, false);
   stars->setMaterialTexture(0, driver->getTexture("objects/player/star.png"));
   stars->setMaterialType(video::EMT_TRANSPARENT_VERTEX_ALPHA);
