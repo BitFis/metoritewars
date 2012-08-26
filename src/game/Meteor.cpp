@@ -19,6 +19,7 @@ Meteor::Meteor(scene::ISceneManager* smgr) {
   
   /* attach lightning */
   if(mesh) {
+    mesh->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
     mesh->setMaterialFlag(video::EMF_LIGHTING, true); 
     attachRotateAnimator();
   }

@@ -23,8 +23,10 @@ Ship::Ship(const char*  filename, scene::ISceneManager* smgr, video::IVideoDrive
   
   //set material
   if(ship){
-    ship->setMaterialFlag(video::EMF_LIGHTING, false);
-    ship->setMaterialType(video::EMT_TRANSPARENT_ALPHA_CHANNEL);
+    ship->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
+    //ship->getMaterial(0).SpecularColor.set(0,0,0,0);
+    //ship->setMaterialFlag(video::EMF_LIGHTING, true);
+    //ship->setMaterialType(video::EMT_TRANSPARENT_ALPHA_CHANNEL);
   }
   
   //set Animations
