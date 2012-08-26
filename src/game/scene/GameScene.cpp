@@ -10,7 +10,9 @@ void GameScene::onLoad(){
   
   camera = smgr->addCameraSceneNode(0,core::vector3df(0.0,0.0,2.0),core::vector3df(0.0,0.0,0.0),1,true);
   smgr->setAmbientLight(video::SColorf(0.1,0.1,0.1,1));
-  light = smgr->addLightSceneNode(smgr->getRootSceneNode(), core::vector3df(0,0,0.2f), video::SColorf(3.0f,0.3f,0.3f), 1.0f); 
+  
+  //enabling light
+  light = smgr->addLightSceneNode(smgr->getRootSceneNode(), core::vector3df(0,0,0.2f), video::SColorf(0.3f,0.3f,0.3f), 5.0f); 
   
   last_meteor_created_at = device->getTimer()->getTime();
   
@@ -44,6 +46,7 @@ void GameScene::onTick(){
   camera->setPosition(pos);
   camera->setTarget(ship->getPosVec3df());
   
+  //setting light
   pos.Z = light->getPosition().Z;
   
   light->setPosition(pos);
