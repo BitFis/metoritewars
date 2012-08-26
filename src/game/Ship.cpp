@@ -32,35 +32,48 @@ Ship::Ship(const char*  filename, scene::ISceneManager* smgr, video::IVideoDrive
   //set Animations
   ship->setFrameLoop(0,39);
   ship->setAnimationSpeed(10);
-  
-    
-  
-  shipfire = smgr->addParticleSystemSceneNode(false, ship, 1337);
-  scene::IParticleEmitter* emitter = shipfire->createBoxEmitter(
-          core::aabbox3d<f32>(-1.1,1.1,-1.1,0.0,0.1,0.1), // emitter size
-          core::vector3df(0.0f,0.0f,0.0f),          // initial direction
-          200,1000,                                 // emit rate
-          video::SColor(0,255,255,255),             // darkest color
-          video::SColor(0,255,255,255),             // brightest color
-          200,250,0,                              // min and max age, angle
-          core::dimension2df(0.0f,0.0f),            // min size
-          core::dimension2df(0.02f,0.02f));
-  
-  shipfire->setEmitter(emitter);
-  
-  scene::IParticleAffector* paf = shipfire->createFadeOutParticleAffector();
-  
-  shipfire->addAffector(paf);
-  
-  paf->drop();
+  shipfire = 0;
+}
 
-  shipfire->setRotation(core::vector3df(0.0,0.0,0.0));
-  shipfire->setScale(core::vector3df(2.0,2.0,2.0));
-  shipfire->setPosition(core::vector3df(1.1f,-2.0f,3.0f));
-  shipfire->setMaterialFlag(video::EMF_LIGHTING, false);
-  shipfire->setMaterialFlag(video::EMF_ZWRITE_ENABLE, false);
-  shipfire->setMaterialTexture(0, driver->getTexture("objects/player/ship-effect.png"));
-  shipfire->setMaterialType(video::EMT_TRANSPARENT_VERTEX_ALPHA);
+void Ship::createShipFire() {
+  if(shipfire == 0) {
+    shipfire = smgr->addParticleSystemSceneNode(false, ship, 1337);
+    scene::IParticleEmitter* emitter = shipfire->createBoxEmitter(
+            core::aabbox3d<f32>(-1.1,1.1,-1.1,0.0,0.1,0.1), // emitter size
+            core::vector3df(0.0f,0.0f,0.0f),          // initial direction
+            200,1000,                                 // emit rate
+            video::SColor(0,255,255,255),             // darkest color
+            video::SColor(0,255,255,255),             // brightest color
+            200,250,0,                              // min and max age, angle
+            core::dimension2df(0.0f,0.0f),            // min size
+            core::dimension2df(0.02f,0.02f));
+    
+    shipfire->setEmitter(emitter);
+    
+    scene::IParticleAffector* paf = shipfire->createFadeOutParticleAffector();
+    
+    shipfire->addAffector(paf);
+    
+    paf->drop();
+
+    shipfire->setRotation(core::vector3df(0.0,0.0,0.0));
+    shipfire->setScale(core::vector3df(2.0,2.0,2.0));
+    shipfire->setPosition(core::vector3df(1.1f,-2.0f,3.0f));
+    shipfire->setMaterialFlag(video::EMF_LIGHTING, false);
+    shipfire->setMaterialFlag(video::EMF_ZWRITE_ENABLE, false);
+    shipfire->setMaterialTexture(0, driver->getTexture("objects/player/ship-effect.png"));
+    shipfire->setMaterialType(video::EMT_TRANSPARENT_VERTEX_ALPHA);
+  }
+}
+
+void Ship::removeShipFire() {
+  if(shipfire != 0) {
+    smgr->addToDeletionQueue(shipfire);
+    scene::ISceneNodeAnimator *del = smgr->createDeleteAnimator(0);
+    shipfire->addAnimator(del);
+    del->drop();
+    shipfire = 0;
+  }
 }
 
 void Ship::shoot(float passedTime){
@@ -105,7 +118,9 @@ void Ship::update(float DeltaTime){
   // automaticly slow down spaceship when not accelerating
   if(movement) {
     time_not_accelerating = 0;
+    createShipFire();
   } else {
+    removeShipFire();
     time_not_accelerating += DeltaTime;
     float timediff = 0.5f;
     

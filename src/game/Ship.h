@@ -36,6 +36,8 @@ public:
 private:
   
   void autoSlowdown(float* speed, float movspeed, bool* backMovement, bool* forMovement, float DeltaTime);
+  void createShipFire();
+  void removeShipFire();
   
   Shot* shots;
   
