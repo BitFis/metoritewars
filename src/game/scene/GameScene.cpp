@@ -106,6 +106,9 @@ void GameScene::onTick(){
   
   vector<scene::ISceneNode*>::iterator shot_last_it;
   vector<scene::ISceneNode*> &shots = ship->getShots()->getShotNode();
+  
+  //(*this->meteors)[0].getMesh()->getScale();
+  
   /* check for collisions between meteors */
   foreach(it_meteor1, (*this->meteors)) {
     foreach(it_meteor2, (*this->meteors)) {
@@ -139,8 +142,10 @@ void GameScene::onTick(){
     
     //check if it collided with the ship
     if((*it_meteor1)->collidesWith((ship->getShipNode()), 1.0)){
-      std::cout << "you killed your self!!" << endl;
+      //remove meteor
+      (*it_meteor1)->getMesh()->setPosition(ship->getPosVec3df()+core::vector3df(100.0,100.0,100.0));
       //take lives from the ship
+      //core::vector3df tempScale = (*it_meteor1)->getMesh()->getScale().X;
     }
   }
   

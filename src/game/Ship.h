@@ -26,6 +26,10 @@ public:
   
   void shoot(float passedTime);
   
+  double getLifeInProzent();
+  int getLifePoints();
+  int getMaxLifePoints();
+  
   Shot* getShots();
   
   core::vector3df getPosVec3df();

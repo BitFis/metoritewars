@@ -182,6 +182,18 @@ void Ship::update(float DeltaTime){
   ship->setRotation(core::vector3df(90.0,0.0,rotation.getDEG()));  
 }
 
+double Ship::getLifeInProzent(){
+  return (double)((double)curlife / maxlife) * 100;
+}
+
+int Ship::getLifePoints(){
+  return curlife;
+}
+
+int Ship::getMaxLifePoints(){
+  return maxlife;
+}
+
 void Ship::moveFor(){
   movefor = true;
 }
