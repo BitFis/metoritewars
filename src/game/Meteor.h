@@ -30,6 +30,7 @@ public:
   bool collidesWith(Meteor* meteor);
   void bounceOf(Meteor *meteor);
   void update(float delta);
+  scene::IParticleSystemSceneNode *createExplosion();
   static void setSpawnOffset(core::vector3df spawn_offset);
 };
 

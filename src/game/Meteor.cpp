@@ -68,6 +68,40 @@ scene::IAnimatedMeshSceneNode* Meteor::getMesh() {
   return mesh;
 }
 
+scene::IParticleSystemSceneNode *Meteor::createExplosion() {
+  scene::IParticleSystemSceneNode *explosion = smgr->addParticleSystemSceneNode(false);
+  scene::IParticleEmitter* em = explosion->createBoxEmitter(
+    core::aabbox3d<f32>(-0.7,0,-0.7,0.7,0.1,0.7), // emitter size
+    core::vector3df(0.0f,0.0f,0.0f),   // initial direction
+    80,100,                             // emit rate
+    video::SColor(0,255,255,0),       // darkest color
+    video::SColor(0,255,255,255),       // brightest color
+    800,2000,0,                         // min and max age, angle
+    core::dimension2df(0.1f,0.0f),         // min size
+    core::dimension2df(0.2f,0.2f));        // max size
+
+  explosion->setEmitter(em); // this grabs the emitter
+
+  scene::IParticleAffector* paf = explosion->createFadeOutParticleAffector();
+
+  explosion->addAffector(paf); // same goes for the affector
+  paf->drop();
+
+  scene::ISceneNodeAnimator *del = smgr->createDeleteAnimator(200);
+  explosion->addAnimator(del);
+  del->drop();
+
+
+  explosion->setRotation(core::vector3df(0.0,0.0,0.0));
+  explosion->setScale(core::vector3df(1.0,1.0,0.1));
+  explosion->setPosition(mesh->getPosition());
+  explosion->setMaterialFlag(video::EMF_LIGHTING, true);
+  explosion->setMaterialFlag(video::EMF_ZWRITE_ENABLE, false);
+  explosion->setMaterialTexture(0, smgr->getVideoDriver()->getTexture("objects/player/ship-effect.png"));
+  explosion->setMaterialType(video::EMT_TRANSPARENT_VERTEX_ALPHA);
+
+  return explosion;
+}
 
 bool Meteor::collidesWith(scene::ISceneNode* node, float NodeScale) {
   /* check if the bounding boxes collide */

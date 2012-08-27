@@ -131,6 +131,7 @@ void GameScene::onTick(){
         //removing shot if it hit a meteor
         ship->getShots()->removeShot(shot);
         shot = shot_last_it;
+        (*it_meteor1)->createExplosion();
         //delete meteor by setting it outside of the ring
         (*it_meteor1)->getMesh()->setPosition(ship->getPosVec3df()+core::vector3df(100.0,100.0,100.0));
         //update points
