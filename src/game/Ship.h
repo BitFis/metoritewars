@@ -60,6 +60,9 @@ private:
   float effective_rotspeed;
   float rot_acceleration;
   
+  int curlife;
+  int maxlife;
+  
   bool movefor; //moving forward
   bool moveback; //moving backwards
   

@@ -11,6 +11,9 @@ void GameScene::onLoad(){
   camera = smgr->addCameraSceneNode(0,core::vector3df(0.0,0.0,2.0),core::vector3df(0.0,0.0,0.0),1,true);
   smgr->setAmbientLight(video::SColorf(0.1,0.1,0.1,1));
   
+  //set points to 0
+  points = 0;
+  
   //enabling light
   light = smgr->addLightSceneNode(smgr->getRootSceneNode(), core::vector3df(0,0,0.2f), video::SColorf(0.3f,0.3f,0.3f), 5.0f); 
   
@@ -22,7 +25,12 @@ void GameScene::onLoad(){
   //reset to normal font
   gui->getSkin()->setFont(gui->getBuiltInFont(), gui::EGDF_DEFAULT);
   
-  gui->addStaticText(L"POINTS: 0", core::rect<s32>(20,20,350,40), false);
+  core::stringw tempPoints = L"Points: ";
+  
+  tempPoints.append(convertInt(points).c_str());
+  
+  counterBox = gui->addStaticText((tempPoints.c_str()), core::rect<s32>(20,20,350,40), false, false, 0, GAME_POINT_BOX);
+  
   
   //background
   background = new Background(smgr, driver);
@@ -34,6 +42,11 @@ bool GameScene::OnEvent(const SEvent& event){
 }
 
 void GameScene::onTick(){
+  
+  //update points
+  core::stringw tempPoints = L"Points: ";
+  tempPoints.append(convertInt(points).c_str());
+  counterBox->setText(tempPoints.c_str());
   
   background->returnStars()->setPosition(ship->getShipNode()->getPosition() + core::vector3df(2.5,-6.0,0.0));
   
@@ -115,7 +128,10 @@ void GameScene::onTick(){
         //removing shot if it hit a meteor
         ship->getShots()->removeShot(shot);
         shot = shot_last_it;
+        //delete meteor by setting it outside of the ring
         (*it_meteor1)->getMesh()->setPosition(ship->getPosVec3df()+core::vector3df(100.0,100.0,100.0));
+        //update points
+        points++;
       } else {
         shot_last_it = shot;
       }
@@ -151,6 +167,13 @@ void GameScene::onUnload(){
     delete *meteor;
   }
   delete meteors;
+}
+
+string GameScene::convertInt(int number)
+{
+   std::stringstream ss;//create a stringstream
+   ss << number;//add number to the stream
+   return ss.str();//return a string with the contents of the stream
 }
 
 bool GameScene::tooFarAwayFrom(scene::IAnimatedMeshSceneNode* mesh, core::vector3df pos, float distance) {
