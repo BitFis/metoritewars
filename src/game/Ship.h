@@ -30,6 +30,8 @@ public:
   int getLifePoints();
   int getMaxLifePoints();
   
+  bool takelifepoints(int lifepoints);
+  
   Shot* getShots();
   
   core::vector3df getPosVec3df();

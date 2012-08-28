@@ -43,6 +43,8 @@ bool GameScene::OnEvent(const SEvent& event){
 
 void GameScene::onTick(){
   
+  bool gameover = false;
+  
   //update points
   core::stringw tempPoints = L"Points: ";
   tempPoints.append(convertInt(points).c_str());
@@ -66,6 +68,16 @@ void GameScene::onTick(){
   
   Meteor::setSpawnOffset(ship->getPosVec3df());
   
+   
+  //Draw life box
+  driver->draw2DRectangle(video::SColor(100,150,150,150), 
+          core::rect<s32>(driver->getScreenSize().Width-210, 20, 
+                          driver->getScreenSize().Width-10, 30));
+  
+  //Draw life points
+  driver->draw2DRectangle(video::SColor(100,255,24,24), 
+          core::rect<s32>(driver->getScreenSize().Width-210, 21, 
+                          driver->getScreenSize().Width-210+((int)ship->getLifeInProzent()*2), 29));
   
   /////////////////////////////////////////
   //shoot
@@ -76,22 +88,22 @@ void GameScene::onTick(){
   
   ////////////////////////////////////////
   //move ship forward
-  if(world->getKeys()->get(KEY_UP)){
+  if(world->getKeys()->get(KEY_KEY_W)){
     ship->moveFor();
   }
   
   //move ship back
-  if(world->getKeys()->get(KEY_DOWN)){
+  if(world->getKeys()->get(KEY_KEY_S)){
     ship->moveBack();
   }
   
-  //rotate ship
-  if(world->getKeys()->get(KEY_RIGHT)){
-    ship->rotate(-1, world->getFrameDeltaTime());
+  if(world->getKeys()->get(KEY_KEY_A)){
+    ship->rotate(1, world->getFrameDeltaTime());
   }
   
-  if(world->getKeys()->get(KEY_LEFT)){
-    ship->rotate(1, world->getFrameDeltaTime());
+  //rotate ship
+  if(world->getKeys()->get(KEY_KEY_D)){
+    ship->rotate(-1, world->getFrameDeltaTime());
   }
   
   /* spawn new meteor every 500 ms*/
@@ -146,8 +158,14 @@ void GameScene::onTick(){
       //remove meteor
       (*it_meteor1)->getMesh()->setPosition(ship->getPosVec3df()+core::vector3df(100.0,100.0,100.0));
       //take lives from the ship
-      //core::vector3df tempScale = (*it_meteor1)->getMesh()->getScale().X;
+      float tempScale = (*it_meteor1)->getMesh()->getScale().X;
+      
+      //if ship destroyed load gameover scene
+      if(ship->takelifepoints((int)(tempScale * 5000))){
+        gameover = true;
+      }
     }
+    
   }
   
   /* remove old meteors */
@@ -164,13 +182,22 @@ void GameScene::onTick(){
       meteor->update(world->getFrameDeltaTime());
     }
   }
+  
+  if(gameover){
+    world->loadScene("over");
+  }
 }
 
 void GameScene::onUnload(){
+  counterBox->remove();
+  
   delete background;
+  
+  light->remove();
+  
   delete ship;
   foreach(meteor, (*this->meteors)) {
-    delete *meteor;
+    delete (*meteor);
   }
   delete meteors;
 }

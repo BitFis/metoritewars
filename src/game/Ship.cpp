@@ -21,6 +21,9 @@ Ship::Ship(const char*  filename, scene::ISceneManager* smgr, video::IVideoDrive
   effective_rotspeed = 0.0f;
   rot_acceleration = 40.0f;
   
+  maxlife = 100;
+  curlife = maxlife;
+  
   //set material
   if(ship){
     ship->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
@@ -202,6 +205,16 @@ void Ship::moveBack(){
   moveback = true;
 }
 
+//returns true if ship is desroyed
+bool Ship::takelifepoints(int lifepoints){
+  curlife -= lifepoints;
+  if(curlife <= 0){
+    return true;
+  }else{
+    return false;
+  }
+}
+
 void Ship::rotate(int rotate, float deltaTime){
   Angle diff(current_rotation - rotation);
   diff = diff > M_PI ? diff + (M_PI / 2.0f) : diff;
@@ -220,5 +233,6 @@ Shot* Ship::getShots() {
 
 Ship::~Ship() {
   delete shots;
+  ship->remove();
 }
 

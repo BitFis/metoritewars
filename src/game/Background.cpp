@@ -65,6 +65,6 @@ void Background::stopCreateParticles(){
 
 Background::~Background() {
   em->drop();
-  stars->drop();
+  stars->remove();
 }
 

@@ -2,6 +2,7 @@
 #include "engine/World.h"
 #include "game/scene/GameMenu.h"
 #include "game/scene/GameScene.h"
+#include "game/scene/GameOver.h"
 #include <ctime>
 
 using namespace irr;
@@ -20,11 +21,13 @@ int main() {
   //create scene
   GameMenu* menu = new GameMenu(world);
   GameScene* game = new GameScene(world);
+  GameOver* over = new GameOver(world);
 
   
   //add scenes
   world->addScene(menu);
   world->addScene(game);
+  world->addScene(over);
   
   //load menu scene
   world->loadScene("menu");
@@ -72,6 +75,7 @@ int main() {
 
   delete menu;
   delete game;
+  delete over;
   
   /*
   In the end, delete the Irrlicht device.

@@ -148,8 +148,7 @@ void Meteor::update(float delta) {
 }
 
 Meteor::~Meteor() {
-  mesh->drop();
-  mesh->removeAll();
+  mesh->remove();
 }
 
 void Meteor::setSpawnOffset(core::vector3df spawn_offset) {

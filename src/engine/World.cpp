@@ -125,7 +125,10 @@ void World::loadScene(const char *name) {
   if(it != this->scenes->end()) {
     this->current_scene = it;
     
+    printf("POINTER: %p\n",(*this->current_scene));
+    printf("POINTER: %p\n",(*it));
     (*this->current_scene)->onLoad();
+    printf("POINTER: %p\n",(*it));
   }
 }
 
