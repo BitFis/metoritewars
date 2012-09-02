@@ -195,6 +195,12 @@ void GameScene::onUnload(){
   
   light->remove();
   
+  vector<scene::ISceneNode*> &shots = ship->getShots()->getShotNode();
+  foreach(shot, shots) {
+    smgr->addToDeletionQueue(*shot);
+  }
+  shots.clear();
+  
   delete ship;
   foreach(meteor, (*this->meteors)) {
     delete (*meteor);
